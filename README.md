@@ -3,7 +3,7 @@ This project space is for Apps 5A
 
 Hey dude...
 
-Follow the next steps...
+Follow the next steps:
 
 Onece the repository is cloned, you need install Express in the repository.
 The next step is to create 'config.js' and fill it the following info:
