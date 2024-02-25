@@ -1,6 +1,5 @@
 //IMPORTS
 const mongoose = require('mongoose');
-const path = require('path');
 const jwt = require('jsonwebtoken');
 const {dev}= require('../config');
 
@@ -39,23 +38,18 @@ const employeeSchema  = new mongoose.Schema({
     }
     
 
-},{timestamps:true});
-
-// employeeSchema.methods.setimgurl = function setimgurl(imagen){
-//     this.imgurl = "http://localhost:3000/foto/" + imagen;
-// }
+});
 
 //METHODS
 employeeSchema.methods.setimgurl = function setimgurl(imagen){
     this.image = "http://localhost:3000/foto-emp/" + imagen;
 }
 
-
 //TOKEN
 employeeSchema.methods.generadorJWT = function(){
     return jwt.sign({
         id:this._id,
-        name: this.name,
+        userId:this.user,
         type: this.type
     }, dev.SECRET_TOKEN);
 }

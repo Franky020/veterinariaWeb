@@ -1,8 +1,12 @@
 //IMPORTS----------------------------------
 const bcrypt =  require('bcrypt');
+const fs = require('fs-extra');
+const path = require('path');
+//MODELS
 const User = require('../models/user.model');
 const Employee = require('../models/employee.model');
 const Owner = require('../models/owner.model');
+
 //REGISTER - EMPLOYEE------------------------------------
 
 async function RegisterEmployee(req,res){
@@ -25,7 +29,7 @@ async function RegisterEmployee(req,res){
         lastName,
         phone,
         type,
-        image: 'http://localhost/foto-emp/default.jpg'
+        // image: 'http://localhost:3000/foto-emp/default.jpg'
        });
 
        if(req.file){
@@ -34,15 +38,15 @@ async function RegisterEmployee(req,res){
         }
         await newEmployee.save();
 
-        return res.status(201).json({message: "Registro exitoso"});
+        return res.status(201).json({success:"Registro exitoso"});
 
     } catch (error) {
         // Verificar si el error es debido a un campo único duplicado (correo electrónico)
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
             // Si el error es debido a un correo electrónico duplicado, enviar un mensaje de error
-            return res.status(400).json({ error: 'El correo electrónico ya está en uso.' });
+            return res.status(400).json({error:'El correo electrónico ya está en uso.'});
         } 
-        return res.status(500).json({error: `Error encontrado: ${error}`}); 
+        return res.status(500).json({error:`Error encontrado: ${error.message}`}); 
     }
 }
 
@@ -69,7 +73,7 @@ async function RegisterOwner(req,res){
         name,
         lastName,
         phone,
-        image: 'http://localhost/foto-own/default.jpg'
+        // image: 'http://localhost:3000/foto-own/default.jpg'
 
        });
 
@@ -79,15 +83,15 @@ async function RegisterOwner(req,res){
         }
         await newOwner.save();
 
-        return res.status(201).json({message: "Registro Exitoso"});
+        return res.status(201).json({success:"Registro Exitoso"});
 
     } catch (error) {
         // Verificar si el error es debido a un campo único duplicado (correo electrónico)
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
             // Si el error es debido a un correo electrónico duplicado, enviar un mensaje de error
-            res.status(400).json({ error: 'El correo electrónico ya está en uso.' });
+            res.status(400).json({error:'El correo electrónico ya está en uso.'});
         } 
-        return res.status(500).json({error: `Error encontrado: ${error}`}); 
+        return res.status(500).json({error:`Error encontrado: ${error.message}`}); 
     }
 }
 

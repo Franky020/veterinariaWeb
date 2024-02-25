@@ -1,6 +1,5 @@
 //IMPORTS-----------------------
 const mongoose = require('mongoose');
-const path = require('path');
 const jwt = require('jsonwebtoken');
 const {dev}= require('../config');
 
@@ -36,7 +35,7 @@ const ownerSchema = new mongoose.Schema({
         default: 'activo'
     }
         
-},{timestamps:true});
+});
 
 //METHODS
 ownerSchema.methods.setimgurl = function setimgurl(imagen){
@@ -47,8 +46,7 @@ ownerSchema.methods.setimgurl = function setimgurl(imagen){
 ownerSchema.methods.generadorJWT = function(){
     return jwt.sign({
         id:this._id,
-        name: this.name,
-        lastName: this.lastName
+        userId:this.user,
     }, dev.SECRET_TOKEN);
 }
 
