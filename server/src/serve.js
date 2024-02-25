@@ -9,6 +9,7 @@ const cors =  require('cors');
 const UserRoute = require('./routes/usersRegister.routes');
 const AuthRoute = require('./routes/Auth.routes');
 const VetRouter = require('./routes/vet.routes');
+const OwnerRouter = require('./routes/owner.routes');
 
 //inicializacion-app
 const app = express();
@@ -19,6 +20,7 @@ app.set('PORT',PORT);
 //ROUTES ACCESS IMAGES PUBLIC
 app.use('/foto-emp',express.static(path.join(__dirname,'/public/uploads/employees/')));
 app.use('/foto-own',express.static(path.join(__dirname,'/public/uploads/owner/')));
+app.use('/foto-pet',express.static(path.join(__dirname,'/public/uploads/pet/')));
 
 //MIDDLEWARES
 app.use(morgan('dev'));
@@ -40,6 +42,7 @@ app.get('/',(req,res)=>{
 app.use('/user',UserRoute);
 app.use('/auth',AuthRoute);
 app.use('/vet',VetRouter);
+app.use('/owner',OwnerRouter);
 
 
 //EXPORTAMOS 
