@@ -10,11 +10,13 @@ const {updateUserSchema} = require('../schemas/register.schema')
 const {updateOwnerSchema} = require('../schemas/owner.schema');
 const {updateEmployeeSchema} = require('../schemas/employee.schema');
 const {registerPetSchema,updatePetSchema} =require('../schemas/pet.schema');
+const {R_productSchema,U_productSchema} = require('../schemas/product.schema');
 //CONTROLLERS
 const {deleteUser,getIdUser,getUsers,updateUser} = require('../controllers/User.controller')
 const {deleteEmployee,getEmployees,getIdEmployee,updateEmployee} = require('../controllers/Employee.controller');
 const {deleteOwner,getIdOwner,getOwners,updateOwner} = require('../controllers/owner.controller');
 const {deletePet,getIdPet,getPets,registerPet, updatePet} = require('../controllers/pet.controller');
+const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct} = require('../controllers/product.controller');
 //LIBS-images
 const { uploadPet, uploadProduct,uploadEmployee, uploadOwner} = require('../libs/ImagesUpload');
 
@@ -60,6 +62,18 @@ router.put('/pet/:id',uploadPet.single('image'),validateSchema(updatePetSchema),
 
 router.delete('/pet/:id',deletePet);
 
+
+//-------------------------------------products
+
+router.get('/product',getProducts);
+
+router.get('/product/:id',getIdProduct);
+
+router.post('/product',uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(R_productSchema),registerProduct);
+
+router.put('/product/:id',uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(U_productSchema),updateProduct);
+
+router.delete('/product/:id',deleteProduct);
 
 
 

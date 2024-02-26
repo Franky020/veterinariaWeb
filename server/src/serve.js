@@ -21,6 +21,7 @@ app.set('PORT',PORT);
 app.use('/foto-emp',express.static(path.join(__dirname,'/public/uploads/employees/')));
 app.use('/foto-own',express.static(path.join(__dirname,'/public/uploads/owner/')));
 app.use('/foto-pet',express.static(path.join(__dirname,'/public/uploads/pet/')));
+app.use('/foto-prod',express.static(path.join(__dirname,'/public/uploads/product/')));
 
 //MIDDLEWARES
 app.use(morgan('dev'));
