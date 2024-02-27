@@ -29,7 +29,7 @@ async function RegisterEmployee(req,res){
         lastName,
         phone,
         type,
-        // image: 'http://localhost:3000/foto-emp/default.jpg'
+        image: 'http://localhost:3000/foto-emp/default.jpg'
        });
 
        if(req.file){
@@ -73,7 +73,7 @@ async function RegisterOwner(req,res){
         name,
         lastName,
         phone,
-        // image: 'http://localhost:3000/foto-own/default.jpg'
+        image: 'http://localhost:3000/foto-own/default.jpg'
 
        });
 

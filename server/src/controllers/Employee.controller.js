@@ -59,16 +59,17 @@ async function updateEmployee(req,res){
         }
 
         if (req.file) {
+
             const { filename } = req.file;
             employee.setimgurl(filename);
             await employee.save();
+
+            if(urlfotoanterior && urlfotoanterior[4] === filename){
+                return res.status(200).json({success:'Empleado Actualizado'});
+            }
+
             if (urlfotoanterior && fs.existsSync(path.join(__dirname, '../public/uploads/employees/' + urlfotoanterior[4]))) {
-                try {
-                    await fs.unlink(path.join(__dirname, '../public/uploads/employees/' + urlfotoanterior[4]));
-                } catch (error) {
-                    console.error('Error al eliminar la imagen anterior:', error);
-                    // Manejar el error adecuadamente, ya sea enviando una respuesta de error al cliente o tomando otra acción
-                }
+                await fs.unlink(path.join(__dirname, '../public/uploads/employees/' + urlfotoanterior[4]));
             }
         }
 

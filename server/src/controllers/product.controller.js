@@ -46,7 +46,9 @@ async function registerProduct(req, res) {
             price,
             quantity,
             category,
-            specie
+            specie,
+            image:'http://localhost:3000/foto-prod/default.jpg',
+            image2:'http://localhost:3000/foto-prod/default.jpg',
         });
 
         if (req.files && req.files['image']) {
@@ -78,14 +80,20 @@ async function updateProduct(req, res) {
     try {
         const { id } = req.params;
         const { product, description, price, category, quantity,  specie } = req.body;
+        
+        let urlfotoanterior;
+        let urlfotoanterior2;
 
         let produc = await Product.findOne({ _id: id, state: 'activo' });
+
+        if(produc.image && produc.image2){
+            urlfotoanterior = produc.image.split("/");
+            urlfotoanterior2 = produc.image2.split("/");
+        }
 
         if (!produc) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
-        let urlfotoanterior;
-        let urlfotoanterior2;
 
         const updateFields = {
             product,
@@ -97,46 +105,36 @@ async function updateProduct(req, res) {
         };
         await Product.findByIdAndUpdate(id, updateFields, { new: true });
 
+        //manejo de la imagen 1
+        if (req.files && urlfotoanterior && urlfotoanterior2) {
 
-        if (  req.files &&  req.files['image']) {
-            
-            if(produc.image){
-             urlfotoanterior = produc.image.split("/");
-            }
+                if(req.files['image']){
+                    const { filename } = req.files['image'][0];
+                    produc.setimgurl(filename);
+                    await produc.save();
+                    if(urlfotoanterior && urlfotoanterior[4] === filename){
+                        return res.status(200).json({ success: 'Producto actualizado exitosamente' });
+                    }
 
-            const { filename } = req.files['image'][0];
-            produc.setimgurl(filename);
-            await produc.save();
-
-            if (urlfotoanterior && fs.existsSync(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior[4]))) {
-                try {
-                    await fs.unlink(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior[4]));
-                } catch (error) {
-                    console.error('Error al eliminar la imagen anterior:', error);
-                    // Manejar el error adecuadamente, ya sea enviando una respuesta de error al cliente o tomando otra acción
+                    if (urlfotoanterior && fs.existsSync(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior[4]))) {
+                        await fs.unlink(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior[4]));
+                   }
                 }
-            }
-        }
 
-        if (req.files &&  req.files['image2']) {
-            if(produc.image2){
-                urlfotoanterior2 = produc.image2.split("/");
-            }
+                if(req.files['image2']){
+                    const { filename } = req.files['image2'][0];
+                    produc.setimgurl2(filename);
+                    await produc.save();
+                    if(urlfotoanterior2 && urlfotoanterior2[4] === filename){
+                        return res.status(200).json({ success: 'Producto actualizado exitosamente' });
+                    }
 
-            const { filename } = req.files['image2'][0];
-            produc.setimgurl2(filename);
-            await produc.save();
-
-            if (urlfotoanterior2 && fs.existsSync(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior2[4]))) {
-                try {
-                    await fs.unlink(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior2[4]));
-                } catch (error) {
-                    console.error('Error al eliminar la imagen anterior:', error);
-                    // Manejar el error adecuadamente, ya sea enviando una respuesta de error al cliente o tomando otra acción
+                    if (urlfotoanterior2 && fs.existsSync(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior2[4]))) {
+                        await fs.unlink(path.join(__dirname, '../public/uploads/product/' + urlfotoanterior2[4]));
+                   }
                 }
-            }
         }
-        return res.status(201).json({ message: 'Producto actualizado exitosamente' });
+        return res.status(200).json({ success: 'Producto actualizado exitosamente' });
 
     }catch (error) {
         return error instanceof CastError

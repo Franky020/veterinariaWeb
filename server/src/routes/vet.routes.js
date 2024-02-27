@@ -12,6 +12,7 @@ const {updateEmployeeSchema} = require('../schemas/employee.schema');
 const {registerPetSchema,updatePetSchema} =require('../schemas/pet.schema');
 const {R_productSchema,U_productSchema} = require('../schemas/product.schema');
 const {R_serviceSchema,U_serviceSchema} = require('../schemas/service.schema');
+const {R_medicationSchema,U_medicationSchema} = require('../schemas/medication.schema');
 //CONTROLLERS
 const {deleteUser,getIdUser,getUsers,updateUser} = require('../controllers/User.controller')
 const {deleteEmployee,getEmployees,getIdEmployee,updateEmployee} = require('../controllers/Employee.controller');
@@ -19,8 +20,9 @@ const {deleteOwner,getIdOwner,getOwners,updateOwner} = require('../controllers/o
 const {deletePet,getIdPet,getPets,registerPet, updatePet} = require('../controllers/pet.controller');
 const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct} = require('../controllers/product.controller');
 const {IdGetService,createService,deleteService,getServices,updateService} = require('../controllers/service.controller');
+const {deleteMedicine,getIdMedicine,getMedicines,registerMedicine,updateMedicine} = require('../controllers/medication.controller');
 //LIBS-images
-const { uploadPet, uploadProduct,uploadEmployee, uploadOwner} = require('../libs/ImagesUpload');
+const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical} = require('../libs/ImagesUpload');
 
 //-----------------------------------------------------------------------------------routes
 
@@ -88,6 +90,20 @@ router.post('/service',uploadProduct.none(),validateSchema(R_serviceSchema),crea
 router.put('/service/:id',uploadProduct.none(),validateSchema(U_serviceSchema),updateService);
 
 router.delete('/service/:id',deleteService);
+
+
+//---------------------------------------------medications
+
+router.get('/medication',getMedicines);
+
+router.get('/medication/:id',getIdMedicine);
+
+router.post('/medication',uploadMedical.single('image'),validateSchema(R_medicationSchema),registerMedicine);
+
+router.put('/medication/:id',uploadMedical.single('image'),validateSchema(U_medicationSchema),updateMedicine);
+
+router.delete('/medication/:id',deleteMedicine);
+
 
 
 

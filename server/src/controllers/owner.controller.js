@@ -58,17 +58,17 @@ async function updateOwner(req,res){
             const { filename } = req.file;
             owner.setimgurl(filename);
             await owner.save();
+            
+            if(urlfotoanterior && urlfotoanterior[4] === filename){
+                return res.status(200).json({success:'Dueño Actualizado'});
+            }
+
             if (urlfotoanterior && fs.existsSync(path.join(__dirname, '../public/uploads/owner/' + urlfotoanterior[4]))) {
-                try {
-                    await fs.unlink(path.join(__dirname, '../public/uploads/owner/' + urlfotoanterior[4]));
-                } catch (error) {
-                    console.error('Error al eliminar la imagen anterior:', error);
-                    // Manejar el error adecuadamente, ya sea enviando una respuesta de error al cliente o tomando otra acción
-                }
+                await fs.unlink(path.join(__dirname, '../public/uploads/owner/' + urlfotoanterior[4]));
             }
         }
 
-        return res.status(200).json({message:'Dueño Actualizado'});
+        return res.status(200).json({sucess:'Dueño Actualizado'});
 
     }catch (error) {
         return error instanceof CastError

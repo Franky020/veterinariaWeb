@@ -67,11 +67,19 @@ async function registerPet(req,res){
 //----------------------------------
 async function updatePet(req, res) {
     try {
+        //datos
         const { name, breed, birthDate, gender, specie, weight, ownerId } = req.body;
         const { id } = req.params;
+        //verificamos existencia
+        let pet  = await Pet.findById(id);
 
+        if (!pet) {
+            return res.status(404).json({ message: 'No se encontró la mascota' });
+        }
+        //variable global para la imagen anterior
         let urlfotoanterior;
-        let pet = await Pet.findByIdAndUpdate(
+        //actualizamos
+         await Pet.findByIdAndUpdate(
             id,
             {
                 $set: {
@@ -86,30 +94,29 @@ async function updatePet(req, res) {
             },
             { new: true }
         );
-
-        if (!pet) {
-            return res.status(404).json({ message: 'No se encontró la mascota' });
-        }
-
+        //verificamos la existencia de atributo image
         if (pet.details.image) {
             urlfotoanterior = pet.details.image.split("/");
         }
 
+        //si un arquivo exite en el req entonces:
         if (req.file) {
             const { filename } = req.file;
             pet.setimgurl(filename);
+            //se guarda la imagen con la nueva ruta
             await pet.save();
+
+            //si el file name coincide con la imagen acual manda la respuesta y mantiene la imagen anterior
+            if(urlfotoanterior && urlfotoanterior[4] === filename){
+                return res.status(200).json({success:'Mascota Actualizada'});
+            }
+            //en caso de ser diferente eliminara la imagen antigua y dejara la nueva
             if (urlfotoanterior && fs.existsSync(path.join(__dirname, '../public/uploads/pet/' + urlfotoanterior[4]))) {
-                try {
-                    await fs.unlink(path.join(__dirname, '../public/uploads/pet/' + urlfotoanterior[4]));
-                } catch (error) {
-                    console.error('Error al eliminar la imagen anterior:', error.message);
-                    // Manejar el error adecuadamente, ya sea enviando una respuesta de error al cliente o tomando otra acción
-                }
+                await fs.unlink(path.join(__dirname, '../public/uploads/pet/' + urlfotoanterior[4]));
             }
         }
 
-        return res.status(201).json({success:'Mascota Actualizada'});
+        return res.status(200).json({success:'Mascota Actualizada'});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID de la Mascota proporcionada es inválida"})
