@@ -1,0 +1,67 @@
+
+<mat-sidenav-container class="sidenav-container" >
+
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false" >
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list >
+        <br><br>
+        <a mat-list-item class="list-format" routerLink="/admin/dash">      <mat-icon matListItemIcon>home</mat-icon>
+          Inicio</a>
+       
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>shopping_cart</mat-icon>Cobros</a>
+        <br>
+        <div mat-subheader class="subheader">Veterinaria</div>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>local_hospital</mat-icon>Consultas</a>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>pets</mat-icon>Mascotas</a>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>pets</mat-icon>Clientes</a>
+
+        <div mat-subheader class="subheader">Gestión</div>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>miscellaneous_services</mat-icon>Servicios</a>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>medical_services</mat-icon>Medicinas</a>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>shopping_basket</mat-icon>Productos</a>
+        <a mat-list-item [matMenuTriggerFor]="entradas"><mat-icon matListItemIcon>keyboard_arrow_down</mat-icon>Entradas
+        
+          
+          <mat-menu #entradas="matMenu">
+            <a mat-list-item routerLink=""><mat-icon matListItemIcon>miscellaneous_services</mat-icon>Servicios</a>
+            <a mat-list-item routerLink=""><mat-icon matListItemIcon>table_chart</mat-icon>Medicinas</a>
+            <a mat-list-item routerLink=""><mat-icon matListItemIcon>shopping_basket</mat-icon>Productos</a>
+          </mat-menu>
+        </a>
+
+        <mat-divider></mat-divider>
+        <br>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>person_outline</mat-icon>Empleados</a>
+        <br>
+        <a mat-list-item routerLink=""><mat-icon matListItemIcon>logout</mat-icon>Salir</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      
+  
+  
+      <mat-toolbar color="accent" class="toolbar">
+        @if (isHandset$ | async) {
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="drawer.toggle()">
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+        }
+        <span>angularadmin</span>
+      </mat-toolbar>
+      <!-- Add Content Here -->
+      <div class="sidenav-content">
+      
+  
+      <router-outlet></router-outlet>
+    </div>
+  
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

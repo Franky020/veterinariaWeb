@@ -1,0 +1,71 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8%;
+  }
+  
+  .login-form input {
+    width: 350px;
+    height: 40px;
+    margin-bottom: 30px;
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .login-form button {
+    width: 200px;
+    height: 40px;
+    background-color: #f8bc62;
+    color: #040404;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .format-card {
+    height: 700px;
+    display: flex;
+    margin: auto;
+    padding-bottom: 20%;
+    padding-top: 10%;
+    padding-left: 15%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a bigger shadow */
+    border-radius: 10px; /* Make the corners rounder */
+}
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+
+}
+
+.image-format{
+    height: 90%;
+}
+
+.logo{
+    width: 30%;
+    height: 100%;
+}
+
+.card-body{
+    padding-top: 10%;
+}
+
+
+
+.title{
+    font-size: 2rem;
+    font-weight: 900;
+
+
+}
+
+.subtitle{
+    color:#726d6d;
+    margin-bottom: 1rem;
+}

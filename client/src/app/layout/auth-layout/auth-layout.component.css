@@ -1,0 +1,21 @@
+
+.toolbar{
+    /*background-color: rgb(247, 186, 205);*/
+    background-color: rgb(252,236,219);
+
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 6%;
+    padding-right: 6%;
+
+}
+
+.container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button {
+    /* your button styles here */
+}

@@ -1,0 +1,42 @@
+.container{
+    /*background-color: rgb(232, 198, 226);*/
+  
+}
+
+
+.cover-container {
+  height: 70%;
+}
+
+
+.text-side{
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 12% 12%;
+    
+}
+
+.title{
+    font-size: 5rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.marketing{
+    padding-top: 2%;
+    display: flex;
+}
+
+.item-m{
+    padding: 0 2%;
+    text-align: center;
+}
