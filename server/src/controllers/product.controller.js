@@ -1,5 +1,6 @@
 //IMPORTS
 const Product = require('../models/product.model');
+const  ProductEntry = require('../models/productEntries.model');
 const {CastError} =require('mongoose');
 const fs = require('fs-extra');
 const path = require('path')
@@ -8,7 +9,7 @@ const path = require('path')
 //----------------------------------get
 async function getProducts(req,res){
     try {
-       let products = await Product.find({state:'activo'}).select('_id product category specie image price');
+       let products = await Product.find({state:'activo'}).select('_id  quantity category specie image price description');
        return res.status(200).json({products});  
     } catch (error) {
         return res.status(500).json({error:`Error encontrado ${error.message}`});
@@ -169,10 +170,45 @@ async function deleteProduct(req,res){
     }
 }
 
+async function productEntries(req,res){
+    try {
+        const {id} = req.params;
+        const {quantity, price,} = req.body;
+
+        let product = await Product.findById(id);
+        if(!product){
+            return res.status(404).json({message:'Producto no Encontrado'});
+        }
+        let updateQuantity = Number(product.quantity) + Number(quantity);
+        let productUp = await Product.findByIdAndUpdate(id,{quantity:updateQuantity},{new:true});
+
+        if(productUp){
+            let entry = new ProductEntry({
+                product:id,
+                quantity,
+                price,
+                total: quantity * price,
+                date: Date.now()
+            });
+
+           await entry.save();
+        }
+
+        return res.status(200).json({success:'Entrada Registrada'})
+
+        
+
+    }catch (error) {
+        return error instanceof CastError
+        ? res.status(400).json({error:"El ID del Producto proporcionado es inválido"})
+        : res.status(500).json({error:`Error encontrado: ${error.message}`});
+    }
+}
 module.exports = {
     deleteProduct,
     getProducts,
     getIdProduct,
     registerProduct,
-    updateProduct
+    updateProduct,
+    productEntries
 }

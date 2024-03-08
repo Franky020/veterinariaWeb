@@ -5,7 +5,6 @@ const router = Router();
 const {loginSchema} = require('../schemas/auth.schema');
 //MIDDLEWARES
 const { validateSchema } = require('../middlewares/validator.middleware');
-
 //CONTROLLERS
 const {login,loginEmployee,loginOwner} = require('../controllers/Auth.controller');
 //LIBS

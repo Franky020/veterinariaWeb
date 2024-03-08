@@ -10,17 +10,17 @@ const {updateUserSchema} = require('../schemas/register.schema')
 const {updateOwnerSchema} = require('../schemas/owner.schema');
 const {updateEmployeeSchema} = require('../schemas/employee.schema');
 const {registerPetSchema,updatePetSchema} =require('../schemas/pet.schema');
-const {R_productSchema,U_productSchema} = require('../schemas/product.schema');
+const {R_productSchema,U_productSchema,R_productEntrySchema} = require('../schemas/product.schema');
 const {R_serviceSchema,U_serviceSchema} = require('../schemas/service.schema');
-const {R_medicationSchema,U_medicationSchema} = require('../schemas/medication.schema');
+const {R_medicationSchema,U_medicationSchema,R_medicationEntrySchema} = require('../schemas/medication.schema');
 //CONTROLLERS
 const {deleteUser,getIdUser,getUsers,updateUser} = require('../controllers/User.controller')
 const {deleteEmployee,getEmployees,getIdEmployee,updateEmployee} = require('../controllers/Employee.controller');
 const {deleteOwner,getIdOwner,getOwners,updateOwner} = require('../controllers/owner.controller');
 const {deletePet,getIdPet,getPets,registerPet, updatePet} = require('../controllers/pet.controller');
-const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct} = require('../controllers/product.controller');
+const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct,productEntries} = require('../controllers/product.controller');
 const {IdGetService,createService,deleteService,getServices,updateService} = require('../controllers/service.controller');
-const {deleteMedicine,getIdMedicine,getMedicines,registerMedicine,updateMedicine} = require('../controllers/medication.controller');
+const {deleteMedicine,getIdMedicine,getMedicines,registerMedicine,updateMedicine,entryMedications} = require('../controllers/medication.controller');
 //LIBS-images
 const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical} = require('../libs/ImagesUpload');
 
@@ -79,6 +79,9 @@ router.put('/product/:id',uploadProduct.fields([{ name: 'image', maxCount: 1 }, 
 
 router.delete('/product/:id',deleteProduct);
 
+//entries=product
+router.post('/product/entry/:id',uploadProduct.none(),validateSchema(R_productEntrySchema),productEntries)
+
 //----------------------------------services
 
 router.get('/service',getServices);
@@ -103,6 +106,9 @@ router.post('/medication',uploadMedical.single('image'),validateSchema(R_medicat
 router.put('/medication/:id',uploadMedical.single('image'),validateSchema(U_medicationSchema),updateMedicine);
 
 router.delete('/medication/:id',deleteMedicine);
+
+//entry-medication
+router.post('/medication/entry/:id',uploadMedical.none(),validateSchema(R_medicationEntrySchema),entryMedications);
 
 
 

@@ -3,7 +3,8 @@ const {CastError} =require('mongoose');
 const fs = require('fs-extra');
 const path = require('path')
 //MODELS
-const Medication = require('../models/medication.model')
+const Medication = require('../models/medication.model');
+const MedicalEntry = require('../models/medicalEntries.model');
 
 
 //FUNCTIONS
@@ -150,10 +151,47 @@ async function deleteMedicine(req,res){
 }
 
 
+async function entryMedications(req,res){
+    try {
+        const {id} = req.params;
+        const {quantity,price} = req.body;
+
+        let medicine = await Medication.findById(id);
+
+        if(!medicine){
+            return res.status(404).json({message:'Medicamento no Encontrado'});
+        }
+
+        let updateQuantity = Number(medicine.quantity) + Number(quantity);
+
+        let updateMedicine = await Medication.findByIdAndUpdate(id,{quantity:updateQuantity},{new:true});
+
+        if(updateMedicine){
+            const entry = new MedicalEntry({
+                medicine:id,
+                quantity,
+                price,
+                total: quantity * price,
+                date: Date.now()
+                
+            });
+
+            entry.save();
+        }
+
+        return res.status(201).json({success:'Entrada Registrada'});
+    }catch (error) {
+        return error instanceof CastError
+        ? res.status(400).json({error:"El ID del Medicamento  proporcionada es inválido"})
+        : res.status(500).json({error:`Error encontrado: ${error.message}`});
+    }
+}
+
 module.exports = {
     deleteMedicine,
     getIdMedicine,
     getMedicines,
     updateMedicine,
-    registerMedicine
+    registerMedicine,
+    entryMedications
 }

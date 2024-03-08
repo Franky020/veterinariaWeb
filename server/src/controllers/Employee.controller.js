@@ -20,7 +20,7 @@ async function getIdEmployee(req,res){
     try {
         const {id} = req.params;
 
-        let employee = await Employee.findOne({_id:id,state:'activo'}).select('_id user name lastName phone type image');
+        let employee = await Employee.findOne({_id:id,state:'activo'});
 
         if(!employee){
             return res.status(404).json({message:"Empleado no Encontrado"});

@@ -24,7 +24,13 @@ const U_productSchema = z.object({
     specie: z.string({required_error:'Campo specie esta vacio'}).optional()
 });
 
+const R_productEntrySchema = z.object({
+    price: z.string({required_error:"Es requerido el campo precio"}).nonempty({message:'Campo price Esta Vacio'}),
+    quantity: z.string({required_error:'campo cantidad esta vacio'}).nonempty({message:'Campo quantity Esta vacio'}),
+});
+
 module.exports = {
     R_productSchema,
-    U_productSchema
+    U_productSchema,
+    R_productEntrySchema
 }

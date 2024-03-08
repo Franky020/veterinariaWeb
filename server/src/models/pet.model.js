@@ -2,23 +2,26 @@ const mongoose = require('mongoose');
 
 const petSchema = new mongoose.Schema({
     details: {
-        name: {
+        name:{
             type: String,
-            required: true
-            
+            required: true 
         },
-        breed: String,
-        birthDate: Date,
+        breed: String,//raza
+        age: String,//edad
+        health:{
+            type:String,
+            enum:['Bueno','Malo','Regular','Excelente']
+        },//estado de salud
         gender: {
             type: String,
-            enum: ['Male', 'Female']
+            enum: ['Macho', 'Hembra']
         },
-        weight: Number,
+        weight: Number,//peso
         image: String
     },
     specie:{
         type:String,
-        enum:['Felines','Canines','Rodents','Birds'],
+        enum:['Felino','Canino','Roedor','Ave'],
         required: true
     },
     owner: {

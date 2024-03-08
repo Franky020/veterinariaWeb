@@ -32,7 +32,13 @@ const U_medicationSchema = z.object({
     dateExpiry: z.string({ required_error: 'Campo dateExpiry es Requerido' }).nonempty({ message: 'Campo dateExpiry Esta Vacio' }).optional()
 });
 
+//SCHEMAS
+const R_medicationEntrySchema = z.object({
+    price: z.string({required_error:"Es requerido el campo precio"}).nonempty({message:'Campo price Esta Vacio'}),
+    quantity: z.string({required_error:'campo cantidad esta vacio'}).nonempty({message:'Campo quantity Esta vacio'}),
+});
 module.exports = {
     R_medicationSchema,
-    U_medicationSchema
+    U_medicationSchema,
+    R_medicationEntrySchema
 }

@@ -4,22 +4,21 @@ const Pet = require('../models/pet.model');
 const {CastError} =require('mongoose');
 const fs = require('fs-extra');
 const path = require('path')
-//function---for vet 
-//------------------------------------get
+
+//ADMIN FUNCTIONS------------------------------------------------------------------------------
 async function getPets(req,res){
     try {
-        let pets = await Pet.find({state:'activo'}).select('_id details specie');
-        return res.status(200).json({pets})
+        let pets = await Pet.find({state:'activo'}).select('_id details.name details.gender specie owner').populate({path:'owner', select:'name'});
+        return res.status(200).json({pets});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado :${error.message}`});
     }
 }
 
-//-----------------------------------get id
 async function getIdPet(req,res){
     try {
         const {id} = req.params;
-        let pet = await Pet.findOne({_id:id, state:'activo'}).select('_id details specie')
+        let pet = await Pet.findOne({_id:id, state:'activo'})
         .populate({path:'owner', select:'_id name lastName phone image'});
 
         return !pet 
@@ -28,21 +27,21 @@ async function getIdPet(req,res){
 
     }catch (error) {
         return error instanceof CastError
-        ? res.status(400).json({error:"El ID de la Mascota proporcionada es inválida"})
+        ? res.status(400).json({error:"El ID  proporcionado es inválido."})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-//-----------------------------------------post
+
 async function registerPet(req,res){
-    const {name, breed, birthDate, gender, weight, specie, ownerId} = req.body;
     try {
-       
+        const {name, breed, age, gender,health, weight, specie, ownerId} = req.body;
 
         const newPet = new Pet({
             details: {
                 name,
                 breed,
-                birthDate,
+                age,
+                health,
                 gender,
                 weight,
             },
@@ -61,20 +60,17 @@ async function registerPet(req,res){
     } catch (error) {
         return res.status(500).json({error:`Ocurrió un error al registrar la mascota, error: ${error.message}`});
     }
-
 }
 
-//----------------------------------
 async function updatePet(req, res) {
     try {
-        //datos
-        const { name, breed, birthDate, gender, specie, weight, ownerId } = req.body;
-        const { id } = req.params;
+        const {name, breed, age, gender,health, weight, specie, ownerId} = req.body;
+        const {id} = req.params;//datos
         //verificamos existencia
         let pet  = await Pet.findById(id);
 
         if (!pet) {
-            return res.status(404).json({ message: 'No se encontró la mascota' });
+            return res.status(404).json({message:'No se encontró la mascota'});
         }
         //variable global para la imagen anterior
         let urlfotoanterior;
@@ -85,7 +81,8 @@ async function updatePet(req, res) {
                 $set: {
                     'details.name': name,
                     'details.breed': breed,
-                    'details.birthDate': birthDate,
+                    'details.age': age,
+                    'details.health':health,
                     'details.gender': gender,
                     'details.weight': weight,
                     species: specie,
@@ -107,7 +104,7 @@ async function updatePet(req, res) {
             await pet.save();
 
             //si el file name coincide con la imagen acual manda la respuesta y mantiene la imagen anterior
-            if(urlfotoanterior && urlfotoanterior[4] === filename){
+            if(urlfotoanterior && urlfotoanterior[4] === filename ){
                 return res.status(200).json({success:'Mascota Actualizada'});
             }
             //en caso de ser diferente eliminara la imagen antigua y dejara la nueva
@@ -124,19 +121,16 @@ async function updatePet(req, res) {
     }
 }
 
-//---------------------------------
 async function deletePet(req,res){
     try {
         const {id} = req.params;
         let pet = await Pet.findOne({_id: id, state:'activo'});
 
         if(!pet){
-            return res.status(404).json({message: 'mascota no encontrada'});
+            return res.status(404).json({message:'Mascota no encontrada'});
         }
 
-        pet = await Pet.findByIdAndUpdate(id,{
-            state:'inactivo'
-        },{new:true});
+        pet = await Pet.findByIdAndUpdate(id,{state:'inactivo'},{new:true});
 
         return res.status(200).json({success:'Mascota Eliminada'});
     }catch (error) {
@@ -146,7 +140,7 @@ async function deletePet(req,res){
     }
 }
 
-//function for owner---------------------------
+//OWNER FUNCTIONS--------------------------------------------------------
 async function getPetOwnerId(req,res){
     try {
         const {id} = req.params;
@@ -158,7 +152,7 @@ async function getPetOwnerId(req,res){
         : res.status(500).json({error:`Error Encontrado: ${error.message}`});
     }
 }
-//---------------------------------
+
 module.exports = {
     getPets,
     getIdPet,
