@@ -14,14 +14,14 @@ const medicationSchema = new mongoose.Schema({
     details: {
         dosageForm: {
             type: String,
-            enum: ['Tablet', 'Capsule', 'Liquid', 'Injection', 'Topical', 'Drops', 'Powder', 'Suspension', 'Ointment', 'Gel'],
+            enum: ['Tableta', 'Cápsula', 'Líquido', 'Inyección', 'Tópico', 'Gotas', 'Polvo', 'Suspensión', 'Ungüento', 'Gel'],
         },
         dosage: {
             type: String,
         },
         administrationRoute: {
             type: String,
-            enum: ['Oral', 'Intravenous', 'Intramuscular', 'Subcutaneous', 'Topical', 'Rectal', 'Ophthalmic', 'Otic'],
+            enum: ['Oral', 'Intravenoso', 'Intramuscular', 'Subcutáneo', 'Tópico', 'Rectal', 'Oftálmico', 'Ótico'],
         },
         precautions: {
             type: String,
@@ -32,12 +32,12 @@ const medicationSchema = new mongoose.Schema({
     },
     species: [{
         type: String,
-        enum: ['Feline', 'Canine', 'Rodent', 'Bird'],
+        enum: ['Felinos', 'Caninos', 'Roedores', 'Aves'],
         required: true
     }],
     category: {
         type: String,
-        enum: ['Antibiotic', 'Analgesic', 'Anti-inflammatory', 'Antiparasitic', 'Antifungal', 'Antiviral', 'Other'],
+        enum: ['Antibiótico', 'Analgésico', 'Antiinflamatorio', 'Antiparasitario', 'Antifúngico', 'Antiviral', 'Otro'],
         required: true
     },
     price: {
@@ -45,7 +45,7 @@ const medicationSchema = new mongoose.Schema({
         required: true
     },
     quantity: {
-        type: String,
+        type: Number,
         required: true
     },
     state:{

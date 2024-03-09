@@ -1,27 +1,25 @@
 //IMPORTS
-const Product = require('../models/product.model');
-const  ProductEntry = require('../models/productEntries.model');
 const {CastError} =require('mongoose');
 const fs = require('fs-extra');
 const path = require('path')
-//functions
-
-//----------------------------------get
+//MODELS
+const Product = require('../models/product.model');
+const  ProductEntry = require('../models/productEntries.model');
+//----------------------------------------------------------------------
 async function getProducts(req,res){
     try {
-       let products = await Product.find({state:'activo'}).select('_id  quantity category specie image price description');
+       let products = await Product.find({state:'activo'}).select('_id product quantity category specie image price description');
        return res.status(200).json({products});  
     } catch (error) {
         return res.status(500).json({error:`Error encontrado ${error.message}`});
     }
 }
 
-//------------------------------getId
 async function getIdProduct(req,res){
     try {
         const {id} = req.params;
 
-        let product = await Product.findOne({_id:id, state:'activo'}).select('product description price quantity category specie image image2');
+        let product = await Product.findOne({_id:id, state:'activo'});
 
         if(!product){
             return res.status(404).json({message:'Producto no Encontrado'});
@@ -34,8 +32,6 @@ async function getIdProduct(req,res){
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-
-//---------------------------------post
 
 async function registerProduct(req, res) {
     try {
@@ -74,9 +70,6 @@ async function registerProduct(req, res) {
     }
 }
 
-
-
-//------------------------------------put
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
@@ -144,10 +137,6 @@ async function updateProduct(req, res) {
     }
 }
 
-
-
-//-------------------------------------------delete
-
 async function deleteProduct(req,res){
     try {
         const {id} = req.params;
@@ -204,11 +193,21 @@ async function productEntries(req,res){
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
+
+async function getEntries(req,res){
+    try {
+        let entries = await ProductEntry.find({});
+        return res.status(200).json({entries});
+    } catch (error) {
+        return res.status(500).json({error:`Error Encontrado: ${error.message}`});
+    }
+}
 module.exports = {
     deleteProduct,
     getProducts,
     getIdProduct,
     registerProduct,
     updateProduct,
-    productEntries
+    productEntries,
+    getEntries
 }

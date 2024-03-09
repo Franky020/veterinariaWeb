@@ -20,9 +20,10 @@ async function RegisterEmployee(req,res){
         const newUser = new User({
             email,
             password: passcifrado,
-            rol:1
+            rol:1//rol 1 = User Employee
         });
         await newUser.save();
+        //register employee
         const newEmployee = new Employee({
         user: newUser._id,
         name,
@@ -64,7 +65,7 @@ async function RegisterOwner(req,res){
         const newUser = new User({
             email,
             password: passcifrado,
-            rol:2
+            rol:2// rol 2 = User owner
         });
         await newUser.save();
        
@@ -95,9 +96,6 @@ async function RegisterOwner(req,res){
     }
 }
 
-
-
-//exports
 module.exports = {
     RegisterEmployee,
     RegisterOwner

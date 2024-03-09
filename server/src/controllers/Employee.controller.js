@@ -8,7 +8,7 @@ const Employee = require('../models/employee.model');
 //--------------------------------------------FUNCTIONS
 async function getEmployees(req,res){
     try {
-        let employees = await Employee.find({state:'activo'}).select('_id name type image');
+        let employees = await Employee.find({state:'activo'}).select('_id name lastName type image');
 
         return res.status(200).json({employees});
     } catch (error) {
@@ -22,10 +22,9 @@ async function getIdEmployee(req,res){
 
         let employee = await Employee.findOne({_id:id,state:'activo'});
 
-        if(!employee){
-            return res.status(404).json({message:"Empleado no Encontrado"});
-        }
-        return res.status(200).json({employee});
+        return !employee
+        ? res.status(404).json({message:"Empleado no Encontrado"})
+        :res.status(200).json({employee});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID de Usuario Proporcionado es Inválido"})
@@ -37,6 +36,7 @@ async function updateEmployee(req,res){
     try {
         const {id} =req.params;
         const {name,lastName,phone,type} = req.body;
+        
         let urlfotoanterior;
 
         let employee = await  Employee.findOne({_id:id, state:'activo'});
@@ -92,7 +92,7 @@ async function deleteEmployee(req,res){
         }
         await Employee.findByIdAndUpdate(id,{state:'inactivo'},{new:true});
 
-        return res.status(200).json({sucess:'Empleado Eliminado'});
+        return res.status(200).json({success:'Empleado Eliminado'});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID de Empleado Proporcionado es Inválido"})

@@ -1,39 +1,39 @@
 //IMPORTS
 const {Router} =require('express');
 const router = Router();
-//MIDDLEWARES
+//MIDDLEWARES--auth
 const auntentifica = require('../middlewares/autentificajwt');
-//Validation MIDDLEWARE
+//Validation MIDDLEWARE---
 const {validateSchema} = require('../middlewares/validator.middleware');
-//SCHEMAS
-const {updateUserSchema} = require('../schemas/register.schema')
+//SCHEMAS----
+const {updateUserSchema} = require('../schemas/register.schema');
 const {updateOwnerSchema} = require('../schemas/owner.schema');
 const {updateEmployeeSchema} = require('../schemas/employee.schema');
 const {registerPetSchema,updatePetSchema} =require('../schemas/pet.schema');
 const {R_productSchema,U_productSchema,R_productEntrySchema} = require('../schemas/product.schema');
 const {R_serviceSchema,U_serviceSchema} = require('../schemas/service.schema');
 const {R_medicationSchema,U_medicationSchema,R_medicationEntrySchema} = require('../schemas/medication.schema');
-//CONTROLLERS
-const {deleteUser,getIdUser,getUsers,updateUser} = require('../controllers/User.controller')
+//CONTROLLERS---
+const {getUsers,deleteUser,getIdUser,updateUser} = require('../controllers/User.controller')
 const {deleteEmployee,getEmployees,getIdEmployee,updateEmployee} = require('../controllers/Employee.controller');
 const {deleteOwner,getIdOwner,getOwners,updateOwner} = require('../controllers/owner.controller');
 const {deletePet,getIdPet,getPets,registerPet, updatePet} = require('../controllers/pet.controller');
-const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct,productEntries} = require('../controllers/product.controller');
+const {deleteProduct,getIdProduct,getProducts,registerProduct,updateProduct,productEntries, getEntries} = require('../controllers/product.controller');
 const {IdGetService,createService,deleteService,getServices,updateService} = require('../controllers/service.controller');
 const {deleteMedicine,getIdMedicine,getMedicines,registerMedicine,updateMedicine,entryMedications} = require('../controllers/medication.controller');
-//LIBS-images
+//LIBS-images--
 const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical} = require('../libs/ImagesUpload');
 
 //-----------------------------------------------------------------------------------routes
 
 //---------------------------------users-employees
-router.get('/empUser',getUsers);
+router.get('/userEmp',getUsers);//exclusivo para admin
 
-router.get('/empUser/:id',getIdUser);
+router.get('/user/:id',getIdUser);
 
-router.put('/empUser/:id',uploadEmployee.none(),validateSchema(updateUserSchema),updateUser);
+router.put('/user/:id',uploadEmployee.none(),validateSchema(updateUserSchema),updateUser);
 
-router.delete('/empUser/:id',deleteUser);
+router.delete('/user/:id',deleteUser);
 //----------------------------------employees
 
 router.get('/employee',getEmployees);
@@ -79,8 +79,9 @@ router.put('/product/:id',uploadProduct.fields([{ name: 'image', maxCount: 1 }, 
 
 router.delete('/product/:id',deleteProduct);
 
-//entries=product
-router.post('/product/entry/:id',uploadProduct.none(),validateSchema(R_productEntrySchema),productEntries)
+//entries-product
+router.post('/product/entry/:id',uploadProduct.none(),validateSchema(R_productEntrySchema),productEntries);
+router.get('/product-entries',getEntries);
 
 //----------------------------------services
 
@@ -93,7 +94,6 @@ router.post('/service',uploadProduct.none(),validateSchema(R_serviceSchema),crea
 router.put('/service/:id',uploadProduct.none(),validateSchema(U_serviceSchema),updateService);
 
 router.delete('/service/:id',deleteService);
-
 
 //---------------------------------------------medications
 

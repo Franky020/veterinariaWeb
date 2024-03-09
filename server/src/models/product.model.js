@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
     },
     specie:{
         type:String,
-        enum:['Felines','Canines','Rodents','Birds'],
+        enum:['Felinos','Caninos','Rodores','Aves'],
         required: true
     },
     state:{

@@ -1,9 +1,7 @@
 //IMPORTS
-const { json } = require('express');
 const Service = require('../models/service.model');
 const {CastError} =require('mongoose');
 
-//-------------------------------------get
 async function getServices(req,res){
     try {
         const services = await Service.find({}).select('_id service price state');
@@ -13,7 +11,6 @@ async function getServices(req,res){
     }
 }
 
-//-----------------------------------IDGet
 async function IdGetService(req,res){
     try {
         const {id} = req.params;
@@ -28,7 +25,7 @@ async function IdGetService(req,res){
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-//--------------------------------------post
+
 async function createService(req,res){
     try {
         const {service, description, price} = req.body;
@@ -51,8 +48,6 @@ async function createService(req,res){
     }
 }
 
-//---------------------------------------put
-
 async function updateService(req,res){
     try {
         const {id} = req.params;
@@ -70,15 +65,14 @@ async function updateService(req,res){
             price:price
         },{new:true});
 
-        return res.status(200).json({success:'Servcio Actualizado'});
+        return res.status(200).json({success:'Servicio Actualizado'});
 
     }catch (error) {
         return error instanceof CastError
-        ? res.status(400).json({error:"El ID del Servicio proporcionado es inválido"})
+        ? res.status(400).json({error:"El ID proporcionado es inválido"})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-//--------------------------------------delete
 
 async function deleteService(req,res){
     try {
@@ -86,7 +80,7 @@ async function deleteService(req,res){
         let service = await  Service.findById(id);
 
         if(!service){
-            return res.status(404),json({message:`Servicio no encontrado`});
+            return res.status(404).json({message:`Servicio no encontrado`});
         }
         await Service.findByIdAndUpdate(id,{
             state:'inactivo'

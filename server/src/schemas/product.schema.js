@@ -3,7 +3,7 @@ const {z} = require('zod');
 
 //SCHEMAS
 const R_productSchema = z.object({
-    product: z.string({required_error:"es requerido este campo name"}).nonempty({message:'Campo producto Esta Vacio'}),
+    product: z.string({required_error:"es requerido este campo product"}).nonempty({message:'Campo producto Esta Vacio'}),
     description:z.string({required_error: "Es requerido el campo descripcion"}).nonempty({message:'Campo description Esta Vacio'}),
     price: z.string({required_error:"Es requerido el campo precio"}).nonempty({message:'Campo price Esta Vacio'}),
     quantity: z.string({required_error:'campo cantidad esta vacio'}).nonempty({message:'Campo quantity Esta vacio'}),
