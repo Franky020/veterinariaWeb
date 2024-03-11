@@ -8,7 +8,7 @@ export const routes: Routes = [
     },
     //layout dashboard
     {
-        path: '',
+        path: 'admin',
         loadChildren: () =>import('./dashboard/dashboard.module').then(m => m.DashboardModule)
 
     }

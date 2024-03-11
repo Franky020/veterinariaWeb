@@ -1,0 +1,27 @@
+
+.mat-mdc-raised-button.add-btn{
+    background-color: #e87a16;
+    color: white;
+}
+
+mat-form-field{
+    width: 30%;
+    margin: 0;
+    padding: 1%;
+}
+
+.file-input {
+    display: none;
+  }
+
+  .file-upload{
+    padding-left: 2%;
+    padding-bottom: 3%;
+  }
+
+  flex-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+  }

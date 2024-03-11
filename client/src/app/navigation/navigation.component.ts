@@ -11,12 +11,13 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 
-
+//components
+import { ServicesComponent } from '../admin/services/services.component';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [MatSidenavModule, MatToolbarModule, MatIconModule, AsyncPipe, CommonModule, RouterModule, MatListModule, MatMenuModule],
+  imports: [MatSidenavModule, MatToolbarModule, MatIconModule, AsyncPipe, CommonModule, RouterModule, MatListModule, MatMenuModule, ServicesComponent],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css'
 })
