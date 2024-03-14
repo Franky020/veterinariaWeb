@@ -1,0 +1,242 @@
+<h1 class="mat-h1">E N T R A D A S &nbsp; | &nbsp; M E D I C I N A S</h1>
+
+<mat-card class="dashboard-card">
+    <mat-card-header *ngIf="!isadd && !isedit">
+        <mat-card-title>
+        </mat-card-title>
+        <div class="container">
+            <div class="c-item">
+                <button mat-raised-button class="add-btn" (click)="addMedication()">Agregar nuevo (+)</button>
+            </div>
+            <div class="c-item">
+                <div class="search-container">
+                    <mat-form-field class="search-input">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput placeholder="Search">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        
+    </mat-card-header>
+    <br>
+    
+    <mat-card-content>
+        <mat-card class="dashboard-card" *ngIf="!isadd && !isedit">
+            <mat-card-content class="dashboard-card-content">
+                <div></div>
+                <div class="mat-elevation-z8">
+                    <mat-table [dataSource]="dataSource" class="main-table">
+
+                        <!-- Id Column -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+
+                        <!-- Medication name Column -->
+                        <ng-container matColumnDef="medication">
+                            <th mat-header-cell *matHeaderCellDef> Medicamento </th>
+                            <td mat-cell *matCellDef="let element"> {{element.medication}} </td>
+                        </ng-container>
+
+                        <!-- Description Column -->
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        </ng-container>
+
+                         <!-- Details Column -->
+                         <ng-container matColumnDef="details">
+                            <th mat-header-cell *matHeaderCellDef> Detalles </th>
+                            <td mat-cell *matCellDef="let element"> {{element.details}} </td>
+                        </ng-container>
+                        
+                         <!-- DosageForm Column -->
+                         <ng-container matColumnDef="dosageForm">
+                            <th mat-header-cell *matHeaderCellDef> Tipo de dosificación </th>
+                            <td mat-cell *matCellDef="let element"> {{element.dosageForm}} </td>
+                        </ng-container>
+
+                         <!-- Dosage Column -->
+                         <ng-container matColumnDef="dosage">
+                            <th mat-header-cell *matHeaderCellDef> Dosis </th>
+                            <td mat-cell *matCellDef="let element"> {{element.dosage}} </td>
+                        </ng-container>
+
+                        <!-- administration route Column -->
+                        <ng-container matColumnDef="administrationRoute">
+                            <th mat-header-cell *matHeaderCellDef> Forma de administración</th>
+                            <td mat-cell *matCellDef="let element"> {{element.administrationRoute}} </td>
+                        </ng-container>
+
+                        <!-- Precautions Column -->
+                        <ng-container matColumnDef="precautions">
+                            <th mat-header-cell *matHeaderCellDef> Precauciones </th>
+                            <td mat-cell *matCellDef="let element"> {{element.precautions}} </td>
+                        </ng-container>
+
+                        <!-- Expiration date Column -->
+                        <ng-container matColumnDef="dateExpiry">
+                            <th mat-header-cell *matHeaderCellDef> Fecha de expiración </th>
+                            <td mat-cell *matCellDef="let element"> {{element.dateExpiry}} </td>
+                        </ng-container>
+
+                        <!-- Specie Column -->
+                        <ng-container matColumnDef="species">
+                            <th mat-header-cell *matHeaderCellDef> Especie </th>
+                            <td mat-cell *matCellDef="let element"> {{element.species}} </td>
+                        </ng-container>
+
+                         <!-- Category Column -->
+                         <ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef> Categoría </th>
+                            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                        </ng-container>
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef> Precio </th>
+                            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                        </ng-container>
+
+
+                        <!-- Quantity Column -->
+                        <ng-container matColumnDef="quantity">
+                            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                        </ng-container>
+
+
+                        <!-- Imagen 1 Column -->
+                        <ng-container matColumnDef="image">
+                            <th mat-header-cell *matHeaderCellDef> Imagen 1 </th>
+                            <td mat-cell *matCellDef="let element"> <img [src]="element.image1" alt="Imagen "
+                                    class="scaled-image">
+                            </td>
+                        </ng-container>
+
+
+                       
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons class="paginator">
+
+                    </mat-paginator>
+
+                </div>
+            </mat-card-content>
+
+        </mat-card>
+
+        <form [formGroup]="medicationsForm" *ngIf="isadd  ">
+            <mat-card style="width: 90%;" class="dashboard-card">
+                <mat-card-header>
+                    <h2 *ngIf="isadd">Nueva entrada</h2>
+
+                </mat-card-header>
+
+                <input class="invisible" matInput placeholder="Nombre de la categoria" formControlName="id"
+                    [(ngModel)]="medication.id">
+                <mat-card-content>
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Producto</mat-label>
+                        <input matInput placeholder="Nombre del producto" formControlName="medication"
+                            [(ngModel)]="medication.medication">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Descripcion</mat-label>
+                        <input matInput placeholder="Descripcion" formControlName="description"
+                            [(ngModel)]="medication.description">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Detalles</mat-label>
+                        <input matInput placeholder="Detalles" formControlName="details"
+                            [(ngModel)]="medication.details">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Tipo de dosificación</mat-label>
+                        <input matInput placeholder="Tipo de dosificación" formControlName="dosageForm"
+                            [(ngModel)]="medication.dosageForm">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Dosis</mat-label>
+                        <input matInput placeholder="Dosis" formControlName="dosage"
+                            [(ngModel)]="medication.dosage">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Forma de administración</mat-label>
+                        <input matInput placeholder="Administración" formControlName="administrationRoute"
+                            [(ngModel)]="medication.administrationRoute">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Precauciones</mat-label>
+                        <input matInput placeholder="Precauciones" formControlName="precautions"
+                            [(ngModel)]="medication.precautions">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Fecha de expiración</mat-label>
+                        <input matInput placeholder="Fecha de expiracion" formControlName="dateExpiry"
+                            [(ngModel)]="medication.dateExpiry">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Especie</mat-label>
+                        <select matNativeControl formControlName="species" [(ngModel)]="medication.species">
+                            <option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Categoría</mat-label>
+                        <select matNativeControl formControlName="category" [(ngModel)]="medication.category">
+                            <option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Precio</mat-label>
+                        <input matInput placeholder="Precio" formControlName="price" [(ngModel)]="medication.price">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Cantidad</mat-label>
+                        <input matInput placeholder="Cantidad" formControlName="quantity"
+                            [(ngModel)]="medication.quantity">
+                    </mat-form-field>
+
+
+                    <div>
+                        <mat-label>Imagen </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 1"
+                            formControlName="image">
+
+                        <img *ngIf="!isadd" [src]="medication.image" alt="Imagen Producto" class="scaled-image">
+
+                    </div>
+
+                  
+
+
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+
+
+    </mat-card-content>
+</mat-card>

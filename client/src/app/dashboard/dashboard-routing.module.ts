@@ -5,6 +5,13 @@ import { DashboardComponent } from './dashboard.component';
 import { ServicesComponent } from '../admin/services/services.component';
 import { ProductsComponent } from '../admin/products/products.component';
 import { MedicinesComponent } from '../admin/medicines/medicines.component';
+import { EntriesProductsComponent } from '../admin/entries-products/entries-products.component';
+import { EntriesMedicinesComponent } from '../admin/entries-medicines/entries-medicines.component';
+import { EntriesServicesComponent } from '../admin/entries-services/entries-services.component';
+import { EmployeesComponent } from '../admin/employees/employees.component';
+import { OwnersComponent } from '../admin/owners/owners.component';
+import { PetsComponent } from '../admin/pets/pets.component';
+import { DetailOwnerComponent } from '../admin/owners/detail-owner/detail-owner.component';
 
 const routes: Routes = [
   {
@@ -16,7 +23,14 @@ const routes: Routes = [
       },
       { path:'services', component: ServicesComponent },
       { path:'products', component: ProductsComponent },
-      { path:'medicines', component: MedicinesComponent }
+      { path:'medicines', component: MedicinesComponent },
+      { path:'entries/products', component: EntriesProductsComponent },
+      { path:'entries/medicines', component: EntriesMedicinesComponent },
+      { path:'entries/services', component: EntriesServicesComponent },
+      { path:'employees', component: EmployeesComponent },
+      { path:'owners', component: OwnersComponent },
+      { path:'pets', component: PetsComponent},
+      { path:'owners/details', component: DetailOwnerComponent}
     ]
   }
 ];

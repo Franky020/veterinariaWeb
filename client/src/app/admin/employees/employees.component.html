@@ -1,0 +1,182 @@
+<h1 class="mat-h1">E M P L E A D O S</h1>
+
+<mat-card class="dashboard-card">
+    <mat-card-header *ngIf="!isadd && !isedit">
+        <mat-card-title>
+        </mat-card-title>
+        <div class="container">
+            <div class="c-item">
+                <button mat-raised-button class="add-btn" (click)="addEmployee()">Agregar nuevo (+)</button>
+            </div>
+            <div class="c-item">
+                <div class="search-container">
+                    <mat-form-field class="search-input">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput placeholder="Search">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        
+    </mat-card-header>
+    <br>
+    
+    <mat-card-content>
+        <mat-card class="dashboard-card" *ngIf="!isadd && !isedit">
+            <mat-card-content class="dashboard-card-content">
+                <div></div>
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" class="main-table">
+
+                        <!-- Id Column -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+
+                        <!-- User name Column -->
+                        <ng-container matColumnDef="user">
+                            <th mat-header-cell *matHeaderCellDef> Id Usuario </th>
+                            <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <!-- Last name Column -->
+                        <ng-container matColumnDef="lastName">
+                            <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                        </ng-container>
+
+
+                        <!-- Phone Column -->
+                        <ng-container matColumnDef="phone">
+                            <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                            <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                        </ng-container>
+
+
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                        </ng-container>
+
+                        <!-- Imagen 1 Column -->
+                        <ng-container matColumnDef="image">
+                            <th mat-header-cell *matHeaderCellDef> Imagen  </th>
+                            <td mat-cell *matCellDef="let element"> <img [src]="element.image1" alt="Imagen "
+                                    class="scaled-image">
+                            </td>
+                        </ng-container>
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> Correo </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+
+
+
+                        <!-- Actions -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary" aria-label="Edit">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons class="paginator">
+
+                    </mat-paginator>
+
+                </div>
+            </mat-card-content>
+
+        </mat-card>
+
+        <form [formGroup]="employeeForm" *ngIf="isadd || isedit ">
+            <mat-card style="width: 90%;" class="dashboard-card">
+                <mat-card-header>
+                    <h2 *ngIf="isadd">Agregar empleado</h2>
+                    <h2 *ngIf="!isadd">Editar empleado</h2>
+                </mat-card-header>
+
+                <input class="invisible" matInput placeholder="Nombre de la categoria" formControlName="id"
+                    [(ngModel)]="employee.id">
+                    <input class="invisible" matInput  formControlName="user"
+                    [(ngModel)]="employee.user">
+                <mat-card-content>
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="Nombre del empleado" formControlName="name"
+                            [(ngModel)]="employee.name">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput placeholder="Apellidos" formControlName="lastName"
+                            [(ngModel)]="employee.lastName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput placeholder="33" formControlName="phone" [(ngModel)]="employee.phone">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Tipo</mat-label>
+                        <select matNativeControl formControlName="type" [(ngModel)]="employee.type">
+                            <option *ngFor="let type of types" [value]="type.value">{{type.viewValue}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <div>
+                        <mat-label>Imagen </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen "
+                            formControlName="image">
+
+                        <img *ngIf="!isadd" [src]="employee.image" alt="Imagen Producto" class="scaled-image">
+
+                    </div>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Correo</mat-label>
+                        <input type="email" matInput placeholder="persona@correo.com" formControlName="email" [(ngModel)]="employee.email" >
+                        
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Contraseña</mat-label>
+                        <input type="password" matInput placeholder="8 digitos" formControlName="password" [(ngModel)]="employee.password">
+                        
+
+                    </mat-form-field>
+
+                   
+
+
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+
+
+    </mat-card-content>
+</mat-card>
