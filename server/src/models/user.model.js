@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         enum:['activo','inactivo'],
         default: 'activo'
     }
-},{timestamps:true});
+});
 
 module.exports = mongoose.model('User',userSchema);
 

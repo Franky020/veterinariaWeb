@@ -10,7 +10,7 @@ const storageEmployee = multer.diskStorage({
     }
 });
 
-const storageWoner = multer.diskStorage({
+const storageOwner = multer.diskStorage({
     destination: path.join(__dirname, '../public/uploads/owner'),
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -96,8 +96,8 @@ const uploadPet = multer({
     }
 });
 
-const uploadWoner = multer({
-    storage: storageWoner,
+const uploadOwner = multer({
+    storage: storageOwner,
     fileFilter: (req, file, cb) => {
         // Verifica si se proporcionó un archivo
         if (!file) {
@@ -180,4 +180,4 @@ const uploadMedical = multer({
     }
 });
 // Exporta el middleware de carga de archivos configurado
-module.exports = {uploadEmployee, uploadWoner, uploadPet,uploadProduct,uploadMedical};
+module.exports = {uploadEmployee, uploadOwner, uploadPet,uploadProduct,uploadMedical};
