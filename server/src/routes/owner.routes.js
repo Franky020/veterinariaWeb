@@ -11,10 +11,12 @@ const auntentifica = require('../middlewares/autentificajwt');
 const {getPetOwnerId} = require('../controllers/pet.controller');
 const {getProducts,getIdProduct} = require('../controllers/product.controller');
 const {getServicesActived} = require('../controllers/service.controller');
+const { getIdOwner } = require('../controllers/owner.controller');
 
 //LIBS-images
 
 //routes
+router.get('/my/:id',getIdOwner);
 
 //------------------------------------pets
 router.get('/myPets/:id',getPetOwnerId);
