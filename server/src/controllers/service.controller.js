@@ -6,7 +6,7 @@ const {CastError} =require('mongoose');
 //-------------------------------------get
 async function getServices(req,res){
     try {
-        const services = await Service.find({}).select('_id service price state');
+        const services = await Service.find({}).select('_id service price state description category felino canino');
         return res.status(200).json({services});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado : ${error.message}`});

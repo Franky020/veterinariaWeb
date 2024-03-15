@@ -8,7 +8,7 @@ const path = require('path')
 //----------------------------------get
 async function getProducts(req,res){
     try {
-       let products = await Product.find({state:'activo'}).select('_id product category specie image price');
+       let products = await Product.find({state:'activo'}).select('_id product category specie image price quantity description');
        return res.status(200).json({products});  
     } catch (error) {
         return res.status(500).json({error:`Error encontrado ${error.message}`});
