@@ -9,7 +9,7 @@ const Medication = require('../models/medication.model')
 //FUNCTIONS
 async function getMedicines(req,res){
     try {
-        let medicines = await Medication.find({state:'activo'}).select('_id name description image quantity');
+        let medicines = await Medication.find({state:'activo'}).select('_id medication description image quantity price details.dosage');
 
         return res.status(200).json({medicines});
     } catch (error) {
@@ -32,11 +32,10 @@ async function getIdMedicine(req,res){
     }
 }
 
-async function registerMedicine(req,res){
-    
+async function registerMedicine(req,res){       
         try {
+           
             const {medication,description,dosageForm,dosage,precautions,dateExpiry,administrationRoute,species, category,price,quantity} = req.body;
-    
             const newMedication = new Medication({
                 medication,
                 description,

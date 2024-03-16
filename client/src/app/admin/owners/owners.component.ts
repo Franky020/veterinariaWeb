@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { OwnerService } from '../../services/owner.service';
 
 interface Specie{
   value: string;
@@ -32,7 +33,7 @@ interface Gender{
   styleUrl: './owners.component.css'
 })
 export class OwnersComponent {
-  displayedColumns: string[] = ['petBtn','id','name','lastName','phone','address','email', 'image', 'action'];
+  displayedColumns: string[] = ['petBtn','id','name','lastName','phone','email', 'image', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -85,7 +86,7 @@ export class OwnersComponent {
   ];
 
 
-  constructor(private builder: FormBuilder) { } 
+  constructor(private servicioOwn: OwnerService, private builder: FormBuilder) { } 
 
   ngOnInit(): void {
     this.get_owners();
@@ -93,13 +94,12 @@ export class OwnersComponent {
 
   get_owners(){
     //get owners from the api
-    //meanwhile
-    this.owners = [
-      {id: 1, name: 'Juan', lastName: 'Perez', phone: '1234567890', address: 'Calle 123', email: 'person@email.com', image: ''},
-      {id: 2, name: 'Maria', lastName: 'Lopez', phone: '0987654321', address: 'Calle 321', email: 'person2@email.com', image: ''}
-    ]
-    this.dataSource = new MatTableDataSource(this.owners);
-    this.dataSource.paginator = this.paginator;
+    this.servicioOwn.getOwners().subscribe(res=>{
+      debugger;
+      this.owners = res;
+      this.dataSource = new MatTableDataSource(this.owners.owners);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   ownerForm = this.builder.group({
@@ -124,7 +124,7 @@ export class OwnersComponent {
   }
 
 
-
+  //////////////////////////////////////////////
   //Pets
   petsForm = this.builder.group({
     id: this.builder.control({ value: 0, disabled: true }),

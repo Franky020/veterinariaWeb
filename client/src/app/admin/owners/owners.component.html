@@ -73,7 +73,7 @@
                         <!-- Email Column -->
                         <ng-container matColumnDef="email">
                             <th mat-header-cell *matHeaderCellDef> Correo </th>
-                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
                         </ng-container>
 
 
@@ -138,11 +138,6 @@
                         <input matInput placeholder="Teléfono" formControlName="phone" [(ngModel)]="owner.phone">
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Dirección</mat-label>
-                        <input matInput placeholder="Dirección" formControlName="address"
-                            [(ngModel)]="owner.address">
-                    </mat-form-field>
 
                     <div>
                         <mat-label>Imagen </mat-label>

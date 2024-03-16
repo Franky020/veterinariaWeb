@@ -13,6 +13,9 @@ import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MedicineService } from '../../services/medicine.service';
+import {MatSelectModule} from '@angular/material/select';
+
 
 interface Category{
   value: string;
@@ -26,19 +29,19 @@ interface DosageForm{
   value: string;
   viewValue: string;
 }
-interface AdministrationRoute{
+interface AdminRoute{
   value: string;
   viewValue: string;
 }
 @Component({
   selector: 'app-medicines',
   standalone: true,
-  imports: [MatCardModule, MatPaginatorModule,MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule],
+  imports: [MatCardModule, MatPaginatorModule,MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule,MatSelectModule],
   templateUrl: './medicines.component.html',
   styleUrl: './medicines.component.css'
 })
 export class MedicinesComponent {
-  displayedColumns: string[] = ['id', 'medication', 'description','details','dosageForm','dosage','administrationRoute','precautions','dateExpiry','species','category', 'price','quantity', 'image', 'action'];
+  displayedColumns: string[] = ['id', 'medication', 'description','dosageForm','dosage','administrationRoute','precautions','dateExpiry','species','category', 'price','quantity', 'image', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -52,18 +55,18 @@ export class MedicinesComponent {
     id: 0,
     medication: '',
     description: '',
-    details: '',
     dosageForm: '',
     dosage: '',
     administrationRoute: '',
     precautions: '',
     dateExpiry: '',
-    species: '',
+    species: [],
     category: '',
-    price: 0,
-    quantity: 0,
+    price: '',
+    quantity: '',
     image: ''
   }
+    image: any;
 
   //select components
   categories: Category[] = [
@@ -71,13 +74,14 @@ export class MedicinesComponent {
     {value: 'Analgesic', viewValue: 'Analgésico'},
     {value: 'Anti-inflammatory', viewValue: 'Anti-Inflamatorio'},
     {value: 'Antiparasitic', viewValue: 'Antiparasitario'},
+    {value: 'Antifungal', viewValue: 'Anti-hongos'},
     {value: 'Antiviral', viewValue: 'Antiviral'},
     {value: 'Other', viewValue: 'Otro'}
   ];
   species: Specie[] = [
     {value: 'Feline', viewValue: 'Gato'},
-    {value: 'Perro', viewValue: 'Perro'},
-    {value: 'Rodeant', viewValue: 'Roedor'},
+    {value: 'Canine', viewValue: 'Perro'},
+    {value: 'Rodent', viewValue: 'Roedor'},
     {value: 'Bird', viewValue: 'Aves'}
   ];
   dosageForms: DosageForm[] = [
@@ -92,43 +96,41 @@ export class MedicinesComponent {
     {value: 'Ointment', viewValue: 'Pomada'},
     {value: 'Gel', viewValue: 'Gel'}
   ];
-  administrationRoutes: AdministrationRoute[] = [
+  adminRoutes: AdminRoute[] = [
     {value: 'Oral', viewValue: 'Oral'},
     {value: 'Intravenous', viewValue: 'Intravenosa'},
     {value: 'Intramuscular', viewValue: 'Intramuscular'},
-    {value: 'Subcutanea', viewValue: 'Subcutánea'},
+    {value: 'Subcutaneous', viewValue: 'Subcutánea'},
     {value: 'Topical', viewValue: 'Tópico'},
     {value: 'Rectal', viewValue: 'Rectal'},
     {value: 'Ophthalmic', viewValue: 'Oftálmica'},
     {value: 'Otic', viewValue: 'Ótica'}
   ];
 
-  constructor(private builder: FormBuilder){}
+  constructor(private servicioMed: MedicineService, private builder: FormBuilder){}
 
   ngOnInit(){
     this.get_medications();
   }
 
   get_medications(){
-    this.medications = [
-      {id: 1, medication: 'Paracetamol', description: 'Medicamento para el dolor', details: 'Medicamento para el dolor', dosageForm: 'Tabletas', dosage: '500mg', administrationRoute: 'Oral', precautions: 'No exceder la dosis', dateExpiry: '2023-12-31', species: 'Humano', category: 'Analgésico', price: 50, quantity: 100, image: 'paracetamol.jpg'},
-      {id: 2, medication: 'Ivermectina', description: 'Medicamento para desparasitar', details: 'Medicamento para desparasitar', dosageForm: 'Tabletas', dosage: '6mg', administrationRoute: 'Oral', precautions: 'No exceder la dosis', dateExpiry: '2023-12-31', species: 'Humano', category: 'Antiparasitario', price: 100, quantity: 50, image: 'ivermectina.jpg'},
-    ]
-    this.dataSource = new MatTableDataSource(this.medications);
+    this.servicioMed.getMedicines().subscribe(res=>{
+      //debugger;
+    this.medications = res;
+    this.dataSource = new MatTableDataSource(this.medications.medicines);
     this.dataSource.paginator = this.paginator;
-
+    });
   }
 
   medicationsForm = this.builder.group({
     id: this.builder.control({value:0, disabled:true}),
     medication: this.builder.control('', Validators.required),
     description: this.builder.control('', Validators.required),
-    details: this.builder.control('', Validators.required),
-    dosageForm: this.builder.control('', Validators.required),
-    dosage: this.builder.control('', Validators.required),
-    administrationRoute: this.builder.control('', Validators.required),
-    precautions: this.builder.control('', Validators.required),
-    dateExpiry: this.builder.control('', Validators.required),
+    dosageForm: this.builder.control(''),
+    dosage: this.builder.control(''),
+    administrationRoute: this.builder.control(''),
+    precautions: this.builder.control(''),
+    dateExpiry: this.builder.control(''),
     species: this.builder.control('', Validators.required),
     category: this.builder.control('', Validators.required),
     price: this.builder.control('', Validators.required),
@@ -144,5 +146,32 @@ export class MedicinesComponent {
     this.isadd=false;
     this.get_medications;
   }
+
+  saveMedication(){
+    //debugger;
+    this.servicioMed.addMedicine(
+      this.medication.medication,
+      this.medication.description,
+      this.medication.dosageForm,
+      this.medication.dosage,
+      this.medication.precautions,
+      this.medication.dateExpiry,
+      this.medication.administrationRoute,
+      this.medication.species, 
+      this.medication.category,
+      this.medication.price,
+      this.medication.quantity,
+      this.image
+    ).subscribe(res=>{
+      this.isadd=false;
+      alert('Medicamento agregado');
+      this.get_medications();
+    },
+    error=>{
+      console.log(error);
+      alert('Error al agregar el medicamento');
+    }
+    );
+  } 
 
 }

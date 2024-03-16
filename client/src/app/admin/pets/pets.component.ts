@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { PetService } from '../../services/pet.service';
 
 @Component({
   selector: 'app-pets',
@@ -46,7 +47,7 @@ export class PetsComponent {
   image : any;
 
 
-  constructor(private builder: FormBuilder) { }
+  constructor(private servicioPet: PetService, private builder: FormBuilder) { }
 
   ngOnInit(): void {
     this.get_pets();
@@ -54,13 +55,12 @@ export class PetsComponent {
 
   get_pets(){
     //get pets from the api
-    //meanwhile
-    this.pets = [
-      {id: 1, name: 'Firulais', age: 3, health:'bueno',gender:'macho',weight: 10, specie: 'perro', owner: 'Juan', image: 'https://www.hola.com/imagenes/estar-bien/20210323186447/razas-perros-pequenos/0-924-100/razas-perros-pequenos-t.jpg'},
-      {id: 2, name: 'Mishi', age: 1, health:'bueno', gender:'hembra',weight: 5, specie: 'gato', owner: 'Maria', image: 'https://www.hola.com/imagenes/estar-bien/20210323186447/razas-perros-pequenos/0-924-100/razas-perros-pequenos-t.jpg'}
-    ];
-    this.dataSource = new MatTableDataSource(this.pets);
-    this.dataSource.paginator = this.paginator;
+    this.servicioPet.getPets().subscribe(res=>{
+      debugger;
+      this.pets = res;
+      this.dataSource = new MatTableDataSource(this.pets.pets);
+      this.dataSource.paginator = this.paginator;
+    });
 
   }
 

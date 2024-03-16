@@ -10,7 +10,9 @@ const medicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: String,
+    image: {
+        type:String
+    },
     details: {
         dosageForm: {
             type: String,

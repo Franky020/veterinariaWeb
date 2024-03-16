@@ -76,19 +76,19 @@
 
                         <!-- Imagen 1 Column -->
                         <ng-container matColumnDef="image">
-                            <th mat-header-cell *matHeaderCellDef> Imagen 1 </th>
-                            <td mat-cell *matCellDef="let element"> <img [src]="element.image1" alt="Imagen "
-                                    class="scaled-image">
+                            <th mat-header-cell *matHeaderCellDef> Imagen  </th>
+                            <td mat-cell *matCellDef="let element">   <img [src]="element.image" alt="Imagen" class="scaled-image">
+
                             </td>
                         </ng-container>
 
                         <!-- Imagen 2 Column -->
-                        <ng-container matColumnDef="image2">
+                        <!-- <ng-container matColumnDef="image2">
                             <th mat-header-cell *matHeaderCellDef> Imagen 2 </th>
                             <td mat-cell *matCellDef="let element"> <img [src]="element.image2" alt="Imagen 2"
                                     class="scaled-image">
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <!-- Actions -->
                         <ng-container matColumnDef="action">
@@ -114,7 +114,7 @@
 
         </mat-card>
 
-        <form [formGroup]="productsForm" *ngIf="isadd || isedit ">
+        <form [formGroup]="productsForm" *ngIf="isadd || isedit " (ngSubmit)="saveProduct();">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
                     <h2 *ngIf="isadd">Agregar producto</h2>
@@ -164,21 +164,21 @@
 
                     <div>
                         <mat-label>Imagen </mat-label>
-                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 1"
-                            formControlName="image">
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen "
+                            formControlName="image"  (change)="fotoSeleccionada1($event)">
 
                         <img *ngIf="!isadd" [src]="product.image" alt="Imagen Producto" class="scaled-image">
 
                     </div>
 
-                    <div>
+                    <!-- <div>
                         <mat-label>Imagen 2 </mat-label>
                         <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 2"
                             formControlName="image2">
 
                         <img *ngIf="!isadd" [src]="product.image2" alt="Imagen Producto" class="scaled-image">
 
-                    </div>
+                    </div> -->
 
 
 

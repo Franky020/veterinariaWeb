@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ProductEntriesService } from '../../services/product-entries.service';
 
 interface Category{
   value: string;
@@ -69,19 +70,19 @@ export class EntriesProductsComponent {
     {value: 'Birds', viewValue: 'Aves'}             
   ];
 
-  constructor(private builder: FormBuilder){}
+  constructor(private servicioProdEnt: ProductEntriesService, private builder: FormBuilder){}
 
   ngOnInit(): void{
     this.get_products();
   }
 
   get_products(){
-    this.products = [
-     {id: 1, product: 'Corte de Cabello', description: 'Corte de cabello para caballero', price: 100, quantity: 10, category: 'Corte', specie: 'Caballero', image: 'assets/images/corte.jpg', image2: 'assets/images/corte2.jpg'},
-      {id: 2, product: 'Corte de Barba', description: 'Corte de barba para caballero', price: 50, quantity: 10, category: 'Corte', specie: 'Caballero', image: 'assets/images/barba.jpg', image2: 'assets/images/barba2.jpg'}
-    ]
-    this.dataSource = new MatTableDataSource(this.products);
-    this.dataSource.paginator = this.paginator;
+    this.servicioProdEnt.getProductEntries().subscribe(res=>{
+      debugger;
+      this.products = res;
+      this.dataSource = new MatTableDataSource(this.products);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   productsForm = this.builder.group({

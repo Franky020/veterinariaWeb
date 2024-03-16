@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { EmployeeService } from '../../services/employee.service';
 
 interface Type{
   value: string;
@@ -25,7 +26,7 @@ interface Type{
   styleUrl: './employees.component.css'
 })
 export class EmployeesComponent {
-  displayedColumns: string[]= ['id','user','name','lastName','phone','type','image','email','action'];
+  displayedColumns: string[]= ['name','lastName','phone','type','image','email','action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -42,7 +43,7 @@ export class EmployeesComponent {
     name: '',
     lastName: '',
     phone: '',
-    type:'',
+    type: '',
     image: '',
     email: '',
     password: ''
@@ -56,19 +57,19 @@ export class EmployeesComponent {
     {value: 'assistant', viewValue: 'Asistente'},
     {value: 'receptionist', viewValue: 'Recepcionista'}
   ];
-  constructor(private builder: FormBuilder) { }
+  constructor(private servicioEmp: EmployeeService, private builder: FormBuilder) { }
   ngOnInit(): void {
     this.get_employees();
   }
 
   get_employees(){
     //get employees from service
-    this.employees = [
-    {id: 1, user: 'user1', name: 'name1', lastName: 'lastname1', phone: 'phone1', type: 'admin', image: 'image1', email: 'email1'},
-    {id: 2, user: 'user2', name: 'name2', lastName: 'lastname2', phone: 'phone2', type: 'vet', image: 'image2', email: 'email2'}
-    ]
-    this.dataSource = new MatTableDataSource(this.employees);
-    this.dataSource.paginator = this.paginator;
+    this.servicioEmp.getEmployees().subscribe(res => {
+        this.employees = res;
+        this.dataSource = new MatTableDataSource(this.employees.employees);
+        this.dataSource.paginator = this.paginator;
+      }
+    );
 
   }
 
@@ -94,7 +95,25 @@ export class EmployeesComponent {
     this.isedit = false;
   }
 
-  get emailInput() { return this.employeeForm.get('email'); }
-  get passwordInput() { return this.employeeForm.get('password'); } 
+  saveEmployee(){
+    if(this.employeeForm.valid){
+      this.servicioEmp.addEmployee(
+        this.employee.name,
+        this.employee.lastName,
+        this.employee.phone,
+        this.employee.type,
+        this.employee.email,
+        this.employee.password,
+        this.image
+      ).subscribe(res => {
+        alert('Empleado agregado');
+        this.isadd = false;
+        this.get_employees();
+      },
+      error => {
+        alert('Error al agregar empleado');
+      });
+    }
+  }
 
 }

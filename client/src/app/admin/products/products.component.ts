@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ProductService } from '../../services/product.service';
 
 interface Category{
   value: string;
@@ -30,7 +31,7 @@ interface Specie{
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  displayedColumns: string[] = ['id','product','description','price','quantity','category', 'specie','image','image2','action'];
+  displayedColumns: string[] = ['id','product','description','price','quantity','category', 'specie','image','action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -45,11 +46,10 @@ export class ProductsComponent {
     product:'',
     description: '',
     price: 0,
-    quantity: '',
+    quantity: 0,
     category:'',
     specie: '',
-    image: '',
-    image2: ''
+    image: ''
   }
   image : any;
   image2: any;
@@ -70,19 +70,21 @@ export class ProductsComponent {
     {value: 'Birds', viewValue: 'Aves'}             
   ];
 
-  constructor(private builder: FormBuilder){}
+  constructor(private servicioProd: ProductService, private builder: FormBuilder){}
 
   ngOnInit(): void{
     this.get_products();
   }
 
   get_products(){
-    this.products = [
-     {id: 1, product: 'Corte de Cabello', description: 'Corte de cabello para caballero', price: 100, quantity: 10, category: 'Corte', specie: 'Caballero', image: 'assets/images/corte.jpg', image2: 'assets/images/corte2.jpg'},
-      {id: 2, product: 'Corte de Barba', description: 'Corte de barba para caballero', price: 50, quantity: 10, category: 'Corte', specie: 'Caballero', image: 'assets/images/barba.jpg', image2: 'assets/images/barba2.jpg'}
-    ]
-    this.dataSource = new MatTableDataSource(this.products);
-    this.dataSource.paginator = this.paginator;
+    this.servicioProd.getProducts().subscribe(res=>{
+      debugger;
+      this.products = res;
+      
+      this.dataSource = new MatTableDataSource(this.products.products);
+      this.dataSource.paginator = this.paginator;
+    });
+   
   }
 
   productsForm = this.builder.group({
@@ -94,7 +96,6 @@ export class ProductsComponent {
     category: this.builder.control('', Validators.required),
     specie: this.builder.control('', Validators.required),
     image: this.builder.control(''),
-    image2: this.builder.control(''),
 
   });
 
@@ -107,4 +108,29 @@ export class ProductsComponent {
     this.get_products();
   }
 
+  saveProduct(){
+    this.servicioProd.addProduct(
+      this.product.product,
+      this.product.description,
+      this.product.price,
+      this.product.quantity,
+      this.product.category,
+      this.product.specie,
+      this.image,
+    ).subscribe(res=>{
+      this.isadd=false;
+      alert('Producto agregado');
+      this.get_products();
+    },
+    error=>{
+      alert('Error al agregar el producto');
+    });
+  }
+
+  fotoSeleccionada1(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.image = <File>event.target.files[0];
+    }
+  }
+    
 }

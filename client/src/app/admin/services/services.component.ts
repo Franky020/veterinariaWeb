@@ -13,6 +13,7 @@ import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ServicioService } from '../../services/servicio.service';
 
 
 
@@ -24,7 +25,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './services.component.css'
 })
 export class ServicesComponent {
-  displayedColumns: string[] = ['id', 'service', 'description', 'price', 'action'];
+  displayedColumns: string[] = ['id', 'service', 'description', 'category','priceF', 'priceC', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -38,30 +39,42 @@ export class ServicesComponent {
     id: 0,
     service: '',
     description: '',
-    price: 0
+    category: '',
+    priceFP: 0,
+    priceFM: 0,
+    priceFG: 0,
+    priceCP: 0,
+    priceCM: 0,
+    priceCG: 0
   }
 
-  constructor(private builder: FormBuilder){}
+  constructor(private servicioSer: ServicioService, private builder: FormBuilder){}
 
   ngOnInit(){
     this.get_services();
   }
   get_services(){
-    this.services = [
-      {id: 1, service: 'Corte de Cabello', description: 'Corte de cabello para caballero', price: 100, state: 'Activo'},
-      {id: 2, service: 'Corte de Barba', description: 'Corte de barba para caballero', price: 50, state: 'Activo'},
-    ]
-    this.dataSource = null;
-    this.dataSource = new MatTableDataSource(this.services);
-    this.dataSource.paginator = this.paginator;
-
+   
+    this.servicioSer.getServices().subscribe(res=>{
+      this.services = res;
+      this.dataSource = new MatTableDataSource(this.services.services);
+      this.dataSource.paginator = this.paginator;
+    
+    });
   }
 
   servicesForm = this.builder.group({
     id: this.builder.control({value:0, disabled:true}),
     service: this.builder.control('', Validators.required),
     description: this.builder.control('', Validators.required),
-    price: this.builder.control('', Validators.required),
+    category: this.builder.control('', Validators.required),
+    priceFP: this.builder.control('', Validators.required),
+    priceFM: this.builder.control('', Validators.required),
+    priceFG: this.builder.control('', Validators.required),
+    priceCP: this.builder.control('', Validators.required),
+    priceCM: this.builder.control('', Validators.required),
+    priceCG: this.builder.control('', Validators.required)
+
   })
 
   addService(){
@@ -71,5 +84,30 @@ export class ServicesComponent {
   backtolist(){
     this.isadd=false;
     this.get_services;
+  }
+
+  saveService(){
+    this.servicioSer.addService(
+      this.service.service,
+      this.service.description,
+      this.service.category,
+      {
+        P: this.service.priceFP,
+        M: this.service.priceFM,
+        G: this.service.priceFG
+      },
+      {
+        P: this.service.priceCP,
+        M: this.service.priceCM,
+        G: this.service.priceCG
+      }
+    ).subscribe(res=>{
+      this.isadd=false;
+      alert('Servicio agregado');
+      this.get_services();
+    },
+    err=>{
+      console.log(err);
+    });
   }
 }

@@ -46,11 +46,6 @@
                             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
                         </ng-container>
 
-                         <!-- Details Column -->
-                         <ng-container matColumnDef="details">
-                            <th mat-header-cell *matHeaderCellDef> Detalles </th>
-                            <td mat-cell *matCellDef="let element"> {{element.details}} </td>
-                        </ng-container>
                         
                          <!-- DosageForm Column -->
                          <ng-container matColumnDef="dosageForm">
@@ -61,7 +56,7 @@
                          <!-- Dosage Column -->
                          <ng-container matColumnDef="dosage">
                             <th mat-header-cell *matHeaderCellDef> Dosis </th>
-                            <td mat-cell *matCellDef="let element"> {{element.dosage}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.dosage}} </td>
                         </ng-container>
 
                         <!-- administration route Column -->
@@ -110,7 +105,7 @@
 
                         <!-- Imagen 1 Column -->
                         <ng-container matColumnDef="image">
-                            <th mat-header-cell *matHeaderCellDef> Imagen 1 </th>
+                            <th mat-header-cell *matHeaderCellDef> Imagen </th>
                             <td mat-cell *matCellDef="let element"> <img [src]="element.image1" alt="Imagen "
                                     class="scaled-image">
                             </td>
@@ -141,7 +136,7 @@
 
         </mat-card>
 
-        <form [formGroup]="medicationsForm" *ngIf="isadd || isedit ">
+        <form [formGroup]="medicationsForm" *ngIf="isadd || isedit " (ngSubmit)="saveMedication();">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
                     <h2 *ngIf="isadd">Agregar medicinas</h2>
@@ -152,8 +147,8 @@
                     [(ngModel)]="medication.id">
                 <mat-card-content>
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Producto</mat-label>
-                        <input matInput placeholder="Nombre del producto" formControlName="medication"
+                        <mat-label>Medicamento</mat-label>
+                        <input matInput placeholder="Nombre del medicamento" formControlName="medication"
                             [(ngModel)]="medication.medication">
                     </mat-form-field>
 
@@ -164,27 +159,23 @@
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Detalles</mat-label>
-                        <input matInput placeholder="Detalles" formControlName="details"
-                            [(ngModel)]="medication.details">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Tipo de dosificación</mat-label>
-                        <input matInput placeholder="Tipo de dosificación" formControlName="dosageForm"
-                            [(ngModel)]="medication.dosageForm">
+                        <select matNativeControl formControlName="dosageForm" [(ngModel)]="medication.dosageForm">
+                            <option *ngFor="let dosageForm of dosageForms" [value]="dosageForm.value">{{dosageForm.viewValue}}</option>
+                        </select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Dosis</mat-label>
-                        <input matInput placeholder="Dosis" formControlName="dosage"
-                            [(ngModel)]="medication.dosage">
+                        <input matInput placeholder="dosage" formControlName="dosage"
+                        [(ngModel)]="medication.dosage">
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Forma de administración</mat-label>
-                        <input matInput placeholder="Administración" formControlName="administrationRoute"
-                            [(ngModel)]="medication.administrationRoute">
+                            <select matNativeControl formControlName="administrationRoute" [(ngModel)]="medication.administrationRoute">
+                                <option *ngFor="let adminRoute of adminRoutes" [value]="adminRoute.value">{{adminRoute.viewValue}}</option>
+                            </select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
@@ -195,15 +186,15 @@
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Fecha de expiración</mat-label>
-                        <input matInput placeholder="Fecha de expiracion" formControlName="dateExpiry"
+                        <input type="date" matInput placeholder="Fecha de expiracion" formControlName="dateExpiry"
                             [(ngModel)]="medication.dateExpiry">
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Especie</mat-label>
-                        <select matNativeControl formControlName="species" [(ngModel)]="medication.species">
-                            <option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</option>
-                        </select>
+                        <mat-select matNativeControl formControlName="species" [(ngModel)]="medication.species" multiple>
+                            <mat-option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">

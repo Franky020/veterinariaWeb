@@ -8,7 +8,7 @@ const path = require('path')
 //------------------------------------get
 async function getPets(req,res){
     try {
-        let pets = await Pet.find({state:'activo'}).select('_id details specie');
+        let pets = await Pet.find({state:'activo'}).populate('owner', 'name + lastName').select('_id details specie');
         return res.status(200).json({pets})
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado :${error.message}`});
