@@ -12,9 +12,7 @@ const {uploadEmployee} = require('../libs/ImagesUpload');
 
 //LOGINS
 router.post('/login',uploadEmployee.none(),validateSchema(loginSchema),login);
-
 router.get('/loginEmp/:id',loginEmployee);
-
 router.get('/loginOwn/:id',loginOwner);
 
 

@@ -1,7 +1,5 @@
 //IMPORTS----------------------------------
 const bcrypt =  require('bcrypt');
-const fs = require('fs-extra');
-const path = require('path');
 //MODELS
 const User = require('../models/user.model');
 const Employee = require('../models/employee.model');
@@ -14,7 +12,7 @@ async function RegisterEmployee(req,res){
     const {email,password,name,lastName,phone,type} = req.body;
     try {
         //encryp password
-        let salt = await bcrypt.genSalt();
+        let salt = await bcrypt.genSalt(10);
         let passcifrado = await bcrypt.hash(password, salt);
         //register-user
         const newUser = new User({
@@ -39,13 +37,18 @@ async function RegisterEmployee(req,res){
         }
         await newEmployee.save();
 
-        return res.status(201).json({success:"Registro exitoso"});
+        return res.status(201).json({success:"Registro Exitoso"});
 
     } catch (error) {
+        if (error.errors && error.errors.type && error.errors.type.kind === 'enum') {
+            // Si el error es debido a un valor no válido en el Enum, podemos proporcionar un mensaje de error personalizado
+            const errorMessage = `El valor '${error.errors.type.value}' no es válido para el campo 'type'`;
+            return res.status(400).json({ message: errorMessage });
+        }
         // Verificar si el error es debido a un campo único duplicado (correo electrónico)
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
             // Si el error es debido a un correo electrónico duplicado, enviar un mensaje de error
-            return res.status(400).json({error:'El correo electrónico ya está en uso.'});
+            return res.status(409).json({message:'El correo electrónico ya está en uso.'});
         } 
         return res.status(500).json({error:`Error encontrado: ${error.message}`}); 
     }
@@ -59,7 +62,7 @@ async function RegisterOwner(req,res){
     
     try {
         //encryp password
-        let salt = await bcrypt.genSalt();
+        let salt = await bcrypt.genSalt(10);
         let passcifrado = await bcrypt.hash(email, salt);
         //register-user
         const newUser = new User({
@@ -90,7 +93,7 @@ async function RegisterOwner(req,res){
         // Verificar si el error es debido a un campo único duplicado (correo electrónico)
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
             // Si el error es debido a un correo electrónico duplicado, enviar un mensaje de error
-            res.status(400).json({error:'El correo electrónico ya está en uso.'});
+           return res.status(400).json({message:'El Correo electrónico ya está en uso.'});
         } 
         return res.status(500).json({error:`Error encontrado: ${error.message}`}); 
     }
@@ -99,5 +102,4 @@ async function RegisterOwner(req,res){
 module.exports = {
     RegisterEmployee,
     RegisterOwner
-
 }

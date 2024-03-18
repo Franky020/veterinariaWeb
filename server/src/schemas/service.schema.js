@@ -15,7 +15,7 @@ const R_serviceSchema = z.object({
             M: z.number(),
             G: z.number()
     }).optional(),
-    category: z.string().nonempty({message:'Categoria esta vacio'})
+    category: z.enum(['Estetica', 'Medica'])
 
 });
 
@@ -32,7 +32,7 @@ const U_serviceSchema = z.object({
             M: z.number(),
             G: z.number()
     }).optional(),
-    category: z.string().nonempty({message:'Categoria esta vacio'}).optional()
+    category: z.enum(['Estetica', 'Medica']).optional()
     
 });
 

@@ -1,0 +1,134 @@
+//registro de usuarios ---------------------------------------------
+POST http://localhost:3000/user/register-employee HTTP/1.1
+content-type: application/json
+
+ {
+    "email":"prueba2@gmail.com",
+    "password":"prueba1@gmail.com",
+    "name":"prueba1",
+    "lastName":"prueba1",
+    "phone":"8989675634",
+    "type":"admin"
+ }
+
+###
+POST http://localhost:3000/user/register-owner HTTP/1.1
+content-type: application/json
+
+ {
+    "email":"prueba1@gmail.com",
+    "password":"prueba1@gmail.com",
+    "name":"prueba1",
+    "lastName":"prueba1",
+    "phone":"8989675634"
+ }
+
+//------------------------------------------------fin
+###
+//OBTIENE A LOS USUARIOS QUE SON EMPLEADOS (activos e inactivos)
+GET http://localhost:3000/vet/userEmp HTTP/1.1
+
+###
+//OBTIENE A UN USUARIO POR ID, FUNCIONA PARA EMPLEADOS COMO PARA DUEÑOS (activos)
+GET http://localhost:3000/vet/user/65ea852002622db1cc12c5e6 HTTP/1.1
+
+###
+//ACTUALIZA LA CONTRASEÑA DEL USUARIO POR ID
+PUT http://localhost:3000/vet/user/65f7fd75b9ee319c83c633ef HTTP/1.1
+content-type: application/json
+
+{
+    "password":"prueba2@gmail.com"
+}
+###
+//ELIMINA AL USUARIO POR ID (CAMBIA ESTADO A 'INACTIVO') IMPIDIENDO EL LOGIN  Y EL UPDATE DE LA CONTRASEÑA
+DELETE http://localhost:3000/vet/user/65f7fd75b9ee319c83c633ef HTTP/1.1
+//----------------------------------------------------------------------------
+
+###
+//OBTIENE A TODOS LOS EMPLEADOS ACTIVOS
+GET http://localhost:3000/vet/employee HTTP/1.1
+
+###
+//OBTIENE AL EMPLEADO POR ID Y QUE SEA ACTIVO
+GET http://localhost:3000/vet/employee/65f7fd75b9ee319c83c633f1 HTTP/1.1
+
+###
+//ACTUALIZA EMPELADO POR ID  Y SE ENCUENTRE ACTIVO
+PUT http://localhost:3000/vet/employee/65f7fd75b9ee319c83c633f1 HTTP/1.1
+content-Type: application/json
+
+{
+   "name":"prueba1 v2",
+   "lastName":"prueba 1v2",
+   "type":"vet"
+}
+
+###
+//ELIMINA A UN EMPELADO(CAMBAI EL ESTADO A 'INACTIVO') POR ID
+DELETE http://localhost:3000/vet/employee/65f7fd75b9ee319c83c633f1 HTTP/1.1
+//-----------------------------------------------------------------------------------------
+
+###
+//OBTIENE A TODOS LOS DUEÑOS QUE ESTEN ACTIVOS
+GET http://localhost:3000/vet/owner HTTP/1.1
+
+###
+//OBTIENE AL DUEÑO POR ID Y QUE SE ENCUENTRE ACTIVO
+GET http://localhost:3000/vet/owner/65f89848e5a500ae3039e5c5 HTTP/1.1
+
+###
+//OBTIENE AL DUEÑO POR ID Y ESTADO 'ACTIVO' 
+PUT http://localhost:3000/vet/owner/65f89848e5a500ae3039e5c5 HTTP/1.1
+Content-Type: application/json
+
+{
+   "name":"prueba1v2",
+   "lastName":"prueba1v2",
+   "phone":"0987654347"
+}
+
+###
+DELETE http://localhost:3000/vet/owner/65f89848e5a500ae3039e5c5 HTTP/1.1
+###
+//-------------------------------------------------------------------------
+
+//OBTIENE A TODAS LAS AMSCOTAS 'ACTIVAS'
+GET http://localhost:3000/vet/pet/ HTTP/1.1
+
+###
+//OBTIENE A LA MASCOTA POR ID Y ESTADO 'ACTIVO'
+GET http://localhost:3000/vet/pet/65f8a33028042092aa600952 HTTP/1.1
+
+###
+//REGISTRA A UNA MASCOTA CON RELACION A UN DUEÑO POR SU ID
+POST http://localhost:3000/vet/pet/ HTTP/1.1
+Content-Type: application/json
+
+{
+   "name":"pet4",
+   "age":"3",
+   "health":"Bueno",
+   "gender":"Macho",
+   "weight": "7.4",
+   "specie":"Felino",
+   "ownerId":"65ee552bc0238dc8187b0f75"
+}
+###
+//ACTUALIZA MASCOTA POR ID Y ESTADO 'ACTIVO'
+PUT http://localhost:3000/vet/pet/65f8a33028042092aa600952 HTTP/1.1
+Content-Type: application/json
+
+{
+   "name":"pet4V2",
+   "age":"3",
+   "health":"Bueno",
+   "gender":"Macho",
+   "weight": "7.4",
+   "specie":"Felino",
+   "ownerId":"65ee552bc0238dc8187b0f75"
+}
+
+###
+//ELIMINA A MASCOTA POR ID (CAMBIA DE ESTADO A INACTIVO)
+DELETE  http://localhost:3000/vet/pet/65f8a33028042092aa600952 HTTP/1.1

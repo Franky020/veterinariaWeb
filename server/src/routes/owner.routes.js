@@ -17,14 +17,11 @@ const { getIdOwner } = require('../controllers/owner.controller');
 
 //routes
 router.get('/my/:id',getIdOwner);
-
 //------------------------------------pets
 router.get('/myPets/:id',getPetOwnerId);
-
 //--------------------------------------products
 router.get('/product',getProducts);
 router.get('/product/:id',getIdProduct);
-
 //-------------------------------------services
 router.get('/services',getServicesActived);
 

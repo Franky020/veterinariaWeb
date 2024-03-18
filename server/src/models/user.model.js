@@ -13,13 +13,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-       // required: true,
+        required: true,
         minlength: 8
     },
     rol:{
-        //rol 1 = empleado
-        //rol 2 = cliente
+        
         type:Number,
+        enum:[1,2],//rol 1 = empleado // rol 2 = cliente
         require:true
     },
     state:{

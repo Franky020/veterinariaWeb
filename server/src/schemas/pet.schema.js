@@ -9,7 +9,8 @@ const registerPetSchema = z.object({
     gender: z.string({required_error: 'campo sexo esta vacio'}).nonempty({message:'Campo gender Esta Vacio'}),
     weight: z.string({required_error: 'campo peso esta vacio'}).nonempty({message:'Campo weigth Esta Vacio'}),
     ownerId: z.string({required_error: 'el campo dueño esta vacio'}).nonempty({message:'Campo ownerId Esta Vacio'}),
-    specie: z.string({required_error: 'campo especie esta vacio'}).nonempty({message:'Campo speciesId Esta Vacio'})
+    specie: z.string({required_error: 'campo especie esta vacio'}).nonempty({message:'Campo speciesId Esta Vacio'}),
+    health: z.enum(['Bueno','Malo','Regular','Excelente'])
 });
 
 const updatePetSchema = z.object({
@@ -19,8 +20,9 @@ const updatePetSchema = z.object({
     gender: z.string({required_error: 'campo sexo esta vacio'}).nonempty({message:'Campo gender Esta Vacio'}).optional(),
     weight: z.string({required_error: 'campo peso esta vacio'}).nonempty({message:'Campo weigth Esta Vacio'}).optional(),
     ownerId: z.string({required_error: 'el campo dueño esta vacio'}).nonempty({message:'Campo ownerId Esta Vacio'}).optional(),
-    specie: z.string({required_error: 'campo especie esta vacio'}).nonempty({message:'Campo speciesId Esta Vacio'}).optional()
-    
+    specie: z.string({required_error: 'campo especie esta vacio'}).nonempty({message:'Campo speciesId Esta Vacio'}).optional(),
+    health: z.enum(['Bueno','Malo','Regular','Excelente']).optional()
+
 });
 module.exports = {
     registerPetSchema,

@@ -8,7 +8,7 @@ const path = require('path')
 //ADMIN FUNCTIONS------------------------------------------------------------------------------
 async function getPets(req,res){
     try {
-        let pets = await Pet.find({state:'activo'}).select('_id details.name details.gender specie owner').populate({path:'owner', select:'name'});
+        let pets = await Pet.find({state:'activo'}).select('_id details.name details.gender details.health specie owner').populate({path:'owner', select:'name lastName'});
         return res.status(200).json({pets});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado :${error.message}`});
@@ -27,7 +27,7 @@ async function getIdPet(req,res){
 
     }catch (error) {
         return error instanceof CastError
-        ? res.status(400).json({error:"El ID  proporcionado es inválido."})
+        ? res.status(400).json({message:"El ID proporcionado es inválido."})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }

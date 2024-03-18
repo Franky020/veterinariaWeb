@@ -9,8 +9,8 @@ const R_productSchema = z.object({
     quantity: z.string({required_error:'campo cantidad esta vacio'}).nonempty({message:'Campo quantity Esta vacio'}),
     image: z.string({required_error:'Imagen esta vacio'}).optional(),
     image2: z.string({required_error:'campo imagen 2 es requerido'}).optional(),
-    category:z.string({required_error:'Campo categoria esta vacio'}).nonempty({message: 'Campo category Esta Vacio'}),
-    specie: z.string({required_error:'Campo specie esta vacio'}).nonempty({message:'Campo specie Esta Vacio'})
+    category:z.enum(['Alimento', 'Higiene','Ropa', 'Accesorios', 'Juguetes']),
+    specie: z.enum(['Felinos','Caninos','Rodores','Aves'])
 });
 
 const U_productSchema = z.object({
@@ -20,8 +20,8 @@ const U_productSchema = z.object({
     quantity: z.string({required_error:'campo cantidad esta vacio'}).optional(),
     image: z.string({required_error:'Imagen esta vacio'}).optional(),
     image2: z.string({required_error:'campo imagen 2 es requerido'}).optional(),
-    category:z.string({required_error:'Campo categoria esta vacio'}).optional(),
-    specie: z.string({required_error:'Campo specie esta vacio'}).optional()
+    category:z.enum(['Alimento', 'Higiene','Ropa', 'Accesorios', 'Juguetes']).optional(),
+    specie: z.enum(['Felinos','Caninos','Rodores','Aves'])
 });
 
 const R_productEntrySchema = z.object({
