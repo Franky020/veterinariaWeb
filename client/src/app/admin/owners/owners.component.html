@@ -111,7 +111,7 @@
 
         </mat-card>
 
-        <form [formGroup]="ownerForm" *ngIf="isadd || isedit ">
+        <form [formGroup]="ownerForm" *ngIf="isadd || isedit " (ngSubmit)="saveOwner()">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
                     <h2 *ngIf="isadd">Agregar dueño</h2>
@@ -142,7 +142,7 @@
                     <div>
                         <mat-label>Imagen </mat-label>
                         <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen"
-                            formControlName="image">
+                            formControlName="image" (change)="fotoSeleccionada1($event)">
 
                         <img *ngIf="!isadd" [src]="owner.image" alt="Imagen Producto" class="scaled-image">
 

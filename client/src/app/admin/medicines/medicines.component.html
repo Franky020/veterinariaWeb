@@ -31,7 +31,7 @@
                         <!-- Id Column -->
                         <ng-container matColumnDef="id">
                             <th mat-header-cell *matHeaderCellDef> ID </th>
-                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
                         </ng-container>
 
                         <!-- Medication name Column -->
@@ -106,7 +106,7 @@
                         <!-- Imagen 1 Column -->
                         <ng-container matColumnDef="image">
                             <th mat-header-cell *matHeaderCellDef> Imagen </th>
-                            <td mat-cell *matCellDef="let element"> <img [src]="element.image1" alt="Imagen "
+                            <td mat-cell *matCellDef="let element"> <img [src]="element.image" alt="Imagen "
                                     class="scaled-image">
                             </td>
                         </ng-container>
@@ -116,10 +116,10 @@
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Acciones</th>
                             <td mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary" aria-label="Edit">
+                                <button mat-icon-button color="primary" aria-label="Edit" (click)="showMedicationEdit(element._id)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon>
+                                <button mat-icon-button color="warn" (click)="deleteMedication(element._id)"><mat-icon>delete</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
@@ -160,9 +160,9 @@
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Tipo de dosificación</mat-label>
-                        <select matNativeControl formControlName="dosageForm" [(ngModel)]="medication.dosageForm">
-                            <option *ngFor="let dosageForm of dosageForms" [value]="dosageForm.value">{{dosageForm.viewValue}}</option>
-                        </select>
+                        <mat-select matNativeControl formControlName="dosageForm" [(ngModel)]="medication.dosageForm">
+                            <mat-option *ngFor="let dosageForm of dosageForms" [value]="dosageForm.value">{{dosageForm.viewValue}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
@@ -173,9 +173,9 @@
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Forma de administración</mat-label>
-                            <select matNativeControl formControlName="administrationRoute" [(ngModel)]="medication.administrationRoute">
-                                <option *ngFor="let adminRoute of adminRoutes" [value]="adminRoute.value">{{adminRoute.viewValue}}</option>
-                            </select>
+                            <mat-select matNativeControl formControlName="administrationRoute" [(ngModel)]="medication.administrationRoute">
+                                <mat-option *ngFor="let adminRoute of adminRoutes" [value]="adminRoute.value">{{adminRoute.viewValue}}</mat-option>
+                            </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
@@ -199,10 +199,10 @@
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Categoría</mat-label>
-                        <select matNativeControl formControlName="category" [(ngModel)]="medication.category">
-                            <option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
-                            </option>
-                        </select>
+                        <mat-select matNativeControl formControlName="category" [(ngModel)]="medication.category">
+                            <mat-option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
@@ -220,7 +220,7 @@
                     <div>
                         <mat-label>Imagen </mat-label>
                         <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 1"
-                            formControlName="image">
+                            formControlName="image"  (change)="fotoSeleccionada1($event)">
 
                         <img *ngIf="!isadd" [src]="medication.image" alt="Imagen Producto" class="scaled-image">
 
@@ -228,7 +228,7 @@
 
                   
 
-
+                    <br>
 
                 </mat-card-content>
                 <mat-card-actions>

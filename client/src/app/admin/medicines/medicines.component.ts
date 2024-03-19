@@ -6,7 +6,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 
 //material elemments
 import { MatCardModule } from '@angular/material/card';
-import {MatPaginatorModule, MatPaginator} from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
@@ -14,34 +14,34 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MedicineService } from '../../services/medicine.service';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 
 
-interface Category{
+interface Category {
   value: string;
   viewValue: string;
 }
-interface Specie{
+interface Specie {
   value: string;
   viewValue: string;
 }
-interface DosageForm{
+interface DosageForm {
   value: string;
   viewValue: string;
 }
-interface AdminRoute{
+interface AdminRoute {
   value: string;
   viewValue: string;
 }
 @Component({
   selector: 'app-medicines',
   standalone: true,
-  imports: [MatCardModule, MatPaginatorModule,MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule,MatSelectModule],
+  imports: [MatCardModule, MatPaginatorModule, MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSelectModule],
   templateUrl: './medicines.component.html',
   styleUrl: './medicines.component.css'
 })
 export class MedicinesComponent {
-  displayedColumns: string[] = ['id', 'medication', 'description','dosageForm','dosage','administrationRoute','precautions','dateExpiry','species','category', 'price','quantity', 'image', 'action'];
+  displayedColumns: string[] = ['id', 'medication', 'description', 'dosageForm', 'dosage', 'administrationRoute', 'precautions', 'dateExpiry', 'species', 'category', 'price', 'quantity', 'image', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -51,7 +51,7 @@ export class MedicinesComponent {
 
   medications: any;
 
-  medication ={
+  medication = {
     id: 0,
     medication: '',
     description: '',
@@ -66,64 +66,64 @@ export class MedicinesComponent {
     quantity: '',
     image: ''
   }
-    image: any;
+  image: any;
 
   //select components
   categories: Category[] = [
-    {value: 'Antibiotic', viewValue: 'Antibiótico'},
-    {value: 'Analgesic', viewValue: 'Analgésico'},
-    {value: 'Anti-inflammatory', viewValue: 'Anti-Inflamatorio'},
-    {value: 'Antiparasitic', viewValue: 'Antiparasitario'},
-    {value: 'Antifungal', viewValue: 'Anti-hongos'},
-    {value: 'Antiviral', viewValue: 'Antiviral'},
-    {value: 'Other', viewValue: 'Otro'}
+    { value: 'Antibiotic', viewValue: 'Antibiótico' },
+    { value: 'Analgesic', viewValue: 'Analgésico' },
+    { value: 'Anti-inflammatory', viewValue: 'Anti-Inflamatorio' },
+    { value: 'Antiparasitic', viewValue: 'Antiparasitario' },
+    { value: 'Antifungal', viewValue: 'Anti-hongos' },
+    { value: 'Antiviral', viewValue: 'Antiviral' },
+    { value: 'Other', viewValue: 'Otro' }
   ];
   species: Specie[] = [
-    {value: 'Feline', viewValue: 'Gato'},
-    {value: 'Canine', viewValue: 'Perro'},
-    {value: 'Rodent', viewValue: 'Roedor'},
-    {value: 'Bird', viewValue: 'Aves'}
+    { value: 'Feline', viewValue: 'Gato' },
+    { value: 'Canine', viewValue: 'Perro' },
+    { value: 'Rodent', viewValue: 'Roedor' },
+    { value: 'Bird', viewValue: 'Aves' }
   ];
   dosageForms: DosageForm[] = [
-    {value: 'Tablet', viewValue: 'Tableta'},
-    {value: 'Capsule', viewValue: 'Cápsula'},
-    {value: 'Liquid', viewValue: 'Líquido'},
-    {value: 'Injection', viewValue: 'Inyección'},
-    {value: 'Topical', viewValue: 'Tópico'},
-    {value: 'Drops', viewValue: 'Gotas'},
-    {value: 'Powder', viewValue: 'Polvo'},
-    {value: 'Suspensión', viewValue: 'Suspensión'},
-    {value: 'Ointment', viewValue: 'Pomada'},
-    {value: 'Gel', viewValue: 'Gel'}
+    { value: 'Tablet', viewValue: 'Tableta' },
+    { value: 'Capsule', viewValue: 'Cápsula' },
+    { value: 'Liquid', viewValue: 'Líquido' },
+    { value: 'Injection', viewValue: 'Inyección' },
+    { value: 'Topical', viewValue: 'Tópico' },
+    { value: 'Drops', viewValue: 'Gotas' },
+    { value: 'Powder', viewValue: 'Polvo' },
+    { value: 'Suspensión', viewValue: 'Suspensión' },
+    { value: 'Ointment', viewValue: 'Pomada' },
+    { value: 'Gel', viewValue: 'Gel' }
   ];
   adminRoutes: AdminRoute[] = [
-    {value: 'Oral', viewValue: 'Oral'},
-    {value: 'Intravenous', viewValue: 'Intravenosa'},
-    {value: 'Intramuscular', viewValue: 'Intramuscular'},
-    {value: 'Subcutaneous', viewValue: 'Subcutánea'},
-    {value: 'Topical', viewValue: 'Tópico'},
-    {value: 'Rectal', viewValue: 'Rectal'},
-    {value: 'Ophthalmic', viewValue: 'Oftálmica'},
-    {value: 'Otic', viewValue: 'Ótica'}
+    { value: 'Oral', viewValue: 'Oral' },
+    { value: 'Intravenous', viewValue: 'Intravenosa' },
+    { value: 'Intramuscular', viewValue: 'Intramuscular' },
+    { value: 'Subcutaneous', viewValue: 'Subcutánea' },
+    { value: 'Topical', viewValue: 'Tópico' },
+    { value: 'Rectal', viewValue: 'Rectal' },
+    { value: 'Ophthalmic', viewValue: 'Oftálmica' },
+    { value: 'Otic', viewValue: 'Ótica' }
   ];
 
-  constructor(private servicioMed: MedicineService, private builder: FormBuilder){}
+  constructor(private servicioMed: MedicineService, private builder: FormBuilder) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.get_medications();
   }
 
-  get_medications(){
-    this.servicioMed.getMedicines().subscribe(res=>{
+  get_medications() {
+    this.servicioMed.getMedicines().subscribe(res => {
       //debugger;
-    this.medications = res;
-    this.dataSource = new MatTableDataSource(this.medications.medicines);
-    this.dataSource.paginator = this.paginator;
+      this.medications = res;
+      this.dataSource = new MatTableDataSource(this.medications.medicines);
+      this.dataSource.paginator = this.paginator;
     });
   }
 
   medicationsForm = this.builder.group({
-    id: this.builder.control({value:0, disabled:true}),
+    id: this.builder.control({ value: 0, disabled: true }),
     medication: this.builder.control('', Validators.required),
     description: this.builder.control('', Validators.required),
     dosageForm: this.builder.control(''),
@@ -138,40 +138,114 @@ export class MedicinesComponent {
     image: this.builder.control(''),
   })
 
-  addMedication(){
-    this.isadd=true;
+  addMedication() {
+    this.isadd = true;
   }
 
-  backtolist(){
-    this.isadd=false;
+  backtolist() {
+    this.isadd = false;
+    this.isedit = false;
     this.get_medications;
+    this.medicationsForm.reset();
   }
 
-  saveMedication(){
+  saveMedication() {
     //debugger;
-    this.servicioMed.addMedicine(
-      this.medication.medication,
-      this.medication.description,
-      this.medication.dosageForm,
-      this.medication.dosage,
-      this.medication.precautions,
-      this.medication.dateExpiry,
-      this.medication.administrationRoute,
-      this.medication.species, 
-      this.medication.category,
-      this.medication.price,
-      this.medication.quantity,
-      this.image
-    ).subscribe(res=>{
-      this.isadd=false;
-      alert('Medicamento agregado');
-      this.get_medications();
-    },
-    error=>{
-      console.log(error);
-      alert('Error al agregar el medicamento');
+    if (this.medicationsForm.valid) {
+
+      if (this.isadd) {
+        this.servicioMed.addMedicine(
+          this.medication.medication,
+          this.medication.description,
+          this.medication.dosageForm,
+          this.medication.dosage,
+          this.medication.precautions,
+          this.medication.dateExpiry,
+          this.medication.administrationRoute,
+          this.medication.species,
+          this.medication.category,
+          this.medication.price,
+          this.medication.quantity,
+          this.image
+        ).subscribe(res => {
+          this.isadd = false;
+          alert('Medicamento agregado');
+          this.get_medications();
+        },
+          error => {
+            console.log(error);
+            alert('Error al agregar el medicamento');
+          });
+      } else {
+        this.servicioMed.editMedicine(
+          this.medication.id,
+          this.medication.medication,
+          this.medication.description,
+          this.medication.dosageForm,
+          this.medication.dosage,
+          this.medication.precautions,
+          this.medication.dateExpiry,
+          this.medication.administrationRoute,
+          this.medication.species,
+          this.medication.category,
+          this.medication.price,
+          this.medication.quantity,
+          this.image
+        ).subscribe(res => {
+          alert('Medicamento actualizado');
+          this.backtolist();
+        },
+          error => {
+            console.log(error);
+            alert('Error al actualizar el medicamento');
+          });
+      }
     }
-    );
-  } 
+  }
+
+
+
+  fotoSeleccionada1(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.image = <File>event.target.files[0];
+    }
+  }
+
+  showMedicationEdit(id: number) {
+    debugger;
+    this.servicioMed.getMedicine(id).subscribe(res => {
+      this.editData = res;
+      this.medication.image = res.medicine.image;
+
+      this.medicationsForm.setValue({
+        id: this.editData.medicine._id,
+        medication: this.editData.medicine.medication,
+        description: this.editData.medicine.description,
+        dosageForm: this.editData.medicine.details.dosageForm,
+        dosage: this.editData.medicine.details.dosage,
+        administrationRoute: this.editData.medicine.details.administrationRoute,
+        precautions: this.editData.medicine.details.precautions,
+        dateExpiry: this.editData.medicine.details.dateExpiry,
+        species: this.editData.medicine.species,
+        category: this.editData.medicine.category,
+        price: this.editData.medicine.price,
+        quantity: this.editData.medicine.quantity,
+        image: this.editData.medicine.image
+      });
+    });
+    this.isedit = true;
+  }
+
+  deleteMedication(id: number) {
+    if (confirm('¿Estás seguro de eliminar el medicamento?')) {
+      this.servicioMed.deleteMedicine(id).subscribe(res => {
+        alert('Medicamento eliminado');
+        this.get_medications();
+      },
+        error => {
+          alert('Error al eliminar el medicamento');
+        });
+    }
+  }
 
 }

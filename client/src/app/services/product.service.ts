@@ -15,6 +15,11 @@ export class ProductService {
     return this.http.get<any>(this.url);
   }
 
+  getProduct(id:number){
+    debugger;
+    return this.http.get<any>(this.url+'/'+id);
+  }
+
   addProduct(
     product: string,
     description: string,
@@ -35,5 +40,22 @@ export class ProductService {
   }
 
 
+  editProduct(id:number, product:string, description:string, price:number, quantity:number, category:string, specie:string, image:File ){
+
+    const fd = new FormData();
+    fd.append('id', id.toString());
+    fd.append('product', product);
+    fd.append('description', description);
+    fd.append('price', price.toString());
+    fd.append('quantity', quantity.toString());
+    fd.append('category', category);
+    fd.append('specie', specie);
+    fd.append('image', image);
+    return this.http.put<any>(this.url+'/'+id, fd);
+  }
+
+  deleteProduct(id:number){
+    return this.http.delete<any>(this.url+'/'+id);
+  }
   
 }

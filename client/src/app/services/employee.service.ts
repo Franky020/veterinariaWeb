@@ -17,6 +17,10 @@ export class EmployeeService {
     return this.http.get<any>(this.url);
   }
 
+  getEmployee(id:number){
+    return this.http.get<any>(this.url+'/'+id);
+  }
+
   addEmployee(
     name: string,
     lastName: string,
@@ -35,5 +39,22 @@ export class EmployeeService {
     fd.append('password', password);
     fd.append('image', image);
     return this.http.post<any>(this.urlReg, fd);
+  }
+
+  editEmployee(id:number, name:string, lastName:string, phone:string, type:string, image:File ){
+
+    const fd = new FormData();
+    fd.append('id', id.toString());
+    fd.append('name', name);
+    fd.append('lastName', lastName);
+    fd.append('phone', phone);
+    fd.append('type', type);
+
+    fd.append('image', image);
+    return this.http.put<any>(this.url+'/'+id, fd);
+  }
+
+  deleteEmployee(id:number){
+    return this.http.delete<any>(this.url+'/'+id);
   }
 }
