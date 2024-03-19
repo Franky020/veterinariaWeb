@@ -1,19 +1,16 @@
 //IMPORTS
-const { json } = require('express');
 const Service = require('../models/service.model');
 const {CastError} =require('mongoose');
 
-//-------------------------------------get
 async function getServices(req,res){
     try {
-        const services = await Service.find({}).select('_id service price state description category felino canino');
+        const services = await Service.find({});
         return res.status(200).json({services});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado : ${error.message}`});
     }
 }
 
-//-----------------------------------IDGet
 async function IdGetService(req,res){
     try {
         const {id} = req.params;
@@ -28,15 +25,17 @@ async function IdGetService(req,res){
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-//--------------------------------------post
+
 async function createService(req,res){
     try {
-        const {service, description, price} = req.body;
+        const {service,description,felino,canino,category} = req.body;
 
         const newService = new Service({
             service,
             description,
-            price
+            felino,
+            canino,
+            category
         });
 
         await newService.save();
@@ -45,18 +44,16 @@ async function createService(req,res){
 
     }catch (error) {
         if (error.code === 11000 && error.keyPattern && error.keyPattern.service) {
-            return res.status(400).json({ error: 'Servicio ya Registrado' });
+            return res.status(400).json({ message: 'El Servicio ya se Encunetra Existente'});
         } 
         return res.status(500).json({error: `Error encontrado: ${error.message}`}); 
     }
 }
 
-//---------------------------------------put
-
 async function updateService(req,res){
     try {
         const {id} = req.params;
-        const {service, description, price} = req.body;
+        const {service,description,felino,canino,category} = req.body;
 
         let servi = await Service.findById(id);
 
@@ -65,20 +62,21 @@ async function updateService(req,res){
         }
 
         await Service.findByIdAndUpdate(id,{
-            service:service,
-            description: description,
-            price:price
+            service,
+            description,
+            felino,
+            canino,
+            category
         },{new:true});
 
-        return res.status(200).json({success:'Servcio Actualizado'});
+        return res.status(200).json({success:'Servicio Actualizado'});
 
     }catch (error) {
         return error instanceof CastError
-        ? res.status(400).json({error:"El ID del Servicio proporcionado es inválido"})
+        ? res.status(400).json({error:"El ID proporcionado es inválido"})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-//--------------------------------------delete
 
 async function deleteService(req,res){
     try {
@@ -86,7 +84,7 @@ async function deleteService(req,res){
         let service = await  Service.findById(id);
 
         if(!service){
-            return res.status(404),json({message:`Servicio no encontrado`});
+            return res.status(404).json({message:`Servicio no encontrado`});
         }
         await Service.findByIdAndUpdate(id,{
             state:'inactivo'

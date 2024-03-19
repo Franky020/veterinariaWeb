@@ -4,19 +4,20 @@ const mongoose = require('mongoose');
 //Schema
 
 const serviceSchema = new mongoose.Schema({
-    service:{
-        type:String,
-        require:true,
-        unique:true
+    service: { type: String, required: true },
+    description: { type: String },
+    felino: {
+        P: { type: Number},
+        M: { type: Number},
+        G: { type: Number}
     },
-    description:{
-        type:String,
-        require:true
+    canino: {
+        P: { type: Number},
+        M: { type: Number},
+        G: { type: Number}
     },
-    price:{
-        type:Number,
-        require:true
-    },
+    
+    category: { type: String, enum:['Estetica', 'Medica'], required: true },
     state:{
         type:String,
         enum:['activo','inactivo'],

@@ -1,10 +1,10 @@
 //IMPORTS ----------------
 const mongoose = require('mongoose')
-const {dev} = require('./config');
+const {production} = require('./config');
 //CONECTIO
 const conectionDB = async()=>{
     try {
-        await mongoose.connect(dev.Database.CONECTION);
+        await mongoose.connect(production.Database.CONECTION);
         console.log('DB is Conected');
     } catch (error) {
         console.log(error);

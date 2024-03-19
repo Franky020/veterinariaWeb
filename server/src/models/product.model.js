@@ -5,16 +5,13 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     product:{
         type:String,
-        require:true,
         unique:true
     },
     description:{
         type:String,
-        require:true
     },
     price:{
         type:Number,
-        require:true
     },
     quantity:{
         type:Number
@@ -27,12 +24,11 @@ const productSchema = new mongoose.Schema({
     },
     category:{
         type:String,
-        enum:['Alimento', 'Higiene','Ropa', 'Accesorios', 'Juguetes', 'Salud'],
-        require:true
+        enum:['Alimento', 'Higiene','Ropa', 'Accesorios', 'Juguetes'],
     },
     specie:{
         type:String,
-        enum:['Felines','Canines','Rodents','Birds'],
+        enum:['Felinos','Caninos','Rodores','Aves'],
         required: true
     },
     state:{

@@ -8,7 +8,8 @@ const employeeSchema  = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
+        unique: true,
     },
     name:{
         type:String,
@@ -21,7 +22,9 @@ const employeeSchema  = new mongoose.Schema({
     phone:{
         type:String,
         required:true,
-        maxlength:10
+        maxlength:10,
+        trim: true,
+
     },
     type:{
         type:String,
