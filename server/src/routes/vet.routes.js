@@ -13,6 +13,7 @@ const {registerPetSchema,updatePetSchema} =require('../schemas/pet.schema');
 const {R_productSchema,U_productSchema,R_productEntrySchema} = require('../schemas/product.schema');
 const {R_serviceSchema,U_serviceSchema} = require('../schemas/service.schema');
 const {R_medicationSchema,U_medicationSchema,R_medicationEntrySchema} = require('../schemas/medication.schema');
+const {registerPostSchema,updatePostSchema} = require('../schemas/post.schema');
 //CONTROLLERS---
 const userC = require('../controllers/User.controller')
 const empC = require('../controllers/Employee.controller');
@@ -21,8 +22,10 @@ const petC = require('../controllers/pet.controller');
 const prodC = require('../controllers/product.controller');
 const servC = require('../controllers/service.controller');
 const medC = require('../controllers/medication.controller');
+const postC = require('../controllers/post.controller');
+const consultC = require('../controllers/consultation.controller');
 //LIBS-images--
-const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical} = require('../libs/ImagesUpload');
+const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploadPost} = require('../libs/ImagesUpload');
 
 //-----------------------------------------------------------------------------------routes
 
@@ -83,8 +86,18 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical} = re
     router.post('/medication/entry/:id',uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
 
 
+    //-----------------------------------------post
+    router.get('/post',postC.getPost);
+    router.get('/post/:id',postC.getIdPost);
+    router.post('/post',uploadPost.single('image'),validateSchema(registerPostSchema), postC.registerPost);
+    router.put('/post/:id',uploadPost.single('image'),validateSchema(updatePostSchema),postC.updatePost);
+    router.delete('/post/:id',postC.deletePost)
 
-
-
+    //----------------------------------------Consultations
+    router.get('/consult',consultC.getConsults);
+    router.get('/consult/:id',consultC.getIdConsult);
+    router.post('/consult',consultC.registerConsult);
+    router.put('/consult/:id',consultC.editConsult);
+    router.get('/consultPet/:id',consultC.getConsultForPetId);
 
 module.exports = router;

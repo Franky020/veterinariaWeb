@@ -24,7 +24,7 @@ async function getIdEmployee(req,res){
         :res.status(200).json({employee});
     }catch (error) {
         return error instanceof CastError
-        ? res.status(400).json({message:"El IDProporcionado es Inválido"})
+        ? res.status(400).json({message:"El ID Proporcionado es Inválido"})
         : res.status(500).json({error:`Error Encontrado: ${error.message}`});
     }
 }

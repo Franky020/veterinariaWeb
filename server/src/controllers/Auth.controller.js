@@ -17,7 +17,7 @@ async function login(req,res){
         }
 
         if(!await bcrypt.compare(password, usuario.password)){
-            return res.status(401).json({message: "credenciales incorrectas"});
+            return res.status(401).json({message: "Credenciales Incorrectas"});
         }
         const {_id,rol} = usuario;
 

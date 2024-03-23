@@ -132,3 +132,39 @@ Content-Type: application/json
 ###
 //ELIMINA A MASCOTA POR ID (CAMBIA DE ESTADO A INACTIVO)
 DELETE  http://localhost:3000/vet/pet/65f8a33028042092aa600952 HTTP/1.1
+
+###
+GET http://localhost:3000/vet/product HTTP/1.1
+
+###
+//-------------------------------------------------------------post
+//OBTIENE TODOS LOS POST PUBLICADOS
+GET http://localhost:3000/vet/post HTTP/1.1
+
+###
+//OBTIENE POST POR ID
+GET http://localhost:3000/vet/post/65fa3d2df258ce805ef37f7b HTTP/1.1
+
+###
+//REGISTRA UN POST
+POST http://localhost:3000/vet/post HTTP/1.1
+Content-Type: application/json
+
+{
+   "title":"POST 2",
+   "description":"POST 2 DESCRIPTION"
+}
+
+###
+//MODIFICA POST POR ID
+PUT http://localhost:3000/vet/post/65fa3ee6b0d66685ea1c0976 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title":"POST 2 v2",
+   "description":"POST 2 DESCRIPTION v2" 
+}
+
+###
+//ELIMINA POR ID UN POST
+DELETE http://localhost:3000/vet/post/65fa3ee6b0d66685ea1c0976 HTTP/1.1

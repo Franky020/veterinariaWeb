@@ -23,6 +23,7 @@ app.use('/foto-own',express.static(path.join(__dirname,'/public/uploads/owner/')
 app.use('/foto-pet',express.static(path.join(__dirname,'/public/uploads/pet/')));
 app.use('/foto-prod',express.static(path.join(__dirname,'/public/uploads/product/')));
 app.use('/foto-medical',express.static(path.join(__dirname,'/public/uploads/medical/')));
+app.use('/foto-post',express.static(path.join(__dirname,'/public/uploads/post/')));
 
 //MIDDLEWARES
 app.use(morgan('dev'));

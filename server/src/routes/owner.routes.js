@@ -16,7 +16,7 @@ const { getIdOwner } = require('../controllers/owner.controller');
 //LIBS-images
 
 //routes
-router.get('/my/:id',getIdOwner);
+router.get('/my/:id',getIdOwner);//user
 //------------------------------------pets
 router.get('/myPets/:id',getPetOwnerId);
 //--------------------------------------products
