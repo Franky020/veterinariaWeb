@@ -151,8 +151,8 @@ POST http://localhost:3000/vet/post HTTP/1.1
 Content-Type: application/json
 
 {
-   "title":"POST 2",
-   "description":"POST 2 DESCRIPTION"
+   "title":"Bienvenido a la app de Bigotes Pet",
+   "description":"Aqui podras estar al dia con los diversos post publicados por nosotros sobre descuentos, avisos y de mas, gracias."
 }
 
 ###
@@ -168,3 +168,115 @@ Content-Type: application/json
 ###
 //ELIMINA POR ID UN POST
 DELETE http://localhost:3000/vet/post/65fa3ee6b0d66685ea1c0976 HTTP/1.1
+
+###
+//------------------------------------------------------------------------consults
+//METODO PARA VET
+//OBTENER TODAS LAS CONSULTAS
+GET http://localhost:3000/vet/consult HTTP/1.1
+
+###
+//REGISTRAR UNA CONSULTA
+POST http://localhost:3000/vet/consult HTTP/1.1
+Content-Type: application/json
+
+{
+   "petId":"65ee5677ca143fe61e5466c1",
+   "vetId":"65f3eba68239d95e4cf0889d",
+   "nameVet":"ana",
+   "diagnosis":"Fiebre por desidratacion",
+   "observations":"",
+   "signs":"Temperatura 38 grados, aspecto cansado",
+   "treatment":"Permanecer en lugares con sombra, tomar agua limpia y fresca"
+}
+###
+//OBTENER CONSULTA POR ID
+GET http://localhost:3000/vet/consult/65fe5a121d52e8c4d89db58a HTTP/1.1
+
+###
+//EDITAR CONSULTA
+PUT http://localhost:3000/vet/consult/65fe5a121d52e8c4d89db58a HTTP/1.1
+Content-Type: application/json
+
+{
+   "vetId":"65f3eba68239d95e4cf0889d",
+   "nameVet":"ana",
+   "diagnosis":"Fiebre por desidratacion y bomitos",
+   "observations":"pelaje en buen aspecto",
+   "signs":"Temperatura 38 grados, aspecto cansado",
+   "treatment":"Permanecer en lugares con sombra, tomar agua limpia y fresca"
+ 
+}
+###
+//CONSULTAR LISTA DE CONSULTAS REALIZADAS A UNA MASCOTA POR ID
+GET http://localhost:3000/owner/consultPet/65ee5677ca143fe61e5466c1 HTTP/1.1
+###
+//-----------------------------------------------------------------------------medicalHistories
+//OBTIENE TODOS LOS HISTORIALES MEDICOS EN GENERAL
+GET http://localhost:3000/vet/medical_history HTTP/1.1
+###
+//OBTIENE EL EL HISTORIAL POR ID
+GET http://localhost:3000/vet/medical_history/65ff6c22ecad459855ee6cba HTTP/1.1
+###
+//REGISTRA UN HISTORIAL NUEVO
+POST http://localhost:3000/vet/medical_history HTTP/1.1
+Content-Type: application/json
+
+{
+   "petId":"65ee5677ca143fe61e5466c1",
+   "vetId":"65f3eba68239d95e4cf0889d",
+   "description":"vacuna antiravica dosis numero 1",
+   "category":"vacunacion"
+}
+###
+//EDITAR HISTORIAL POR ID
+PUT http://localhost:3000/vet/medical_history/65ff6c22ecad459855ee6cba HTTP/1.1
+Content-Type: application/json
+
+{
+   "vetId":"65f3eba68239d95e4cf0889d",
+   "description":"vacuna antiravica dosis numero 2",
+   "category":"vacunacion"
+}
+###
+//ELIMINAR HISTORIAL POR ID
+DELETE http://localhost:3000/vet/medical_history/65ff6c22ecad459855ee6cba HTTP/1.1
+###
+GET http://localhost:3000/owner/medical_history/65ee5677ca143fe61e5466c1 HTTP/1.1
+###
+
+//------------------------------------------------------------------------SALES
+//OBTIENE TODAS LAS VENTAS
+GET http://localhost:3000/vet/sale HTTP/1.1
+###
+//OBTIENE VENTA POR ID
+GET http://localhost:3000/vet/sale/65ffc2c235c5410f2fb61e64 HTTP/1.1
+###
+//REGISTRA UNA VENTA
+POST http://localhost:3000/vet/sale HTTP/1.1
+Content-Type: application/json
+
+{
+   "employeeId":"65f3eba68239d95e4cf0889d",
+   "ownerId":"65ee552bc0238dc8187b0f75",
+   "payments":[
+      {
+      "productId":"65ee2d3196c19400cb4f7d30",
+      "name":"Whiskas",
+      "price":250,
+      "quantity":2
+      },
+      {
+      "serviceId":"65ee285096c19400cb4f7d12",
+      "name":"Baño y Secado",
+      "price":150,
+      "quantity":1
+      }
+   ],
+   "total":650
+}
+###
+//ELIMINA REGISTRO DE VENTA POR ID
+DELETE http://localhost:3000/vet/sale/65ffc2c235c5410f2fb61e64 HTTP/1.1
+###
+GET http://localhost:3000/owner/my_tickects/65ee552bc0238dc8187b0f75 HTTP/1.1

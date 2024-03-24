@@ -3,17 +3,17 @@ const {CastError} =require('mongoose');
 
 async function getConsults(req,res){
     try {
-        let consults = await Consult.find().populate({path:petId,path:vetId});
+        let consults = await Consult.find().populate({path:'petId', select:'details.name specie'});
         return res.status(200).json({consults});
     } catch (error) {
-        return res.status(500).json({error:`Error encontrado: ${error.message}`})
+        return res.status(500).json({error:`Error encontrado(metodo all): ${error.message}`})
     }
 }
 
 async function getIdConsult(req,res){
     try {
         const {id} = req.params;
-        let consult =await  Consult.findById(id).populate({path:petId,path:vetId});
+        let consult =  await  Consult.findById(id).populate({path:'petId',select:'details specie state'}).populate({path:'vetId',select:'name lastName  type  state'});
 
         return !consult
         ? res.status(404).json({message:'Consulta no Encontrada'})
@@ -29,14 +29,12 @@ async function getIdConsult(req,res){
 async function getConsultForPetId(req,res){
     try {
         const {id} = req.params;
-        let consults = await  Consult.find({petId:id}).populate({path:petId,path:vetId});
-
+        let consults = await  Consult.find({petId:id}).populate({path:'petId',select:'details.name specie'}).populate({path:'vetId',select:'name lastName type'});
         return res.status(200).json({consults});
     } catch (error) {
         return error instanceof CastError
         ? res.status(400).json({message:"El ID Proporcionado es Inválido"})
         : res.status(500).json({error:`Error Encontrado: ${error.message}`});
-       
     }
 }
 
@@ -82,7 +80,7 @@ async function editConsult(req,res){
                 treatment 
             },{new:true});
         
-        return res.status(200) .josn({success:'Consulta Actualizada'})
+        return res.status(200).json({success:'Consulta Actualizada'})
     } catch (error) {
         return error instanceof CastError
         ? res.status(400).json({message:"El ID Proporcionado es Inválido"})

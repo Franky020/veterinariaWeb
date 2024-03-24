@@ -14,6 +14,8 @@ const {R_productSchema,U_productSchema,R_productEntrySchema} = require('../schem
 const {R_serviceSchema,U_serviceSchema} = require('../schemas/service.schema');
 const {R_medicationSchema,U_medicationSchema,R_medicationEntrySchema} = require('../schemas/medication.schema');
 const {registerPostSchema,updatePostSchema} = require('../schemas/post.schema');
+const {registerMHSchema,updateMHSchema} = require('../schemas/medicalHistory.schema');
+const {salesRegisterSchema} = require('../schemas/sales.schema');
 //CONTROLLERS---
 const userC = require('../controllers/User.controller')
 const empC = require('../controllers/Employee.controller');
@@ -24,6 +26,8 @@ const servC = require('../controllers/service.controller');
 const medC = require('../controllers/medication.controller');
 const postC = require('../controllers/post.controller');
 const consultC = require('../controllers/consultation.controller');
+const medHC = require('../controllers/medicalHistory.controller');
+const saleC = require('../controllers/sales.controller');
 //LIBS-images--
 const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploadPost} = require('../libs/ImagesUpload');
 
@@ -98,6 +102,18 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
     router.get('/consult/:id',consultC.getIdConsult);
     router.post('/consult',consultC.registerConsult);
     router.put('/consult/:id',consultC.editConsult);
-    router.get('/consultPet/:id',consultC.getConsultForPetId);
+
+    //------------------------------------------Medical History
+    router.get('/medical_history',medHC.getMedicalHostories);
+    router.get('/medical_history/:id',medHC.getIdHistory);
+    router.post('/medical_history',validateSchema(registerMHSchema),medHC.registerHistory);
+    router.put('/medical_history/:id',validateSchema(updateMHSchema),medHC.editHistory);
+    router.delete('/medical_history/:id',medHC.deleteHistory);
+
+    //-------------------------------------------Sales
+    router.get('/sale',saleC.getSales);
+    router.get('/sale/:id',saleC.getIdSale);
+    router.post('/sale',validateSchema(salesRegisterSchema),saleC.registerSale);
+    router.delete('/sale/:id',saleC.deleteSaleId);
 
 module.exports = router;
