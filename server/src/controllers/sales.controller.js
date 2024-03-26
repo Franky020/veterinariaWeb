@@ -3,8 +3,21 @@ const {CastError} =require('mongoose');
 
 async function getSales(req,res){
     try {
-        let sales = await Sale.find();
-        console.log(sales);
+        let sales = await Sale.find().sort({date:-1});
+        sales.forEach(sale=>{
+            sale.toJSON = function(){
+                return{
+                    ...this.toObject(),
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                       minute:'numeric'
+                    })
+                }
+            }
+        })
         return res.status(200).json({sales});
     } catch (error) {
         return res.status(500).json({error:`Error encontrado: ${error.message}`});
@@ -16,11 +29,23 @@ async function getIdSale(req,res){
         const {id} = req.params;
         let sale = await Sale.findById(id)
         .populate({path:'ownerId', select:'name lastName'})
-        .populate({path:"payments.productId",select:'product specie category'})
-        .populate({path:'payments.serviceId', select:'service category description'});
+        .populate({path:"employeeId",select:'name lastName'});
 
         if(!sale){
             return res.status(404).json({message:'Registro no encontrado'});
+        }
+
+        sale.toJSON = function(){
+            return{
+                ...this.toObject(),
+                date:this.date.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric',
+                    hour:'numeric',
+                    minute:'numeric'
+                })
+            }
         }
 
         return res.status(200).json({sale});
@@ -35,10 +60,24 @@ async function getIdSale(req,res){
 async function getSalesForOwnerId(req,res){
     try {
         const {id} = req.params;
-        let sales = await Sale.find({ownerId:id})
-        .populate({path:'ownerId', select:'name lastName'})
-        .populate({path:"payments.productId",select:'product specie category'})
-        .populate({path:'payments.serviceId', select:'service category description'});
+        let sales = await Sale.find({ownerId:id}).sort({date:-1})
+        .populate({path:'employeeId', select:'name lastName'})
+        .populate({path:"payments"})
+        
+        sales.forEach(sale=>{
+            sale.toJSON = function(){
+                return{
+                    ...this.toObject(),
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                       minute:'numeric'
+                    })
+                }
+            }
+        })
 
         return res.status(200).json({sales});
     } catch (error) {

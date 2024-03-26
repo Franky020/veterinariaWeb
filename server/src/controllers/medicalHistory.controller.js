@@ -3,7 +3,22 @@ const {CastError} =require('mongoose');
 
 async function getMedicalHostories(req,res){
     try {
-        let histories = await MedicalH.find().populate({path:'petId',select:'details.name specie'}).populate({path:'vetId',select:'name lastName type'});
+        let histories = await MedicalH.find().sort({date:-1}).populate({path:'petId',select:'details.name specie'}).populate({path:'vetId',select:'name lastName type'});
+        
+        histories.forEach(history=>{
+            history.toJSON = function(){
+                return{
+                    ...this.toObject(),
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
+                    })
+                }
+            }
+        })
         return res.status(200).json({histories});
     } catch (error) {
         return res.status(500).json({error:`Error encontrado: ${error.message}`});
@@ -15,9 +30,23 @@ async function getIdHistory(req,res){
         const {id} = req.params;
         let history = await  MedicalH.findById(id).populate({path:'petId'}).populate({path:'vetId'});
 
-        return !history 
-        ? res.status(404).json({message:'Registro no encotrado'})
-        : res.status(200).json({history});
+        if(!history){
+            return res.status(404).json({message:'Registro no encontrado'})
+        }
+
+        history.toJSON = function(){
+            return{
+                ...this.toObject(),
+                date:this.date.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric',
+                    hour:'numeric',
+                    minute:'numeric'
+                })
+            }
+        }
+        return res.status(200).json({history});
     } catch (error) {
         return error instanceof CastError
         ? res.status(400).json({message:"El ID Proporcionado es Inválido"})
@@ -88,7 +117,23 @@ async function deleteHistory(req,res){
 async function getMedicalH_PetId(req,res){
     try {
         const {id} = req.params;
-        let histories = await MedicalH.find({petId:id}).populate({path:'vetId',select:'name lastName type'});
+        let histories = await MedicalH.find({petId:id}).sort({date:-1}).populate({path:'vetId',select:'name lastName type'});
+        
+        histories.forEach(history=>{
+            history.toJSON = function(){
+                return{
+                    ...this.toObject(),
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
+                    })
+                }
+            }
+        })
+
         return res.status(200).json({histories});
     } catch (error) {
         return error instanceof CastError
