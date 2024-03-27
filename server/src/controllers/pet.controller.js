@@ -153,6 +153,21 @@ async function getPetOwnerId(req,res){
     }
 }
 
+
+async function getIdPetForOwner(req,res){
+    try {
+        const {id} = req.params;
+        let pet = await Pet.findOne({_id:id, state:'activo'});
+        return !pet 
+        ? res.status(404).json({message:"Mascota no encontrada"})
+        : res.status(200).json({pet});
+
+    }catch (error) {
+        return error instanceof CastError
+        ? res.status(400).json({message:"El ID proporcionado es inválido."})
+        : res.status(500).json({error:`Error encontrado: ${error.message}`});
+    }
+}
 module.exports = {
     getPets,
     getIdPet,
@@ -160,5 +175,6 @@ module.exports = {
     updatePet,
     deletePet,
     //owner function to the owner endpoins
-    getPetOwnerId
+    getPetOwnerId,
+    getIdPetForOwner
 }

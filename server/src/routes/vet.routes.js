@@ -34,86 +34,86 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
 //-----------------------------------------------------------------------------------routes
 
 //---------------------------------users
-    router.get('/userEmp',userC.getUsers);//exclusivo para admin
-    router.get('/user/:id',userC.getIdUser);
-    router.put('/user/:id',uploadEmployee.none(),validateSchema(updateUserSchema),userC.updateUser);
-    router.delete('/user/:id',userC.deleteUser);
+    router.get('/userEmp',auntentifica,userC.getUsers);//exclusivo para admin
+    router.get('/user/:id',auntentifica,userC.getIdUser);
+    router.put('/user/:id',auntentifica,uploadEmployee.none(),validateSchema(updateUserSchema),userC.updateUser);
+    router.delete('/user/:id',auntentifica,userC.deleteUser);
 //----------------------------------employees
 
-    router.get('/employee',empC.getEmployees);
-    router.get('/employee/:id',empC.getIdEmployee);
-    router.put('/employee/:id',uploadEmployee.single('image'),validateSchema(updateEmployeeSchema),empC.updateEmployee);
-    router.delete('/employee/:id',empC.deleteEmployee);
+    router.get('/employee',auntentifica,empC.getEmployees);
+    router.get('/employee/:id',auntentifica,empC.getIdEmployee);
+    router.put('/employee/:id',auntentifica,uploadEmployee.single('image'),validateSchema(updateEmployeeSchema),empC.updateEmployee);
+    router.delete('/employee/:id',auntentifica,empC.deleteEmployee);
 
 //---------------------------------owner
 
-    router.get('/owner',ownC.getOwners);
-    router.get('/owner/:id',ownC.getIdOwner);
-    router.put('/owner/:id',uploadOwner.single('image'),validateSchema(updateOwnerSchema),ownC.updateOwner);
-    router.delete('/owner/:id',ownC.deleteOwner);
+    router.get('/owner',auntentifica,ownC.getOwners);
+    router.get('/owner/:id',auntentifica,ownC.getIdOwner);
+    router.put('/owner/:id',auntentifica,uploadOwner.single('image'),validateSchema(updateOwnerSchema),ownC.updateOwner);
+    router.delete('/owner/:id',auntentifica,ownC.deleteOwner);
 
 //------------------------------------pets
 
-    router.get('/pet',petC.getPets);
-    router.get('/pet/:id',petC.getIdPet);
+    router.get('/pet',auntentifica,petC.getPets);
+    router.get('/pet/:id',auntentifica,petC.getIdPet);
     router.post('/pet',uploadPet.single('image'),validateSchema(registerPetSchema),petC.registerPet);
-    router.put('/pet/:id',uploadPet.single('image'),validateSchema(updatePetSchema),petC.updatePet);
-    router.delete('/pet/:id',petC.deletePet);
+    router.put('/pet/:id',auntentifica,uploadPet.single('image'),validateSchema(updatePetSchema),petC.updatePet);
+    router.delete('/pet/:id',auntentifica,petC.deletePet);
 
 //-------------------------------------products
 
-    router.get('/product',prodC.getProducts);
-    router.get('/product/:id',prodC.getIdProduct);
-    router.post('/product',uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(R_productSchema),prodC.registerProduct);
-    router.put('/product/:id',uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(U_productSchema),prodC.updateProduct);
-    router.delete('/product/:id',prodC.deleteProduct);
+    router.get('/product',auntentifica,prodC.getProducts);
+    router.get('/product/:id',auntentifica,prodC.getIdProduct);
+    router.post('/product',auntentifica,uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(R_productSchema),prodC.registerProduct);
+    router.put('/product/:id',auntentifica,uploadProduct.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),validateSchema(U_productSchema),prodC.updateProduct);
+    router.delete('/product/:id',auntentifica,prodC.deleteProduct);
     //entries-product
-    router.post('/product/entry/:id',uploadProduct.none(),validateSchema(R_productEntrySchema),prodC.productEntries);
-    router.get('/product-entries',prodC.getEntries);
+    router.post('/product/entry/:id',auntentifica,uploadProduct.none(),validateSchema(R_productEntrySchema),prodC.productEntries);
+    router.get('/product-entries',auntentifica,prodC.getEntries);
 
 //----------------------------------services
 
-    router.get('/service',servC.getServices);
-    router.get('/service/:id',servC.IdGetService);
-    router.post('/service',uploadProduct.none(),validateSchema(R_serviceSchema),servC.createService);
-    router.put('/service/:id',uploadProduct.none(),validateSchema(U_serviceSchema),servC.updateService);
-    router.delete('/service/:id',servC.deleteService);
+    router.get('/service',auntentifica,servC.getServices);
+    router.get('/service/:id',auntentifica,servC.IdGetService);
+    router.post('/service',auntentifica,uploadProduct.none(),validateSchema(R_serviceSchema),servC.createService);
+    router.put('/service/:id',auntentifica,uploadProduct.none(),validateSchema(U_serviceSchema),servC.updateService);
+    router.delete('/service/:id',auntentifica,servC.deleteService);
 
 //---------------------------------------------medications
 
-    router.get('/medication',medC.getMedicines);
-    router.get('/medication/:id',medC.getIdMedicine);
-    router.post('/medication',uploadMedical.single('image'),validateSchema(R_medicationSchema),medC.registerMedicine);
-    router.put('/medication/:id',uploadMedical.single('image'),validateSchema(U_medicationSchema),medC.updateMedicine);
-    router.delete('/medication/:id',medC.deleteMedicine);
+    router.get('/medication',auntentifica,medC.getMedicines);
+    router.get('/medication/:id',auntentifica,medC.getIdMedicine);
+    router.post('/medication',auntentifica,uploadMedical.single('image'),validateSchema(R_medicationSchema),medC.registerMedicine);
+    router.put('/medication/:id',auntentifica,uploadMedical.single('image'),validateSchema(U_medicationSchema),medC.updateMedicine);
+    router.delete('/medication/:id',auntentifica,medC.deleteMedicine);
     //entry-medication
-    router.post('/medication/entry/:id',uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
+    router.post('/medication/entry/:id',auntentifica,uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
 
 
     //-----------------------------------------post
-    router.get('/post',postC.getPost);
-    router.get('/post/:id',postC.getIdPost);
-    router.post('/post',uploadPost.single('image'),validateSchema(registerPostSchema), postC.registerPost);
-    router.put('/post/:id',uploadPost.single('image'),validateSchema(updatePostSchema),postC.updatePost);
-    router.delete('/post/:id',postC.deletePost)
+    router.get('/post',auntentifica,postC.getPost);
+    router.get('/post/:id',auntentifica,postC.getIdPost);
+    router.post('/post',auntentifica,uploadPost.single('image'),validateSchema(registerPostSchema), postC.registerPost);
+    router.put('/post/:id',auntentifica,uploadPost.single('image'),validateSchema(updatePostSchema),postC.updatePost);
+    router.delete('/post/:id',auntentifica,postC.deletePost)
 
     //----------------------------------------Consultations
-    router.get('/consult',consultC.getConsults);
-    router.get('/consult/:id',consultC.getIdConsult);
-    router.post('/consult',consultC.registerConsult);
-    router.put('/consult/:id',consultC.editConsult);
+    router.get('/consult',auntentifica,consultC.getConsults);
+    router.get('/consult/:id',auntentifica,consultC.getIdConsult);
+    router.post('/consult',auntentifica,consultC.registerConsult);
+    router.put('/consult/:id',auntentifica,consultC.editConsult);
 
     //------------------------------------------Medical History
-    router.get('/medical_history',medHC.getMedicalHostories);
-    router.get('/medical_history/:id',medHC.getIdHistory);
-    router.post('/medical_history',validateSchema(registerMHSchema),medHC.registerHistory);
-    router.put('/medical_history/:id',validateSchema(updateMHSchema),medHC.editHistory);
-    router.delete('/medical_history/:id',medHC.deleteHistory);
+    router.get('/medical_history',auntentifica,medHC.getMedicalHostories);
+    router.get('/medical_history/:id',auntentifica,medHC.getIdHistory);
+    router.post('/medical_history',auntentifica,validateSchema(registerMHSchema),medHC.registerHistory);
+    router.put('/medical_history/:id',auntentifica,validateSchema(updateMHSchema),medHC.editHistory);
+    router.delete('/medical_history/:id',auntentifica,medHC.deleteHistory);
 
     //-------------------------------------------Sales
-    router.get('/sale',saleC.getSales);
-    router.get('/sale/:id',saleC.getIdSale);
-    router.post('/sale',validateSchema(salesRegisterSchema),saleC.registerSale);
-    router.delete('/sale/:id',saleC.deleteSaleId);
+    router.get('/sale',auntentifica,saleC.getSales);
+    router.get('/sale/:id',auntentifica,saleC.getIdSale);
+    router.post('/sale',auntentifica,validateSchema(salesRegisterSchema),saleC.registerSale);
+    router.delete('/sale/:id',auntentifica,saleC.deleteSaleId);
 
 module.exports = router;

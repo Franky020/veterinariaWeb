@@ -8,7 +8,7 @@ const auntentifica = require('../middlewares/autentificajwt');
 //SCHEMAS
 
 //CONTROLLERS
-const {getPetOwnerId} = require('../controllers/pet.controller');
+const {getPetOwnerId, getIdPetForOwner} = require('../controllers/pet.controller');
 const {getProducts,getIdProduct} = require('../controllers/product.controller');
 const {getServicesActived} = require('../controllers/service.controller');
 const { getIdOwner } = require('../controllers/owner.controller');
@@ -19,16 +19,17 @@ const saleC = require('../controllers/sales.controller');
 //LIBS-images
 
 //routes
-router.get('/my/:id',getIdOwner);//user
+router.get('/my/:id',auntentifica,getIdOwner);//user
 //------------------------------------pets
-router.get('/myPets/:id',getPetOwnerId);
-router.get('/consultPet/:id',consultC.getConsultForPetId);
-router.get('/medical_history/:id',medHC.getMedicalH_PetId);
-router.get('/my_tickects/:id',saleC.getSalesForOwnerId)
+router.get('/myPets/:id',auntentifica,getPetOwnerId);
+router.get('/pet/:id',auntentifica,getIdPetForOwner);
+router.get('/consultPet/:id',auntentifica,consultC.getConsultForPetId);
+router.get('/medical_history/:id',auntentifica,medHC.getMedicalH_PetId);
+router.get('/my_tickects/:id',auntentifica,saleC.getSalesForOwnerId)
 //--------------------------------------products
-router.get('/product',getProducts);
-router.get('/product/:id',getIdProduct);
+router.get('/product',auntentifica,getProducts);
+router.get('/product/:id',auntentifica,getIdProduct);
 //-------------------------------------services
-router.get('/services',getServicesActived);
+router.get('/services',auntentifica,getServicesActived);
 
 module.exports = router;
