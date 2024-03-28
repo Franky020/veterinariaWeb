@@ -30,7 +30,9 @@ const routes: Routes = [
       { path:'employees', component: EmployeesComponent },
       { path:'owners', component: OwnersComponent },
       { path:'pets', component: PetsComponent},
+      // { path:'owners/details/:id', component: DetailOwnerComponent}
       { path:'owners/details', component: DetailOwnerComponent}
+
     ]
   }
 ];

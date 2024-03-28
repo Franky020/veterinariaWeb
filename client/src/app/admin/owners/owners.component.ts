@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 //services
+import { OwnerService } from '../../services/owner.service';
 
 //material elements
 import { MatCardModule } from '@angular/material/card';
@@ -12,8 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
-import { OwnerService } from '../../services/owner.service';
+
+
 
 interface Specie {
   value: string;
@@ -49,7 +51,6 @@ export class OwnersComponent {
     name: '',
     lastName: '',
     phone: '',
-    address: '',
     email: '',
     image: '',
     password: ''
@@ -59,7 +60,7 @@ export class OwnersComponent {
   pets: any;
 
   pet = {
-    id: 0,
+    id: '',
     name: '',
     age: 0,
     health: '',
@@ -86,7 +87,7 @@ export class OwnersComponent {
   ];
 
 
-  constructor(private servicioOwn: OwnerService, private builder: FormBuilder) { }
+  constructor(private servicioOwn: OwnerService, private builder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.get_owners();
@@ -95,7 +96,7 @@ export class OwnersComponent {
   get_owners() {
     //get owners from the api
     this.servicioOwn.getOwners().subscribe(res => {
-      debugger;
+      //debugger;
       this.owners = res;
       this.dataSource = new MatTableDataSource(this.owners.owners);
       this.dataSource.paginator = this.paginator;
@@ -107,7 +108,6 @@ export class OwnersComponent {
     name: this.builder.control('', Validators.required),
     lastName: this.builder.control('', Validators.required),
     phone: this.builder.control('', Validators.required),
-    address: this.builder.control('', Validators.required),
     image: this.builder.control(''),
     email: this.builder.control('', Validators.required),
     password: this.builder.control('', Validators.required),
@@ -119,8 +119,11 @@ export class OwnersComponent {
 
   backtolist() {
     this.isadd = false;
+    this.isedit = false;
     this.isaddPet = false;
     this.get_owners();
+    this.ownerForm.reset();
+    this.petsForm.reset();
   }
 
   saveOwner() {
@@ -128,7 +131,6 @@ export class OwnersComponent {
       this.owner.name,
       this.owner.lastName,
       this.owner.phone,
-      this.owner.address,
       this.owner.email,
       this.owner.password,
       this.image
@@ -148,6 +150,66 @@ export class OwnersComponent {
     }
   }
 
+  ///edit
+  ownerEditForm = this.builder.group({
+    id: this.builder.control({ value: 0, disabled: true }),
+    name: this.builder.control('', Validators.required),
+    lastName: this.builder.control('', Validators.required),
+    phone: this.builder.control('', Validators.required),
+    image: this.builder.control(''),
+  });
+
+  showOwnerEdit(id: number) {
+    this.servicioOwn.getOwner(id).subscribe(res => {
+      this.editData = res;
+      this.owner.image = res.owner.image;
+      this.ownerEditForm.setValue({
+        id: this.editData.owner._id,
+        name: this.editData.owner.name,
+        lastName: this.editData.owner.lastName,
+        phone: this.editData.owner.phone,
+        image: this.editData.owner.image
+      });
+    });
+    this.isedit = true;
+  }
+
+  editOwner() {
+    debugger;
+    this.servicioOwn.editOwner(
+      this.owner.id,
+      this.owner.name,
+      this.owner.lastName,
+      this.owner.phone,
+      this.image
+    ).subscribe(res => {
+      alert('Dueño editado');
+      this.backtolist();
+    }, err => {
+      alert('Error al editar dueño');
+    });
+  }
+
+  //delete
+  deleteOwner(id: number) {
+    if (confirm('Estas seguro de eliminar este dueño?')) {
+      this.servicioOwn.deleteOwner(id).subscribe(res => {
+        alert('Dueño eliminado');
+        this.get_owners();
+      }, err => {
+        alert('Error al eliminar dueño');
+      });
+    }
+  }
+
+  // detailsOwner(id: number) {
+  //   this.router.navigate(['/admin/owners/details', id]);
+  // }
+
+  detailsOwnerE(id: number) {
+    localStorage.setItem('ownerId', id.toString());
+    this.router.navigate(['/admin/owners/details']);
+  }
 
   //////////////////////////////////////////////
   //Pets
@@ -164,8 +226,30 @@ export class OwnersComponent {
 
   });
 
-  addPets() {
+  showPetForm(ownerId: string) {
     this.isaddPet = true;
+    this.pet.owner = ownerId;
+    
   }
 
+  savePet() {
+    this.servicioOwn.addPet(
+      this.pet.id,
+      this.pet.name,
+      this.pet.age,
+      this.pet.health,
+      this.pet.gender,
+      this.pet.weight,
+      this.pet.specie,
+      this.pet.owner,
+      this.imageP
+    ).subscribe(res => {
+      alert('Mascota agregada');
+      this.backtolist();
+      this.isadd = false;
+    }, err => {
+      alert('Error al agregar la mascota');
+    });
+  
+  }
 }

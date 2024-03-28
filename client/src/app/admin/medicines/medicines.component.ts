@@ -41,7 +41,7 @@ interface AdminRoute {
   styleUrl: './medicines.component.css'
 })
 export class MedicinesComponent {
-  displayedColumns: string[] = ['id', 'medication', 'description', 'dosageForm', 'dosage', 'administrationRoute', 'precautions', 'dateExpiry', 'species', 'category', 'price', 'quantity', 'image', 'action'];
+  displayedColumns: string[] = ['medication', 'description', 'dosageForm', 'dosage', 'administrationRoute', 'precautions', 'dateExpiry', 'species', 'category', 'price', 'quantity', 'image', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;

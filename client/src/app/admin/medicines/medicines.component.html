@@ -50,7 +50,7 @@
                          <!-- DosageForm Column -->
                          <ng-container matColumnDef="dosageForm">
                             <th mat-header-cell *matHeaderCellDef> Tipo de dosificación </th>
-                            <td mat-cell *matCellDef="let element"> {{element.dosageForm}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.dosageForm}} </td>
                         </ng-container>
 
                          <!-- Dosage Column -->
@@ -62,19 +62,19 @@
                         <!-- administration route Column -->
                         <ng-container matColumnDef="administrationRoute">
                             <th mat-header-cell *matHeaderCellDef> Forma de administración</th>
-                            <td mat-cell *matCellDef="let element"> {{element.administrationRoute}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.administrationRoute}} </td>
                         </ng-container>
 
                         <!-- Precautions Column -->
                         <ng-container matColumnDef="precautions">
                             <th mat-header-cell *matHeaderCellDef> Precauciones </th>
-                            <td mat-cell *matCellDef="let element"> {{element.precautions}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.precautions}} </td>
                         </ng-container>
 
                         <!-- Expiration date Column -->
                         <ng-container matColumnDef="dateExpiry">
                             <th mat-header-cell *matHeaderCellDef> Fecha de expiración </th>
-                            <td mat-cell *matCellDef="let element"> {{element.dateExpiry}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.dateExpiry}} </td>
                         </ng-container>
 
                         <!-- Specie Column -->

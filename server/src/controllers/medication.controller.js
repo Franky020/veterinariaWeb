@@ -10,7 +10,7 @@ const MedicalEntry = require('../models/medicalEntries.model');
 //FUNCTIONS
 async function getMedicines(req,res){
     try {
-        let medicines = await Medication.find({state:'activo'}).select('_id medication description image quantity price details.dosage');
+        let medicines = await Medication.find({state:'activo'}).select('_id medication description image quantity price details.dosage details.dateExpiry details.precautions details.dosageForm details.administrationRoute category species');
 
         return res.status(200).json({medicines});
     } catch (error) {

@@ -181,7 +181,7 @@ export class ProductsComponent {
   }
 
   showProductEdit(id: number) {
-    debugger;
+    //debugger;
     this.servicioProd.getProduct(id).subscribe(res => {
       this.editData = res;
       this.product.image = res.product.image;

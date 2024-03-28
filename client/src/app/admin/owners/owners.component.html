@@ -32,7 +32,7 @@
                          <ng-container matColumnDef="petBtn">
                             <th mat-header-cell *matHeaderCellDef>  </th>
                             <td mat-cell *matCellDef="let element"> 
-                                <button mat-raised-button color="primary" aria-label="Edit" (click)="addPets()">
+                                <button mat-raised-button color="primary" aria-label="Add" (click)="showPetForm(element._id)">
                                     Agregar mascota
                                   </button>
                             </td>
@@ -41,7 +41,7 @@
                         <!-- Id Column -->
                         <ng-container matColumnDef="id">
                             <th mat-header-cell *matHeaderCellDef> ID </th>
-                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
                         </ng-container>
 
                         <!-- Name name Column -->
@@ -94,7 +94,12 @@
                                 <!-- <button mat-raised-button color="primary" aria-label="Edit">
                                   Agregar mascota
                                 </button> -->
-                                <button mat-button color="accent">Ver detalles
+                                <button mat-raised-button (click)="detailsOwnerE(element._id)" class="btn-details">Ver detalles
+                                </button>
+                                <button mat-icon-button color="primary" aria-label="Edit" (click)="showOwnerEdit(element._id)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deleteOwner(element._id)"><mat-icon>delete</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
@@ -111,7 +116,7 @@
 
         </mat-card>
 
-        <form [formGroup]="ownerForm" *ngIf="isadd || isedit " (ngSubmit)="saveOwner()">
+        <form [formGroup]="ownerForm" *ngIf="isadd" (ngSubmit)="saveOwner()">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
                     <h2 *ngIf="isadd">Agregar dueño</h2>
@@ -144,7 +149,7 @@
                         <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen"
                             formControlName="image" (change)="fotoSeleccionada1($event)">
 
-                        <img *ngIf="!isadd" [src]="owner.image" alt="Imagen Producto" class="scaled-image">
+                        <img *ngIf="!isadd" [src]="owner.image" alt="Imagen " class="scaled-image">
 
                     </div>
 
@@ -169,11 +174,57 @@
             </mat-card>
         </form>
 
+       <!--  /////////// edit form owners -->
+        <form [formGroup]="ownerEditForm" *ngIf="isedit " (ngSubmit)="editOwner()">
+            <mat-card style="width: 90%;" class="dashboard-card">
+                <mat-card-header>
+                    
+                    <h2 *ngIf="!isadd">Editar dueño</h2>
+                </mat-card-header>
+
+                <input class="invisible" matInput  formControlName="id"
+                    [(ngModel)]="owner.id">
+                <mat-card-content>
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="Nombre del dueño" formControlName="name"
+                            [(ngModel)]="owner.name">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput placeholder="Apellidos" formControlName="lastName"
+                            [(ngModel)]="owner.lastName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput placeholder="Teléfono" formControlName="phone" [(ngModel)]="owner.phone">
+                    </mat-form-field>
+
+
+                    <div>
+                        <mat-label>Imagen </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen"
+                            formControlName="image" (change)="fotoSeleccionada1($event)">
+
+                        <img *ngIf="!isadd" [src]="owner.image" alt="Imagen " class="scaled-image">
+
+                    </div>
+
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
 
 
         <!-- ///////////////////////////////////////////////////////////// -->
         <!-- Formulario de mascotas -->
-        <form [formGroup]="petsForm" *ngIf="isaddPet ">
+        <form [formGroup]="petsForm" *ngIf="isaddPet" (ngSubmit)="savePet()">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
                     <h1 *ngIf="isaddPet">Agregar Mascota</h1>
@@ -182,6 +233,9 @@
 
                 <input class="invisible" matInput  formControlName="id"
                     [(ngModel)]="pet.id">
+                
+
+                <!-- <h2>{{owner.id}}</h2> -->
                 <mat-card-content>
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Nombre</mat-label>

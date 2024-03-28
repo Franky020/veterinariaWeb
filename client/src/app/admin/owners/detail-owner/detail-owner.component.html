@@ -4,12 +4,12 @@
         <mat-card>
             <h2> Datos personales</h2>
             <div style="display: flex; justify-content: center;">
-                <img src="assets/images/vet.png" alt="Imagen Producto" class="scaled-image">
+                <img [src]="owner.image" alt="Imagen Dueño" class="scaled-image">
             </div>
-            <h1>Nombre completo del dueño</h1>
-            <p>Dirección : calle 2</p>
-            <p>Teléfono : 33 12345678</p>
-            <p>Correo : dueño.correo.com</p>
+            <br>
+            <h1>Nombre: {{owner.name}}{{owner.lastName}}</h1>
+            <p>Teléfono : {{owner.phone}}</p>
+            <!-- <p>Correo : {{owner.email}}</p> -->
             <mat-card-actions>
                 <button mat-raised-button color="primary" routerLink="/admin/owners">Ir a Dueños</button>
             </mat-card-actions>
@@ -17,55 +17,24 @@
     </div>
     <div class="column2">
 
-
-        <mat-card class="pinkB">
-            <h2> Mascotas</h2>
-            <mat-card class="card">
-                <div class="container">
-                    <div class="column1b">
-
-                        <img src="assets/images/vet.png" alt="Imagen Producto" class="scaled-imagePet">
-
-                    </div>
-                    <div class="column2b">
-                        <mat-card-header>
-                            <h3>Nombre de la mascota</h3>
-                        </mat-card-header>
-                        <p>Edad : 2 años</p>
-                        <p>Raza : Pastor Aleman</p>
-                        <p>Sexo : Macho</p>
-                        <mat-card-actions>
-                            <button mat-raised-button color="accent">Ver detalles</button>
-                        </mat-card-actions>
-                    </div>
+    <ng-container *ngFor="let pet of pets">
+        <mat-card class="card">
+            <div class="container">
+                <div class="column1b">
+                    <img [src]="pet.imageP" alt="Imagen Producto" class="scaled-imagePet">
                 </div>
-
-            </mat-card>
-            
-            
-            <mat-card class="card">
-                <div class="container">
-                    <div class="column1b">
-
-                        <img src="assets/images/vet.png" alt="Imagen Producto" class="scaled-imagePet">
-
-                    </div>
-                    <div class="column2b">
-                        <mat-card-header>
-                            <h3>Nombre de la mascota</h3>
-                        </mat-card-header>
-                        <p>Edad : 2 años</p>
-                        <p>Raza : Pastor Aleman</p>
-                        <p>Sexo : Macho</p>
-                        <mat-card-actions>
-                            <button mat-raised-button color="accent">Ver detalles</button>
-                        </mat-card-actions>
-                    </div>
+                <div class="column2b">
+                    <mat-card-header>
+                        <h3>{{ pet.details.name }}</h3>
+                    </mat-card-header>
+                    <p>Edad: {{ pet.details.age }} años</p>
+                    <p>Raza: {{ pet.specie }}</p>
+                    <p>Sexo: {{ pet.details.gender }}</p>
+                    <mat-card-actions>
+                        <button mat-raised-button color="accent">Ver detalles</button>
+                    </mat-card-actions>
                 </div>
-
-            </mat-card>
-            
-
+            </div>
         </mat-card>
-    </div>
+    </ng-container>
 </div>

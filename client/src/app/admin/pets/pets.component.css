@@ -36,4 +36,9 @@ mat-form-field{
 .search-input{
     width: 300px;
 }
+
+.scaled-image{
+  width: auto;
+  height: 120px;
+}
    
