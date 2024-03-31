@@ -184,6 +184,18 @@ async function entryMedications(req,res){
         ? res.status(400).json({error:"El ID del Medicamento  proporcionada es inválido"})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
+    
+    
+    
+}
+
+async function getEntryMedications(req,res){
+    try {
+        let entries = await MedicalEntry.find({}).populate('medicine', 'medication');
+        return res.status(200).json({entries});
+    } catch (error) {
+        return res.status(500).json({error:`Error Encontrado: ${error.message}`});
+    }
 }
 
 module.exports = {
@@ -192,5 +204,6 @@ module.exports = {
     getMedicines,
     updateMedicine,
     registerMedicine,
-    entryMedications
+    entryMedications,
+    getEntryMedications
 }

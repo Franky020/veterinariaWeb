@@ -14,14 +14,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ProductEntriesService } from '../../services/product-entries.service';
 
-interface Category{
-  value: string;
-  viewValue: string;
+interface Product {
+  _id: string;
+  product: string;
 }
-interface Specie{
-  value: string;
-  viewValue: string;
-}
+
 @Component({
   selector: 'app-entries-products',
   standalone: true,
@@ -30,72 +27,50 @@ interface Specie{
   styleUrl: './entries-products.component.css'
 })
 export class EntriesProductsComponent {
-  displayedColumns: string[] = ['id','product','description','price','quantity','category', 'specie','image','image2'];
+  displayedColumns: string[] = ['id','product','price','quantity','total', 'date'];
   dataSource: any;
   editData: any;
+
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
   isadd=false;
   isedit=false;
 
-  products: any;
+ 
+  entries: any;
 
-  product = {
+  entry= {
     id: 0,
-    product:'',
-    description: '',
+    product:0,
     price: 0,
-    quantity: '',
-    category:'',
-    specie: '',
-    image: '',
-    image2: ''
-  }
-  image : any;
-  image2: any;
+    quantity: ''
 
-  //select components
-  categories: Category[] = [
-    {value: 'Alimento', viewValue: 'Alimento'},
-    {value: 'Higiene', viewValue: 'Higiene'},
-    {value: 'Ropa', viewValue: 'Ropa'},
-    {value: 'Accesorios', viewValue: 'Accesorios'},
-    {value: 'Juguetes', viewValue: 'Juguetes'},
-    {value: 'Salud', viewValue: 'Salud'}
-  ]; 
-  species: Specie[] = [
-    {value: 'Felines', viewValue: 'Gatos'},
-    {value: 'Canines', viewValue: 'Perros'},
-    {value: 'Rodents', viewValue:'Roedores'},
-    {value: 'Birds', viewValue: 'Aves'}             
-  ];
+  }
+ 
+
+ products: Product[]= [];
 
   constructor(private servicioProdEnt: ProductEntriesService, private builder: FormBuilder){}
 
   ngOnInit(): void{
-    this.get_products();
+    this.get_entries();
+    this.getProducts();
   }
 
-  get_products(){
+  get_entries(){
     this.servicioProdEnt.getProductEntries().subscribe(res=>{
-      debugger;
-      this.products = res;
-      this.dataSource = new MatTableDataSource(this.products);
+      console.log(res);
+      this.entries= res;
+      this.dataSource = new MatTableDataSource(this.entries.entries);
       this.dataSource.paginator = this.paginator;
     });
   }
 
-  productsForm = this.builder.group({
+  entriesForm = this.builder.group({
     id: this.builder.control({ value: 0, disabled: true }),
     product: this.builder.control('', Validators.required),
-    description: this.builder.control('', Validators.required),
     price: this.builder.control('', Validators.required),
-    quantity: this.builder.control('', Validators.required),
-    category: this.builder.control('', Validators.required),
-    specie: this.builder.control('', Validators.required),
-    image: this.builder.control(''),
-    image2: this.builder.control(''),
-
+    quantity: this.builder.control('', Validators.required)
   });
 
   addProduct(){
@@ -104,7 +79,29 @@ export class EntriesProductsComponent {
 
   backtolist(){
     this.isadd=false;
-    this.get_products();
+    this.get_entries();
   }
+
+  saveEntry(){
+    debugger;
+    this.servicioProdEnt.addProductEntry(
+      this.entry.product,
+      this.entry.price,
+      this.entry.quantity
+    ).subscribe(res=>{
+      this.get_entries();
+      this.isadd=false;
+      alert('Entrada agregada');
+    },
+    err=>{
+      alert('Error al agregar la entrada');
+
+  });
+}
+getProducts(){
+  this.servicioProdEnt.getProducts().subscribe(res=>{
+    this.products = res.products;
+  });
+}
 
 }

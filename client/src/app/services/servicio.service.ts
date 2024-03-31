@@ -15,6 +15,10 @@ export class ServicioService {
     return this.http.get<any>(this.url);
   }
 
+  getServicesById(id: number){
+    return this.http.get<any>(`${this.url}/${id}`);
+  }
+
   addService(
     service: string,
     description: string,
@@ -22,12 +26,54 @@ export class ServicioService {
     felino: {P: number, M: number, G: number},
     canino: {P: number, M: number, G: number}
   ){
-    const fd = new FormData();
-    fd.append('service', service);
-    fd.append('description', description);
-    fd.append('category', category);
-    fd.append('felino', JSON.stringify(felino));
-    fd.append('canino', JSON.stringify(canino));
-    return this.http.post<any>(this.url, fd);
+    debugger;
+    const data = {
+      service: service,
+      description: description,
+      category: category,
+      felino: {
+        P: Number(felino.P),
+        M: Number(felino.M),
+        G: Number(felino.G)
+      },
+      canino: {
+        P: Number(canino.P),
+        M: Number(canino.M),
+        G: Number(canino.G)
+      }
+    };
+    return this.http.post<any>(this.url, data);
+  }
+
+  editService(
+    id: number,
+    service: string,
+    description: string,
+    category: string,
+    felino: {P: number, M: number, G: number},
+    canino: {P: number, M: number, G: number},
+    state: string
+  ){
+    const data = {
+      service: service,
+      description: description,
+      category: category,
+      felino: {
+        P: Number(felino.P),
+        M: Number(felino.M),
+        G: Number(felino.G)
+      },
+      canino: {
+        P: Number(canino.P),
+        M: Number(canino.M),
+        G: Number(canino.G)
+      },
+      state: state
+    };
+    return this.http.put<any>(`${this.url}/${id}`, data);
+  }
+
+  deleteService(id: number){
+    return this.http.delete<any>(`${this.url}/${id}`);
   }
 }
