@@ -12,6 +12,7 @@ import { EmployeesComponent } from '../admin/employees/employees.component';
 import { OwnersComponent } from '../admin/owners/owners.component';
 import { PetsComponent } from '../admin/pets/pets.component';
 import { DetailOwnerComponent } from '../admin/owners/detail-owner/detail-owner.component';
+import { DetailPetComponent } from '../admin/pets/detail-pet/detail-pet.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
       { path:'owners', component: OwnersComponent },
       { path:'pets', component: PetsComponent},
       // { path:'owners/details/:id', component: DetailOwnerComponent}
-      { path:'owners/details', component: DetailOwnerComponent}
+      { path:'owners/details', component: DetailOwnerComponent},
+      { path:'pets/details', component: DetailPetComponent}
 
     ]
   }

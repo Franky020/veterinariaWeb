@@ -1,0 +1,15 @@
+/* .pill{
+    background-color: aliceblue;
+} */
+
+/* .bg-h{
+    background-color: #e6f1f9;
+} */
+
+::ng-deep div #mat-tab-label-0-1{
+    background-color: #e6f1f9;
+}
+
+::ng-deep div #mat-tab-label-0-2{
+    background-color: #dbf3f6;
+}

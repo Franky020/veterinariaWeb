@@ -88,7 +88,6 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
     router.delete('/medication/:id',auntentifica,medC.deleteMedicine);
     //entry-medication
     router.post('/medication/entry/:id',auntentifica,uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
-    router.post('/medication/entry/:id',uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
     router.get('/medication-entries',medC.getEntryMedications);
 
 

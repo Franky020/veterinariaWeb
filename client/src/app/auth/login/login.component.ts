@@ -1,18 +1,51 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 //material elements
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { HomeLayoutComponent } from '../../layout/home-layout/home-layout.component';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, RouterModule,  HomeLayoutComponent],
+  imports: [MatCardModule, MatFormFieldModule, RouterModule,  HomeLayoutComponent, MatButtonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  usuario={
+    email:'',
+    password:''
+  }
 
+  constructor(private servicioLogin: LoginService, private router: Router) { }
+
+  login() {
+    debugger;
+    this.servicioLogin.login(this.usuario).subscribe(
+      res => {
+        //console.log(res);
+        this.servicioLogin.getEmployee(res.user._id).subscribe(
+          res2 => {
+            //console.log(res2);
+            localStorage.setItem('jwtoken', res2.dataEmp.jwtoken);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        
+        this.router.navigate(['/admin']);
+
+      },
+      error => {
+        console.log(error);
+      }
+      
+    );
+    
+  }
 }

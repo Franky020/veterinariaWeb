@@ -1,0 +1,120 @@
+<h1 class="mat-h1">DETALLES &nbsp;DE&nbsp; MASCOTA</h1>
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="path_to_pet_image.jpg" alt="Pet Image">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Pet Name</h5>
+                <p class="card-text">Pet Description</p>
+                <p class="card-text">Pet Age</p>
+                <p class="card-text">Pet Breed</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title
+        ">Historial Médico</h1>
+    
+    <mat-tab-group class="pill">
+        <mat-tab label="Consultas" class="label-pill"> 
+            <br>
+                <table mat-table [dataSource]="dataSource" class="main-table">
+
+                    <!-- Id Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                    </ng-container>
+
+                    <!-- Name name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <!-- lastName Column -->
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                    </ng-container>
+
+                    <!-- Phone Column -->
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                    </ng-container>
+
+
+                    <!-- Address Column -->
+                    <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef> Dirección </th>
+                        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                    </ng-container>
+
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Correo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+
+
+                    <!-- Imagen 1 Column -->
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef> Imagen  </th>
+                        <td mat-cell *matCellDef="let element"> <img [src]="element.image" alt="Imagen "
+                                class="scaled-image">
+                        </td>
+                    </ng-container>
+
+
+                   
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-h"></tr>
+                    <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+                </table>
+
+        </mat-tab>
+        <mat-tab label="Second"> Vacunas 
+            <table mat-table [dataSource]="dataSource2" class="main-table">
+
+                <!-- Vaccine Name Column -->
+                <ng-container matColumnDef="vaccineName">
+                    <th mat-header-cell *matHeaderCellDef> Vaccine Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.vaccineName}} </td>
+                </ng-container>
+
+                <!-- Date Administered Column -->
+                <ng-container matColumnDef="dateAdministered">
+                    <th mat-header-cell *matHeaderCellDef> Date Administered </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dateAdministered}} </td>
+                </ng-container>
+
+                <!-- Veterinarian Column -->
+                <ng-container matColumnDef="veterinarian">
+                    <th mat-header-cell *matHeaderCellDef> Veterinarian </th>
+                    <td mat-cell *matCellDef="let element"> {{element.veterinarian}} </td>
+                </ng-container>
+
+                <!-- Notes Column -->
+                <ng-container matColumnDef="notes">
+                    <th mat-header-cell *matHeaderCellDef> Notes </th>
+                    <td mat-cell *matCellDef="let element"> {{element.notes}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                <tr mat-row *matRowDef="let row; columns:displayedColumns2"></tr>
+            </table>
+        </mat-tab>
+
+        <mat-tab label="Third"> De </mat-tab>
+      </mat-tab-group>
+</div>
+

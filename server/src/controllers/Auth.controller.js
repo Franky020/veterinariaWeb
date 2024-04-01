@@ -20,7 +20,7 @@ async function login(req,res){
             return res.status(401).json({message: "Credenciales Incorrectas"});
         }
         const {_id,rol} = usuario;
-
+        
         return res.status(200).json({user:{_id,rol,email}});
     } catch (error) {
         return res.status(500).json({error: `Error Encontrado: ${error.message}`});
