@@ -10,6 +10,13 @@ const storageEmployee = multer.diskStorage({
     }
 });
 
+const storagePots = multer.diskStorage({
+    destination: path.join(__dirname, '../public/uploads/post'),
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+
 const storageOwner = multer.diskStorage({
     destination: path.join(__dirname, '../public/uploads/owner'),
     filename: (req, file, cb) => {
@@ -42,6 +49,34 @@ const storageMedical = multer.diskStorage({
 // Configura Multer con la función de filtrado y la configuración de almacenamiento
 const uploadEmployee = multer({
     storage: storageEmployee,
+    fileFilter: (req, file, cb) => {
+        // Verifica si se proporcionó un archivo
+        if (!file) {
+            // Si no se proporcionó un archivo, permite la carga sin problemas
+            cb(null, true);
+        } else {
+            // Si se proporcionó un archivo, verifica su extensión
+            try {
+                const filetypes = /jpeg|jpg|png/;
+                const mimetype = filetypes.test(file.mimetype);
+                const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+                if (mimetype && extname) {
+                    // Si el archivo tiene una extensión válida, permite la carga
+                    cb(null, true);
+                } else {
+                    // Si el archivo tiene una extensión no válida, rechaza la carga
+                    throw new Error('Error: Archivo no válido');
+                }
+            } catch (error) {
+                // Captura cualquier error y llama a la función de devolución de llamada con el error
+                cb(error);
+            }
+        }
+    }
+});
+
+const uploadPost = multer({
+    storage: storagePots,
     fileFilter: (req, file, cb) => {
         // Verifica si se proporcionó un archivo
         if (!file) {
@@ -180,4 +215,4 @@ const uploadMedical = multer({
     }
 });
 // Exporta el middleware de carga de archivos configurado
-module.exports = {uploadEmployee, uploadOwner, uploadPet,uploadProduct,uploadMedical};
+module.exports = {uploadEmployee, uploadOwner, uploadPet,uploadProduct,uploadMedical,uploadPost};
