@@ -31,7 +31,7 @@
                     <p>Raza: {{ pet.specie }}</p>
                     <p>Sexo: {{ pet.details.gender }}</p>
                     <mat-card-actions>
-                        <button mat-raised-button color="accent">Ver detalles</button>
+                        <button mat-raised-button color="accent" (click)="detailsPet(pet._id)">Ver detalles</button>
                     </mat-card-actions>
                 </div>
             </div>

@@ -11,10 +11,10 @@
         <a mat-list-item class="list-format" routerLink="/admin">      <mat-icon matListItemIcon>home</mat-icon>
           Inicio</a>
        
-        <a mat-list-item routerLink=""><mat-icon matListItemIcon>shopping_cart</mat-icon>Cobros</a>
+        <a mat-list-item routerLink="/admin/consultations"><mat-icon matListItemIcon>shopping_cart</mat-icon>Cobros</a>
         <br>
         <div mat-subheader class="subheader">Veterinaria</div>
-        <a mat-list-item routerLink=""><mat-icon matListItemIcon>local_hospital</mat-icon>Consultas</a>
+        <a mat-list-item routerLink="/admin/consultations"><mat-icon matListItemIcon>local_hospital</mat-icon>Consultas</a>
         <a mat-list-item routerLink="/admin/pets"><mat-icon matListItemIcon>pets</mat-icon>Mascotas</a>
         <a mat-list-item routerLink="/admin/owners"><mat-icon matListItemIcon>pets</mat-icon>Dueños</a>
 
@@ -35,7 +35,7 @@
         <br>
         <a mat-list-item routerLink="/admin/employees"><mat-icon matListItemIcon>person_outline</mat-icon>Empleados</a>
         <br>
-        <a mat-list-item routerLink=""><mat-icon matListItemIcon>logout</mat-icon>Salir</a>
+        <a mat-list-item (click)="cerrarsesion()"><mat-icon matListItemIcon>logout</mat-icon>Salir</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

@@ -86,7 +86,7 @@ async function getConsultForPetId(req,res){
 async function registerConsult(req,res){
     try {
         const {petId,vetId,nameVet,diagnosis,observations,signs,treatment} = req.body;
-
+        console.log(req.body);
         let newConsult = new Consult({
             petId,
             vetId,

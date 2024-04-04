@@ -15,9 +15,14 @@ export class PetService {
     return this.http.get<any>(this.url);
   }
 
+  getPet(id:string){
+    return this.http.get<any>(this.url+'/'+id);
+  }
+
   addPet(
     id: string,
     name: string,
+    breed: string,
     age: number,
     health: string,
     gender: string,
@@ -30,12 +35,46 @@ export class PetService {
     fd.append('id', id);
     fd.append('name', name);
     fd.append('age', age.toString());
+    fd.append('breed', breed);
     fd.append('health', health);
     fd.append('gender', gender);
     fd.append('weight', weight.toString());
     fd.append('specie', specie);
-    fd.append('owner', owner);
-    fd.append('imageP', imageP);
+    fd.append('ownerId', owner);
+    fd.append('image', imageP);
+    debugger;
+
     return this.http.post<any>(this.url, fd);
   }
+
+  editPet(
+    id: string,
+    name: string,
+    breed: string,
+    age: number,
+    health: string,
+    gender: string,
+    weight: number,
+    specie: string,
+    owner: string,
+    imageP: File){
+    const fd = new FormData();
+    fd.append('id', id);
+    fd.append('name', name);
+    fd.append('age', age.toString());
+    fd.append('breed', breed);
+    fd.append('health', health);
+    fd.append('gender',gender);
+    fd.append('weight', weight.toString());
+    fd.append('specie', specie);
+    fd.append('ownerId', owner);
+    fd.append('image', imageP);
+    debugger;
+    return this.http.put<any>(this.url+'/'+id, fd);
+    }
+    
+    deletePet(id:string){
+      return this.http.delete<any>(this.url+'/'+id);
+    }
+
 }

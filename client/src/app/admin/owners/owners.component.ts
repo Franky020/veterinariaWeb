@@ -5,6 +5,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 
 //services
 import { OwnerService } from '../../services/owner.service';
+import { PetService } from '../../services/pet.service';
 
 //material elements
 import { MatCardModule } from '@angular/material/card';
@@ -26,7 +27,12 @@ interface Gender {
   value: string;
   viewValue: string;
 }
+interface Health{
+  value: string;
+  viewValue: string;
 
+
+}
 @Component({
   selector: 'app-owners',
   standalone: true,
@@ -63,6 +69,7 @@ export class OwnersComponent {
     id: '',
     name: '',
     age: 0,
+    breed: '',
     health: '',
     gender: '',
     weight: 0,
@@ -75,19 +82,26 @@ export class OwnersComponent {
 
   //select components
   species: Specie[] = [
-    { value: 'Felines', viewValue: 'Gatos' },
-    { value: 'Canines', viewValue: 'Perros' },
-    { value: 'Rodents', viewValue: 'Roedores' },
-    { value: 'Birds', viewValue: 'Aves' }
+    { value: 'Felino', viewValue: 'Gato' },
+    { value: 'Canino', viewValue: 'Perro' },
+    { value: 'Roedor', viewValue: 'Roedor' },
+    { value: 'Ave', viewValue: 'Ave' }
   ];
 
   genders: Gender[] = [
-    { value: 'Male', viewValue: 'Macho' },
-    { value: 'Female', viewValue: 'Hembra' }
+    { value: 'Macho', viewValue: 'Macho' },
+    { value: 'Hembra', viewValue: 'Hembra' }
+  ];
+
+  healths: Health[] = [
+    { value: 'Bueno', viewValue: 'Bueno' },
+    { value: 'Malo', viewValue: 'Malo' },
+    { value: 'Regular', viewValue: 'Regular' },
+    { value: 'Excelente', viewValue: 'Excelente' }
   ];
 
 
-  constructor(private servicioOwn: OwnerService, private builder: FormBuilder, private router: Router) { }
+  constructor(private servicioOwn: OwnerService, private servicioPet:PetService, private builder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.get_owners();
@@ -175,7 +189,6 @@ export class OwnersComponent {
   }
 
   editOwner() {
-    debugger;
     this.servicioOwn.editOwner(
       this.owner.id,
       this.owner.name,
@@ -217,12 +230,13 @@ export class OwnersComponent {
     id: this.builder.control({ value: 0, disabled: true }),
     name: this.builder.control('', Validators.required),
     age: this.builder.control('', Validators.required),
+    breed: this.builder.control('', Validators.required),
     health: this.builder.control('', Validators.required),
     gender: this.builder.control('', Validators.required),
     weight: this.builder.control('', Validators.required),
     specie: this.builder.control('', Validators.required),
-    owner: this.builder.control({ value: 0, disabled: true }),
-    imageP: this.builder.control(''),
+    owner: this.builder.control(''),
+    imageP: this.builder.control('')
 
   });
 
@@ -232,10 +246,17 @@ export class OwnersComponent {
     
   }
 
+  fotoSeleccionadaP(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.imageP = <File>event.target.files[0];
+    }
+  }
   savePet() {
-    this.servicioOwn.addPet(
+    debugger;
+    this.servicioPet.addPet(
       this.pet.id,
       this.pet.name,
+      this.pet.breed,
       this.pet.age,
       this.pet.health,
       this.pet.gender,

@@ -61,28 +61,28 @@ export class OwnerService {
     return this.http.get<any>(this.urlP+'/'+id);
   }
 
-  addPet(
-    id: string,
-    name: string,
-    age: number,
-    health: string,
-    gender: string,
-    weight: number,
-    specie: string,
-    owner: string,
-    imageP: File
-  ){
-    const fd = new FormData();
-    fd.append('id', id);
-    fd.append('name', name);
-    fd.append('age', age.toString());
-    fd.append('health', health);
-    fd.append('gender', gender);
-    fd.append('weight', weight.toString());
-    fd.append('specie', specie);
-    fd.append('owner', owner);
-    fd.append('imageP', imageP);
-    return this.http.post<any>(this.urlVP, fd);
-  }
+  // addPet(
+  //   id: string,
+  //   name: string,
+  //   age: number,
+  //   health: string,
+  //   gender: string,
+  //   weight: number,
+  //   specie: string,
+  //   owner: string,
+  //   imageP: File
+  // ){
+  //   const fd = new FormData();
+  //   fd.append('id', id);
+  //   fd.append('name', name);
+  //   fd.append('age', age.toString());
+  //   fd.append('health', health);
+  //   fd.append('gender', gender);
+  //   fd.append('weight', weight.toString());
+  //   fd.append('specie', specie);
+  //   fd.append('owner', owner);
+  //   fd.append('imageP', imageP);
+  //   return this.http.post<any>(this.urlVP, fd);
+  // }
 
 }

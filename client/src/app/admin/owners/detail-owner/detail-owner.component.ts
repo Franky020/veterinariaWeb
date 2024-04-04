@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+
 
 //services
 
@@ -12,7 +14,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
 
 @Component({
@@ -52,7 +53,7 @@ export class DetailOwnerComponent {
     owner: '',
     imageP: ''
   }
-  constructor(private activeRoute: ActivatedRoute, private servicioOwn: OwnerService) { }
+  constructor(private activeRoute: ActivatedRoute, private servicioOwn: OwnerService, private router: Router) { }
 
   ngOnInit(): void {
     this.getOwnerData();
@@ -97,6 +98,11 @@ export class DetailOwnerComponent {
     } else {
       console.error('Owner ID is null');
     }
+  }
+
+  detailsPet(id: number) {
+    localStorage.setItem('petId', id.toString());
+    this.router.navigate(['/admin/pets/details']);
   }
 
 }

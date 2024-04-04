@@ -13,6 +13,7 @@ import {MatMenuModule} from '@angular/material/menu';
 
 //components
 import { ServicesComponent } from '../admin/services/services.component';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-navigation',
@@ -29,4 +30,9 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
+    constructor(private servicioLogin: LoginService){}
+
+    cerrarsesion(){
+      this.servicioLogin.cerrarsesion();
+    }
 }

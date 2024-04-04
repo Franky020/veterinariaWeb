@@ -1,0 +1,188 @@
+<h1 class="mat-h1">C O N S U L T A S</h1>
+
+<mat-card class="dashboard-card">
+    <mat-card-header>
+        <mat-card-title>
+        </mat-card-title>
+        <div class="container">
+            <div class="c-item">
+                <!-- <button mat-raised-button class="add-btn" (click)="addProduct()">Agregar nuevo (+)</button> -->
+            </div>
+            <div class="c-item">
+                <div class="search-container">
+                    <mat-form-field class="search-input">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput  placeholder="Buscar por mascota">
+                       
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        
+    </mat-card-header>
+    <br>
+    
+    <mat-card-content>
+        <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+                <div></div>
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" class="main-table">
+                         <!-- Id Column -->
+                         <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID</th>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+                        <!-- Id Column -->
+                        <ng-container matColumnDef="petId">
+                            <th mat-header-cell *matHeaderCellDef> Mascota</th>
+                            <td mat-cell *matCellDef="let element"> {{element.petId.details.name}} </td>
+                        </ng-container>   
+                                    
+                        <ng-container matColumnDef="specie">
+                            <th mat-header-cell *matHeaderCellDef> Especie</th>
+                            <td mat-cell *matCellDef="let element"> {{element.petId.specie}} </td>
+                        </ng-container>    
+
+                        <!-- Description Column -->
+                        <ng-container matColumnDef="vetId">
+                            <th mat-header-cell *matHeaderCellDef> Veterinario </th>
+                            <td mat-cell *matCellDef="let element"> {{element.vetId.name}} {{element.vetId.lastName}}</td>
+                        </ng-container>
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="diagnosis">
+                            <th mat-header-cell *matHeaderCellDef> Diagnóstico </th>
+                            <td mat-cell *matCellDef="let element"> {{element.diagnosis}} </td>
+                        </ng-container>
+
+
+                        <!-- Quantity Column -->
+                        <ng-container matColumnDef="observations">
+                            <th mat-header-cell *matHeaderCellDef> Observaciones </th>
+                            <td mat-cell *matCellDef="let element"> {{element.observations}} </td>
+                        </ng-container>
+
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="signs">
+                            <th mat-header-cell *matHeaderCellDef> Signos </th>
+                            <td mat-cell *matCellDef="let element"> {{element.signs}} </td>
+                        </ng-container>
+
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="treatment">
+                            <th mat-header-cell *matHeaderCellDef> Tratamiento </th>
+                            <td mat-cell *matCellDef="let element"> {{element.treatment}} </td>
+                        </ng-container>
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Fecha y hora</th>
+                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                        </ng-container>
+
+                        
+
+                        <!-- Imagen 2 Column -->
+                        <!-- <ng-container matColumnDef="image2">
+                            <th mat-header-cell *matHeaderCellDef> Imagen 2 </th>
+                            <td mat-cell *matCellDef="let element"> <img [src]="element.image2" alt="Imagen 2"
+                                    class="scaled-image">
+                            </td>
+                        </ng-container> -->
+
+                        <!-- Actions -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary" aria-label="Edit" >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-button color="accent" >Ver detalles
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons class="paginator">
+
+                    </mat-paginator>
+
+                </div>
+            </mat-card-content>
+
+        </mat-card>
+
+        <!-- <form [formGroup]="productsForm" *ngIf="isadd || isedit" (ngSubmit)="saveProduct();">
+            <mat-card style="width: 90%;" class="dashboard-card">
+                <mat-card-header>
+                    <h2 *ngIf="isadd">Agregar producto</h2>
+                    <h2 *ngIf="!isadd">Editar producto</h2>
+                </mat-card-header>
+
+                <input class="invisible" matInput placeholder="Nombre de la categoria" formControlName="id"
+                    [(ngModel)]="product.id">
+                <mat-card-content>
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Producto</mat-label>
+                        <input matInput placeholder="Nombre del producto" formControlName="product"
+                            [(ngModel)]="product.product">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Descripcion</mat-label>
+                        <input matInput placeholder="Descripcion" formControlName="description"
+                            [(ngModel)]="product.description">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Precio</mat-label>
+                        <input matInput placeholder="Precio" formControlName="price" [(ngModel)]="product.price">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Cantidad</mat-label>
+                        <input matInput placeholder="Cantidad" formControlName="quantity"
+                            [(ngModel)]="product.quantity">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Categoría</mat-label>
+                        <mat-select matNativeControl formControlName="category" [(ngModel)]="product.category">
+                            <mat-option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Especie</mat-label>
+                        <mat-select matNativeControl formControlName="specie" [(ngModel)]="product.specie">
+                            <mat-option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div>
+                        <mat-label>Imagen </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen "
+                            formControlName="image"  (change)="fotoSeleccionada1($event)">
+
+                        <img *ngIf="!isadd" [src]="product.image" alt="Imagen Producto" class="scaled-image">
+
+                    </div>
+
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form> -->
+
+
+    </mat-card-content>
+</mat-card>

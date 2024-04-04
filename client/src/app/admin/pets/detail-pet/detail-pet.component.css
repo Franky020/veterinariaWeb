@@ -13,3 +13,16 @@
 ::ng-deep div #mat-tab-label-0-2{
     background-color: #dbf3f6;
 }
+
+::ng-deep div #mat-tab-label-0-0{
+    background-color: #e4e7f4;
+}
+
+.scaled-image {
+    width: 30%;
+    height: auto;
+}
+.scaled-imagePet {
+    width: 45%;
+    height: auto;
+}

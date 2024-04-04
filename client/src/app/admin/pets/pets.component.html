@@ -1,13 +1,13 @@
 <h1 class="mat-h1">M A S C O T A S</h1>
 
 <mat-card class="dashboard-card">
-    <mat-card-header *ngIf="!isadd && !isedit">
+    <mat-card-header *ngIf="!isconsult && !isedit">
         <mat-card-title>
         </mat-card-title>
         <div class="container">
             <div class="c-item">
-                <p>Para agregar una nueva mascota es necesario agregar un dueño nuevo o asociarla a uno existente.</p>
-                <button mat-raised-button class="add-btn" routerLink="/admin/owners">Agregar mascota</button>
+                <!-- <p>Para agregar una nueva mascota es necesario agregar un dueño nuevo o asociarla a uno existente.</p>
+                <button mat-raised-button class="add-btn" routerLink="/admin/owners">Agregar mascota</button> -->
             </div>
             <div class="c-item">
                 <div class="search-container">
@@ -18,21 +18,29 @@
                 </div>
             </div>
         </div>
-        
+
     </mat-card-header>
     <br>
-    
+
     <mat-card-content>
-        <mat-card class="dashboard-card" *ngIf="!isadd && !isedit">
+        <mat-card class="dashboard-card" *ngIf="!isconsult && !isedit">
             <mat-card-content class="dashboard-card-content">
                 <div></div>
                 <div class="mat-elevation-z8">
                     <table mat-table [dataSource]="dataSource" class="main-table">
-
+                        <ng-container matColumnDef="consult">
+                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-raised-button color="primary" aria-label="Consulta"
+                                    (click)="show_consultForm(element._id)">
+                                    Nueva Consulta
+                                </button>
+                            </td>
+                        </ng-container>
                         <!-- Id Column -->
                         <ng-container matColumnDef="id">
                             <th mat-header-cell *matHeaderCellDef> ID </th>
-                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
                         </ng-container>
 
                         <!-- Name name Column -->
@@ -44,7 +52,7 @@
                         <!-- Age Column -->
                         <ng-container matColumnDef="age">
                             <th mat-header-cell *matHeaderCellDef> Edad </th>
-                            <td mat-cell *matCellDef="let element"> {{element.details.age}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.age}} años </td>
                         </ng-container>
 
                         <!-- Health Column -->
@@ -64,7 +72,7 @@
                         <!-- weight Column -->
                         <ng-container matColumnDef="weight">
                             <th mat-header-cell *matHeaderCellDef> Peso </th>
-                            <td mat-cell *matCellDef="let element"> {{element.details.weight}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.details.weight}} kg </td>
                         </ng-container>
 
 
@@ -74,16 +82,17 @@
                             <td mat-cell *matCellDef="let element"> {{element.specie}} </td>
                         </ng-container>
 
-                           <!-- Owner Column -->
-                           <ng-container matColumnDef="owner">
+                        <!-- Owner Column -->
+                        <ng-container matColumnDef="owner">
                             <th mat-header-cell *matHeaderCellDef> Dueño </th>
-                            <td mat-cell *matCellDef="let element"> {{element.owner.name}} {{element.owner.lastName}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.owner.name}} {{element.owner.lastName}}
+                            </td>
                         </ng-container>
 
 
                         <!-- Imagen 1 Column -->
                         <ng-container matColumnDef="image">
-                            <th mat-header-cell *matHeaderCellDef> Imagen  </th>
+                            <th mat-header-cell *matHeaderCellDef> Imagen </th>
                             <td mat-cell *matCellDef="let element"> <img [src]="element.details.image" alt="Imagen"
                                     class="scaled-image">
                             </td>
@@ -94,10 +103,18 @@
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Acciones</th>
                             <td mat-cell *matCellDef="let element">
-                                <button mat-button color="primary" aria-label="Edit">
-                                  Ver detalles
+                                <button mat-raised-button color="accent" aria-label="Edit"
+                                    (click)="detailsPet(element._id)">
+                                    Ver detalles
                                 </button>
-                                <button mat-button color="warn">Ver dueño
+                                <!-- <button mat-button color="warn">Ver dueño
+                                </button> -->
+                                <button mat-icon-button color="primary" aria-label="Edit"
+                                    (click)="showPetForm(element._id)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deletePet(element._id)"
+                                    aria-label="Delete"><mat-icon>delete</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
@@ -114,81 +131,204 @@
 
         </mat-card>
 
-        <!-- <form [formGroup]="productsForm" *ngIf="isadd || isedit ">
+        <!-- Formulario de mascotas -->
+        <form [formGroup]="petsForm" *ngIf="isedit" (ngSubmit)="editPet()">
             <mat-card style="width: 90%;" class="dashboard-card">
                 <mat-card-header>
-                    <h2 *ngIf="isadd">Agregar producto</h2>
-                    <h2 *ngIf="!isadd">Editar producto</h2>
+                    <h1 *ngIf="isedit">Editar Mascota</h1>
+
                 </mat-card-header>
 
-                <input class="invisible" matInput placeholder="Nombre de la categoria" formControlName="id"
-                    [(ngModel)]="product.id">
+                <input class="invisible" matInput formControlName="id" [(ngModel)]="pet.id">
+
+
+                <!-- <h2>{{owner.id}}</h2> -->
                 <mat-card-content>
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Producto</mat-label>
-                        <input matInput placeholder="Nombre del producto" formControlName="product"
-                            [(ngModel)]="product.product">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="Nombre de la mascota" formControlName="name"
+                            [(ngModel)]="pet.name">
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Descripcion</mat-label>
-                        <input matInput placeholder="Descripcion" formControlName="description"
-                            [(ngModel)]="product.description">
+                        <mat-label>Edad</mat-label>
+                        <input matInput placeholder="Edad en años" formControlName="age" [(ngModel)]="pet.age">
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Precio</mat-label>
-                        <input matInput placeholder="Precio" formControlName="price" [(ngModel)]="product.price">
+                        <mat-label>Raza</mat-label>
+                        <input matInput placeholder="Raza" formControlName="breed" [(ngModel)]="pet.breed">
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Cantidad</mat-label>
-                        <input matInput placeholder="Cantidad" formControlName="quantity"
-                            [(ngModel)]="product.quantity">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Categoría</mat-label>
-                        <select matNativeControl formControlName="category" [(ngModel)]="product.category">
-                            <option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
-                            </option>
+                        <mat-label>Salud</mat-label>
+                        <!-- <input matInput placeholder="health" formControlName="health" [(ngModel)]="pet.health"> -->
+                        <select matNativeControl formControlName="health" [(ngModel)]="pet.health">
+                            <option *ngFor="let health of healths" [value]="health.value">{{health.viewValue}}</option>
                         </select>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Genero</mat-label>
+                        <select matNativeControl formControlName="gender" [(ngModel)]="pet.gender">
+                            <option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Peso</mat-label>
+                        <input matInput formControlName="weight" [(ngModel)]="pet.weight" placeholder="Peso en kg">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Especie</mat-label>
-                        <select matNativeControl formControlName="specie" [(ngModel)]="product.specie">
+                        <select matNativeControl formControlName="specie" [(ngModel)]="pet.specie">
                             <option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</option>
                         </select>
                     </mat-form-field>
 
                     <div>
                         <mat-label>Imagen </mat-label>
-                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 1"
-                            formControlName="image">
+                        <input type="file" accept="image/png, image/gif, image/jpeg" formControlName="image"
+                            (change)="fotoSeleccionadaP($event)">
 
-                        <img *ngIf="!isadd" [src]="product.image" alt="Imagen Producto" class="scaled-image">
-
-                    </div>
-
-                    <div>
-                        <mat-label>Imagen 2 </mat-label>
-                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 2"
-                            formControlName="image2">
-
-                        <img *ngIf="!isadd" [src]="product.image2" alt="Imagen Producto" class="scaled-image">
-
+                        <img *ngIf="!isadd" [src]="pet.image" alt="Imagen Producto" class="scaled-image">
                     </div>
 
 
+
+                    <input class="invisible" matInput formControlName="owner" [(ngModel)]="pet.owner">
 
                 </mat-card-content>
+
                 <mat-card-actions>
                     <a mat-raised-button (click)="backtolist()">Cancelar</a>
                     <button mat-raised-button color="primary" type="submit">Guardar</button>
                 </mat-card-actions>
             </mat-card>
-        </form> -->
+        </form>
+
+
+
+        <mat-card class="dashboard-card" *ngIf="isconsult">
+
+            <!-- Formulario de consulta -->
+            <form [formGroup]="consultForm" (ngSubmit)="saveConsult()">
+                <mat-card-header>
+                    <h1 *ngIf="isconsult">Nueva Consulta</h1>
+
+                </mat-card-header>
+
+                <!-- Pet id -->
+                <input class="invisible" matInput formControlName="petId" [(ngModel)]="pet.id">
+
+                <!-- <h2>{{owner.id}}</h2> -->
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2>Mascota: {{pet.name}}</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>Dueño: {{pet.ownerName}} {{pet.ownerLastName}}</h3>
+                        </div>
+                        <div class="col-md-4">
+
+                            <h3>Veterinario: {{consult.nameVet}} {{consult.lastNameVet}}</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Diagnóstico</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Diagnostico"
+                                    formControlName="diagnosis" [(ngModel)]="consult.diagnosis"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Observaciones</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Observaciones"
+                                    formControlName="observations" [(ngModel)]="consult.observations"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Signos Vitales</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Signos" formControlName="signs"
+                                    [(ngModel)]="consult.signs"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="row">
+                        
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Tratamiento</mat-label>
+                                <textarea matInput type="area" rows="3" placeholder="Tratamiento"
+                                    formControlName="treatment" [(ngModel)]="consult.treatment"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- vet id -->
+                    <input class="invisible" matInput formControlName="vetId" [(ngModel)]="consult.vetId">
+
+
+
+                </mat-card-content>
+
+                <mat-card-actions class="center-buttons">
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </form>
+                <br>
+                <mat-accordion>
+                    <mat-expansion-panel class="example-headers-align" >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h3>Historial Médico</h3>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Agregar datos al historial médico de la mascota
+                                <mat-icon>pets</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <form [formGroup]="historyForm" (ngSubmit)="saveHistory()">
+                            
+                        <mat-form-field>
+                            <mat-label>Descripción</mat-label>
+                            <input matInput formControlName="description" [(ngModel)]="history.description"
+                                placeholder="" class="invalid-input">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Categoría</mat-label>
+                            <mat-select matNativeControl formControlName="category" [(ngModel)]="history.category">
+                                <mat-option *ngFor="let category of categories"
+                                    [value]="category.value">{{category.viewValue}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                            <button mat-raised-button color="primary" type="submit">Guardar </button>
+                            <input class="invisible" matInput formControlName="petId" [(ngModel)]="pet.id">
+                               <!-- vet id -->
+                            <input class="invisible" matInput formControlName="vetId" [(ngModel)]="consult.vetId">
+                        </form>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <br><br>
+
+            
+        </mat-card>
+
 
 
     </mat-card-content>

@@ -103,14 +103,14 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
     router.get('/consult/:id',auntentifica,consultC.getIdConsult);
     router.post('/consult',auntentifica,consultC.registerConsult);
     router.put('/consult/:id',auntentifica,consultC.editConsult);
-
+    router.get('/consult/pet/:id', auntentifica, consultC.getConsultForPetId);
     //------------------------------------------Medical History
     router.get('/medical_history',auntentifica,medHC.getMedicalHostories);
     router.get('/medical_history/:id',auntentifica,medHC.getIdHistory);
     router.post('/medical_history',auntentifica,validateSchema(registerMHSchema),medHC.registerHistory);
     router.put('/medical_history/:id',auntentifica,validateSchema(updateMHSchema),medHC.editHistory);
     router.delete('/medical_history/:id',auntentifica,medHC.deleteHistory);
-
+    router.get('/medical_history/pet/:id', auntentifica, medHC.getMedicalH_PetId);
     //-------------------------------------------Sales
     router.get('/sale',auntentifica,saleC.getSales);
     router.get('/sale/:id',auntentifica,saleC.getIdSale);

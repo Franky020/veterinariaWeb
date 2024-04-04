@@ -27,11 +27,15 @@ export class LoginComponent {
     debugger;
     this.servicioLogin.login(this.usuario).subscribe(
       res => {
-        //console.log(res);
+        console.log(res);
         this.servicioLogin.getEmployee(res.user._id).subscribe(
           res2 => {
-            //console.log(res2);
+            console.log(res2);
             localStorage.setItem('jwtoken', res2.dataEmp.jwtoken);
+            localStorage.setItem('idVet', res2.dataEmp._id);
+            localStorage.setItem('nameVet', res2.dataEmp.name);
+            localStorage.setItem('vetLastName', res2.dataEmp.lastName);
+            console.log(res2.dataEmp._id);
           },
           error => {
             console.log(error);
