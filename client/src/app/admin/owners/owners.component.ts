@@ -15,6 +15,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import {MatChipsModule} from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+
+
 
 
 
@@ -36,7 +42,7 @@ interface Health{
 @Component({
   selector: 'app-owners',
   standalone: true,
-  imports: [MatCardModule, MatPaginatorModule, MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, RouterModule],
+  imports: [MatCardModule, MatPaginatorModule, MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, RouterModule, MatChipsModule, MatDividerModule, MatButtonToggleModule,MatSortModule],
   templateUrl: './owners.component.html',
   styleUrl: './owners.component.css'
 })
@@ -45,6 +51,8 @@ export class OwnersComponent {
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatSort) sort = new MatSort();
+
 
   isadd = false;
   isedit = false;
@@ -105,7 +113,18 @@ export class OwnersComponent {
 
   ngOnInit(): void {
     this.get_owners();
+    this.dataSource.sort = this.sort;
+
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
 
   get_owners() {
     //get owners from the api

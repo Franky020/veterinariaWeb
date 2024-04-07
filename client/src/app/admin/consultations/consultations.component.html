@@ -11,8 +11,9 @@
             <div class="c-item">
                 <div class="search-container">
                     <mat-form-field class="search-input">
+                        <mat-label>Buscar</mat-label>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input matInput  placeholder="Buscar por mascota">
+                        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
                        
                     </mat-form-field>
                 </div>
@@ -31,23 +32,23 @@
                          <!-- Id Column -->
                          <ng-container matColumnDef="id">
                             <th mat-header-cell *matHeaderCellDef> ID</th>
-                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.petId}} </td>
                         </ng-container>
                         <!-- Id Column -->
                         <ng-container matColumnDef="petId">
                             <th mat-header-cell *matHeaderCellDef> Mascota</th>
-                            <td mat-cell *matCellDef="let element"> {{element.petId.details.name}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.petName}} </td>
                         </ng-container>   
                                     
                         <ng-container matColumnDef="specie">
                             <th mat-header-cell *matHeaderCellDef> Especie</th>
-                            <td mat-cell *matCellDef="let element"> {{element.petId.specie}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.specie}} </td>
                         </ng-container>    
 
                         <!-- Description Column -->
                         <ng-container matColumnDef="vetId">
                             <th mat-header-cell *matHeaderCellDef> Veterinario </th>
-                            <td mat-cell *matCellDef="let element"> {{element.vetId.name}} {{element.vetId.lastName}}</td>
+                            <td mat-cell *matCellDef="let element"> {{element.vetName}} {{element.vetlastname}}</td>
                         </ng-container>
 
                         <!-- Price Column -->
@@ -94,7 +95,7 @@
                         </ng-container> -->
 
                         <!-- Actions -->
-                        <ng-container matColumnDef="action">
+                        <!-- <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Acciones</th>
                             <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button color="primary" aria-label="Edit" >
@@ -103,7 +104,7 @@
                                 <button mat-button color="accent" >Ver detalles
                                 </button>
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>

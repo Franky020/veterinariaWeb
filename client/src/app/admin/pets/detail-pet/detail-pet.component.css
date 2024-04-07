@@ -6,7 +6,7 @@
     background-color: #e6f1f9;
 } */
 
-::ng-deep div #mat-tab-label-0-1{
+/* ::ng-deep div #mat-tab-label-0-1{
     background-color: #e6f1f9;
 }
 
@@ -16,7 +16,7 @@
 
 ::ng-deep div #mat-tab-label-0-0{
     background-color: #e4e7f4;
-}
+} */
 
 .scaled-image {
     width: 30%;

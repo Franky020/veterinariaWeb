@@ -1,1 +1,146 @@
-<p>posts works!</p>
+<h1 class="mat-h1">A N U N C I O S</h1>
+
+<mat-card class="dashboard-card">
+    <mat-card-header *ngIf="!isadd && !isedit">
+        <mat-card-title>
+        </mat-card-title>
+        <div class="container">
+            <div class="c-item">
+                <button mat-raised-button class="add-btn" (click)="addPost()">Agregar nuevo (+)</button>
+            </div>
+            <div class="c-item">
+                <div class="search-container">
+                    <mat-form-field class="search-input">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput  placeholder="Buscar por producto">
+                       
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        
+    </mat-card-header>
+    <br>
+    
+    <mat-card-content>
+        <mat-card class="dashboard-card" *ngIf="!isadd && !isedit">
+            <mat-card-content class="dashboard-card-content">
+                <div></div>
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" class="main-table">
+
+                        <!-- Id Column -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="title">
+                            <th mat-header-cell *matHeaderCellDef> Título </th>
+                            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                        </ng-container>
+
+
+                        <!-- Description Column -->
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        </ng-container>
+
+
+
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Fecha</th>
+                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                        </ng-container>
+
+
+                        <!-- Imagen 1 Column -->
+                        <ng-container matColumnDef="image">
+                            <th mat-header-cell *matHeaderCellDef> Imagen  </th>
+                            <td mat-cell *matCellDef="let element">   <img [src]="element.image" alt="Imagen" class="scaled-image">
+
+                            </td>
+                        </ng-container>
+
+
+                        <!-- Actions -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary" aria-label="Edit" (click)="showPostEdit(element._id)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deletePost(element._id)" ><mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons class="paginator">
+
+                    </mat-paginator>
+
+                </div>
+            </mat-card-content>
+
+        </mat-card>
+
+        <form [formGroup]="postForm" *ngIf="isadd || isedit" (ngSubmit)="savePost();">
+            <mat-card style="width: 90%;" class="dashboard-card">
+                <mat-card-header>
+                    <h2 *ngIf="isadd">Agregar post</h2>
+                    <h2 *ngIf="!isadd">Editar post</h2>
+                </mat-card-header>
+
+                <input class="invisible" matInput placeholder="Id" formControlName="id"
+                    [(ngModel)]="post.id">
+                <mat-card-content>
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Título</mat-label>
+                        <input matInput placeholder="Título del anuncio" formControlName="title"
+                            [(ngModel)]="post.title">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-fill-width">
+                        <mat-label>Descripcion</mat-label>
+                        <input matInput placeholder="Descripcion" formControlName="description"
+                            [(ngModel)]="post.description">
+                    </mat-form-field>
+
+
+
+                    <div>
+                        <mat-label>Imagen </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen "
+                            formControlName="image"  (change)="fotoSeleccionada1($event)">
+
+                        <img *ngIf="!isadd" [src]="post.image" alt="Imagen Producto" class="scaled-image">
+
+                    </div>
+
+                    <!-- <div>
+                        <mat-label>Imagen 2 </mat-label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen 2"
+                            formControlName="image2">
+
+                        <img *ngIf="!isadd" [src]="product.image2" alt="Imagen Producto" class="scaled-image">
+
+                    </div> -->
+
+
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button (click)="backtolist()">Cancelar</a>
+                    <button mat-raised-button color="primary" type="submit">Guardar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+
+
+    </mat-card-content>
+</mat-card>

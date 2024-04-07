@@ -23,7 +23,7 @@ export class ProductEntriesService {
     quantity: string,
 
   ){
-    debugger;
+    // debugger;
     const data = {
       id: id,
       price: price,

@@ -9,10 +9,10 @@
             <h2>Datos de la Mascota</h2>
 
             <div class="card-body">
-                <h3 class="card-text">Nombre: {{pet.details.name}}</h3>
-                <p class="card-text">Edad: {{pet.details.age}} años</p>
-                <p class="card-text">Género: {{pet.details.gender}}</p>
-                <p class="card-text">Dueño: {{pet.owner.name}}</p>
+                <h3 class="card-text"><span><b>Nombre:</b></span><span> {{pet.details.name}}</span></h3>
+                <p class="card-text"><span><b>Edad:</b></span><span> {{pet.details.age}} años</span></p>
+                <p class="card-text"><span><b>Género: </b></span><span>{{pet.details.gender}}</span></p>
+                <p class="card-text"><span><b>Dueño:</b></span><span> {{pet.owner.name}}</span></p>
                 <button mat-raised-button color="primary" (click)="showOwner(pet.owner._id)">Ver dueño</button>
                 <button mat-raised-button routerLink="/admin/pets">Ir a mascotas</button>    
 
@@ -21,10 +21,10 @@
         </div>
         <div class="col-md-3">
             <br><br><br><h3></h3>
-            <p class="card-text">Especie: {{pet.specie}}</p>
-            <p class="card-text">Raza: {{pet.details.breed}}</p>
-            <p class="card-text">Peso: {{pet.details.weight}} kg</p>
-            <p class="card-text">Salud: {{pet.details.health}}</p>
+            <p class="card-text"><span><b>Especie:</b></span><span> {{pet.specie}}</span></p>
+            <p class="card-text"><span><b>Raza:</b></span><span> {{pet.details.breed}}</span></p>
+            <p class="card-text"><span><b>Peso:</b></span><span>{{pet.details.weight}} kg</span></p>
+            <p class="card-text"><span><b>Salud:</b></span><span> {{pet.details.health}}</span></p>
                
         </div>
     </div>
@@ -91,7 +91,7 @@
                 </mat-paginator>
             </mat-tab>
            
-            <mat-tab label="Vacunas"> Vacunas
+            <mat-tab label="Vacunas"> 
                 <table mat-table [dataSource]="dataSourceVac" class="main-table">
 
                     <!-- Vaccine Name Column -->
@@ -122,7 +122,7 @@
 
             </mat-tab>
 
-            <mat-tab label="Desparacitaciones"> Desparacitaciones 
+            <mat-tab label="Desparacitaciones"> 
                 <table mat-table [dataSource]="dataSourceDes" class="main-table">
 
                     <ng-container matColumnDef="desparacitador">
@@ -148,7 +148,7 @@
 
                 </mat-paginator>
             </mat-tab>
-            <mat-tab label="Medicaciones"> Medicaciones 
+            <mat-tab label="Medicaciones"> 
                 <table mat-table [dataSource]="dataSourceMed" class="main-table">
 
                     <ng-container matColumnDef="medicacion">
@@ -174,7 +174,7 @@
 
                 </mat-paginator>
             </mat-tab>
-            <mat-tab label="Cirugías"> Cirugías 
+            <mat-tab label="Cirugías">
                 <table mat-table [dataSource]="dataSourceCir" class="main-table">
 
                     <ng-container matColumnDef="cirugia">
@@ -201,7 +201,7 @@
                 </mat-paginator>
 
             </mat-tab>
-            <mat-tab label="Exámenes Médicos"> Exámenes Médicos 
+            <mat-tab label="Exámenes Médicos"> 
                 <table mat-table [dataSource]="dataSourceExM" class="main-table">
 
                     <ng-container matColumnDef="examenes">

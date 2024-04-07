@@ -36,3 +36,6 @@ mat-form-field{
 .search-input{
     width: 300px;
 }
+.example-right-align {
+  text-align: right;
+}

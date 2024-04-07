@@ -44,6 +44,7 @@ async function registerPet(req,res){
                 health,
                 gender,
                 weight,
+                image:'http://localhost:3000/foto-prod/default.jpg'
             },
             specie: specie,
             owner: ownerId

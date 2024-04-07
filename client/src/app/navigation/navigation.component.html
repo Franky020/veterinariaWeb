@@ -5,20 +5,27 @@
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
         [opened]="(isHandset$ | async) === false" >
-      <mat-toolbar>Menu</mat-toolbar>
+      <mat-toolbar>
+        <img src="assets/images/logovet.png" alt="Bigotes Pet" class="logo" style="height: 100%;" >
+      </mat-toolbar>
       <mat-nav-list >
         <br><br>
+        @if(servicioLogin.employeeType() != 'receptionist' ){
+
         <a mat-list-item class="list-format" routerLink="/admin">      <mat-icon matListItemIcon>home</mat-icon>
-          Inicio</a>
+          Inicio</a>}
        
-        <a mat-list-item routerLink="/admin/consultations"><mat-icon matListItemIcon>shopping_cart</mat-icon>Cobros</a>
+        <!-- <a mat-list-item routerLink="/admin/consultations"><mat-icon matListItemIcon>shopping_cart</mat-icon>Cobros</a> -->
         <br>
+        @if(servicioLogin.employeeType() != 'receptionist' ){
         <div mat-subheader class="subheader">Veterinaria</div>
         <a mat-list-item routerLink="/admin/consultations"><mat-icon matListItemIcon>local_hospital</mat-icon>Consultas</a>
         <a mat-list-item routerLink="/admin/pets"><mat-icon matListItemIcon>pets</mat-icon>Mascotas</a>
         <a mat-list-item routerLink="/admin/owners"><mat-icon matListItemIcon>pets</mat-icon>Dueños</a>
+        }
 
         <div mat-subheader class="subheader">Gestión</div>
+        
         <a mat-list-item routerLink="/admin/services"><mat-icon matListItemIcon>miscellaneous_services</mat-icon>Servicios</a>
         <a mat-list-item routerLink="/admin/medicines"><mat-icon matListItemIcon>medical_services</mat-icon>Medicinas</a>
         <a mat-list-item routerLink="/admin/products"><mat-icon matListItemIcon>shopping_basket</mat-icon>Productos</a>
@@ -32,8 +39,10 @@
         </a>
 
         <mat-divider></mat-divider>
-        <br>
-        <a mat-list-item routerLink="/admin/employees"><mat-icon matListItemIcon>person_outline</mat-icon>Empleados</a>
+        @if(servicioLogin.employeeType() == 'admin' ){
+
+        <a mat-list-item routerLink="/admin/employees"><mat-icon matListItemIcon>person_outline</mat-icon>Empleados</a>}
+        <a mat-list-item routerLink="/admin/posts"><mat-icon matListItemIcon>photo_library</mat-icon>Anuncios</a>
         <br>
         <a mat-list-item (click)="cerrarsesion()"><mat-icon matListItemIcon>logout</mat-icon>Salir</a>
       </mat-nav-list>
@@ -52,7 +61,12 @@
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
         }
-        <span>Bigotes Pet</span>
+        <div class="container">
+          <span>Bigotes Pet</span>
+          <span class="text-right">{{employeeName}} {{employeeLastName}}           <mat-icon class="icon">account_circle</mat-icon>
+          </span> 
+        </div>
+        
       </mat-toolbar>
       <!-- Add Content Here -->
       <div class="sidenav-content">

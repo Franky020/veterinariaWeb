@@ -18,6 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+
+
 
 
 
@@ -43,7 +46,7 @@ interface Category {
 @Component({
   selector: 'app-pets',
   standalone: true,
-  imports: [MatCardModule, MatPaginatorModule, MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, RouterModule, MatExpansionModule, MatSelectModule],
+  imports: [MatCardModule, MatPaginatorModule, MatPaginator, MatTableModule, MatFormFieldModule, CommonModule, MatButtonModule, MatIconModule, FormsModule, ReactiveFormsModule, MatInputModule, RouterModule, MatExpansionModule, MatSelectModule, MatSortModule],
   templateUrl: './pets.component.html',
   styleUrl: './pets.component.css'
 })
@@ -52,6 +55,8 @@ export class PetsComponent {
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatSort) sort = new MatSort();
+
 
   isadd = false;
   isedit = false;
@@ -126,22 +131,54 @@ export class PetsComponent {
 
   ngOnInit(): void {
     this.get_pets();
+    this.dataSource.sort = this.sort;
+
+  }
+
+  applyFilter(event: Event) {
+    debugger;
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   get_pets() {
     //get pets from the api
     this.servicioPet.getPets().subscribe(res => {
-      console.log(res);
-      this.pets = res;
-      this.dataSource = new MatTableDataSource(this.pets.pets);
+      // console.log(res);
+      debugger;
+      const resPets = res.pets;
+
+      const petsDataSource = resPets.map((pet: any) => {
+        const { _id, details, specie, owner } = pet;
+        return {
+          _id: _id,
+          name: details.name,
+          age: details.age,
+          health: details.health,
+          breed: details.breed,
+          gender: details.gender,
+          weight: details.weight,
+          specie: specie,
+          owner: owner._id,
+          image: details.image,
+          ownerName: owner.name,
+          ownerLastName: owner.lastName
+        };
+      });
+
+      this.dataSource = new MatTableDataSource(petsDataSource);
       this.dataSource.paginator = this.paginator;
     });
     // console.log(localStorage.getItem('idVet'));
 
   }
 
-  detailsPet(id: number) {
-    localStorage.setItem('petId', id.toString());
+  detailsPet(id: string) {
+    debugger;
+    localStorage.setItem('petId', id);
     this.router.navigate(['/admin/pets/details']);
   }
 

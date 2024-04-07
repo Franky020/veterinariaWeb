@@ -22,6 +22,9 @@ export class LoginService {
   getToken(){
     return localStorage.getItem('jwtoken');
   }
+  employeeType(){
+    return localStorage.getItem('employeeType');
+  }
 
   cerrarsesion(){
     localStorage.clear();

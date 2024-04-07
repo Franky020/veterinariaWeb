@@ -35,4 +35,14 @@
   .subheader{
     color:gray;
   }
+
+  .text-right{
+    text-align: right;
+  }
+
+  .container{
+    display: flex;
+    justify-content: space-between;
+  }
+
   

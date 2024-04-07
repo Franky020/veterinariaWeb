@@ -107,7 +107,9 @@
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Precio</mat-label>
-                        <input matInput placeholder="Precio" formControlName="price" [(ngModel)]="entry.price">
+                        <input matInput class="example-right-align" placeholder="Precio" formControlName="price" [(ngModel)]="entry.price">
+                        <span matTextPrefix>$&nbsp;</span>
+                        <span matTextSuffix>.00</span>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">

@@ -31,12 +31,40 @@
     margin-bottom: 1rem;
 }
 
-.marketing{
-    padding-top: 2%;
-    display: flex;
-}
 
-.item-m{
-    padding: 0 2%;
-    text-align: center;
-}
+.container.marketing {
+    max-width: 100%;
+    padding-top: 1%;
+    padding-right: 15px;
+    padding-left: 16%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .row.item-m {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+  
+  .col-lg-4 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+  
+  .bd-placeholder-img {
+    display: inline-block;
+  }
+  
+  .rounded-circle {
+    border-radius: 50%;
+  }
+  
+  .fw-normal {
+    font-weight: normal;
+  }

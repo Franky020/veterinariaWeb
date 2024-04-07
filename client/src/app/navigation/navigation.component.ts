@@ -14,25 +14,33 @@ import {MatMenuModule} from '@angular/material/menu';
 //components
 import { ServicesComponent } from '../admin/services/services.component';
 import { LoginService } from '../services/login.service';
+import { LoginComponent } from '../auth/login/login.component';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [MatSidenavModule, MatToolbarModule, MatIconModule, AsyncPipe, CommonModule, RouterModule, MatListModule, MatMenuModule, ServicesComponent],
+  imports: [MatSidenavModule, MatToolbarModule, MatIconModule, AsyncPipe, CommonModule, RouterModule, MatListModule, MatMenuModule, ServicesComponent, LoginComponent],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css'
 })
-export class NavigationComponent {
+export class NavigationComponent  {
   private breakpointObserver = inject(BreakpointObserver);
+  employeeName: any;
+  employeeLastName: any;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
-    constructor(private servicioLogin: LoginService){}
+    constructor(public servicioLogin: LoginService){}
 
     cerrarsesion(){
       this.servicioLogin.cerrarsesion();
     }
+
+    ngOnInit(): void {
+      this.employeeName = localStorage.getItem('nameVet');
+      this.employeeLastName = localStorage.getItem('vetLastName');
+      }
 }

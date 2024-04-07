@@ -127,15 +127,21 @@
           <div formGroupName="felino">
             <mat-form-field appearance="fill" class="example-fill-width">
               <mat-label>Pequeñas</mat-label>
-              <input matInput placeholder="Mascotas pequeñas" formControlName="P" [(ngModel)]="service.felino.P">
+              <input matInput class="example-right-align" placeholder="Mascotas pequeñas" formControlName="P" [(ngModel)]="service.felino.P">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="example-fill-width">
+            <mat-form-field  appearance="fill" class="example-fill-width">
               <mat-label>Medianas</mat-label>
-              <input matInput placeholder="Mascotas medianas" formControlName="M" [(ngModel)]="service.felino.M">
+              <input matInput class="example-right-align" placeholder="Mascotas medianas" formControlName="M" [(ngModel)]="service.felino.M">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="example-fill-width">
               <mat-label>Grandes</mat-label>
-              <input matInput placeholder="Mascotas grandes" formControlName="G" [(ngModel)]="service.felino.G">
+              <input matInput class="example-right-align" placeholder="Mascotas grandes" formControlName="G" [(ngModel)]="service.felino.G">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
           </div>
           <!-- <mat-form-field appearance="fill" class="example-fill-width">
@@ -161,15 +167,21 @@
           <div formGroupName="canino">
             <mat-form-field appearance="fill" class="example-fill-width">
               <mat-label>Pequeñas</mat-label>
-              <input matInput placeholder="Mascotas pequeñas" formControlName="P" [(ngModel)]="service.canino.P">
+              <input matInput  class="example-right-align" placeholder="Mascotas pequeñas" formControlName="P" [(ngModel)]="service.canino.P">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="example-fill-width">
               <mat-label>Medianas</mat-label>
-              <input matInput placeholder="Mascotas medianas" formControlName="M" [(ngModel)]="service.canino.M">
+              <input matInput class="example-right-align" placeholder="Mascotas medianas" formControlName="M" [(ngModel)]="service.canino.M">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="example-fill-width">
               <mat-label>Grandes</mat-label>
-              <input matInput placeholder="Mascotas grandes" formControlName="G" [(ngModel)]="service.canino.G">
+              <input matInput class="example-right-align" placeholder="Mascotas grandes" formControlName="G" [(ngModel)]="service.canino.G">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
             </mat-form-field>
           </div>
           <!-- <mat-form-field appearance="fill" class="example-fill-width">

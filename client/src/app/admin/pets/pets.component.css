@@ -58,5 +58,7 @@ mat-form-field{
     display: flex;
     justify-content: center;
   }
-
+  .title-bold{
+    font-weight: bold;
+  }
   

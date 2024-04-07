@@ -29,3 +29,8 @@ mat-form-field{
   .gray_text{
     color: gray;
   }
+
+  .example-right-align {
+    text-align: right;
+  }
+  

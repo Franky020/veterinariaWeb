@@ -11,8 +11,9 @@
             <div class="c-item">
                 <div class="search-container">
                     <mat-form-field class="search-input">
+                        <mat-label>Buscar</mat-label>
                         <mat-icon matPrefix>search</mat-icon>
-                        <input matInput placeholder="Search">
+                        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
                     </mat-form-field>
                 </div>
             </div>
@@ -26,7 +27,7 @@
             <mat-card-content class="dashboard-card-content">
                 <div></div>
                 <div class="mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" class="main-table">
+                    <table mat-table [dataSource]="dataSource" class="main-table" >
 
                         <!-- pet button Column -->
                         <ng-container matColumnDef="petBtn">
@@ -47,19 +48,19 @@
 
                         <!-- Name name Column -->
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <th mat-header-cell *matHeaderCellDef > Nombre </th>
                             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                         </ng-container>
 
                         <!-- lastName Column -->
                         <ng-container matColumnDef="lastName">
-                            <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                            <th mat-header-cell *matHeaderCellDef > Apellidos </th>
                             <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
                         </ng-container>
 
                         <!-- Phone Column -->
                         <ng-container matColumnDef="phone">
-                            <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                            <th mat-header-cell *matHeaderCellDef > Teléfono </th>
                             <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
                         </ng-container>
 
@@ -243,6 +244,7 @@
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Edad</mat-label>
                         <input matInput placeholder="Edad en años" formControlName="age" [(ngModel)]="pet.age">
+                        <span matTextSuffix>años</span>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="example-fill-width">
@@ -258,34 +260,48 @@
                         </select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
+                    <!-- <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Genero</mat-label>
                         <select matNativeControl formControlName="gender" [(ngModel)]="pet.gender">
                             <option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</option>
                         </select>
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    
 
                     <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Peso</mat-label>
-                        <input type="weight" matInput formControlName="weight" [(ngModel)]="pet.weight" placeholder="Peso en kg">
-                    </mat-form-field>
+                        <input type="weight" matInput formControlName="weight" [(ngModel)]="pet.weight"
+                            placeholder="Peso en kg">
+                            <span matTextSuffix> kg</span>
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
+                    </mat-form-field>
+                    <h3>Género*</h3>
+                    <mat-button-toggle-group formControlName="gender" [(ngModel)]="pet.gender">
+                        <mat-button-toggle *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</mat-button-toggle>
+                
+                        </mat-button-toggle-group>
+                    <!-- <mat-form-field appearance="fill" class="example-fill-width">
                         <mat-label>Especie</mat-label>
                         <select matNativeControl formControlName="specie" [(ngModel)]="pet.specie">
                             <option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</option>
                         </select>
-                    </mat-form-field>
-
+                    </mat-form-field> -->
+                    <h3>Especie*</h3>
+                    <mat-chip-listbox aria-label="Fish selection" formControlName="specie" [(ngModel)]="pet.specie">
+                        <mat-chip-option *ngFor="let specie of species"
+                            [value]="specie.value">{{specie.viewValue}}</mat-chip-option>
+                    </mat-chip-listbox>
+                    <mat-divider></mat-divider>
+                    <br>
                     <div>
-                        <mat-label>Imagen </mat-label>
+                        <mat-label>Imagen: </mat-label>
                         <input type="file" accept="image/png, image/gif, image/jpeg" formControlName="imageP"
                             (change)="fotoSeleccionadaP($event)">
 
                         <!-- <img *ngIf="!isadd" [src]="pet.imageP" alt="Imagen Producto" class="scaled-image"> -->
                     </div>
 
-                   
+
 
                     <input class="invisible" matInput formControlName="owner" [(ngModel)]="pet.owner">
 

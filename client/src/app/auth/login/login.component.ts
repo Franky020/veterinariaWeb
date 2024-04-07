@@ -30,12 +30,14 @@ export class LoginComponent {
         console.log(res);
         this.servicioLogin.getEmployee(res.user._id).subscribe(
           res2 => {
-            console.log(res2);
+            // console.log(res2);
             localStorage.setItem('jwtoken', res2.dataEmp.jwtoken);
             localStorage.setItem('idVet', res2.dataEmp._id);
             localStorage.setItem('nameVet', res2.dataEmp.name);
+            localStorage.setItem('employeeType', res2.dataEmp.type);
             localStorage.setItem('vetLastName', res2.dataEmp.lastName);
-            console.log(res2.dataEmp._id);
+            // console.log(res2.dataEmp._id);
+            alert('Bienvenido ' + res2.dataEmp.name+ ' ' + res2.dataEmp.lastName);
           },
           error => {
             console.log(error);
@@ -46,6 +48,7 @@ export class LoginComponent {
 
       },
       error => {
+        alert('Usuario o contraseña incorrectos');
         console.log(error);
       }
       
