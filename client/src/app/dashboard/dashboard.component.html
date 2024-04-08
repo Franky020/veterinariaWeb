@@ -1,2 +1,79 @@
-<p>dashboard works!</p>
-
+<div class="p-3 text-center mb-3">
+    <h1 class="text-slate-900 font-light text-2xl">Control y monitoreo</h1>
+  <h1 class="text-slate-900 font-light text-2xl">Dispositivos</h1>
+  </div>
+  <div class="flex flex-wrap p-2">
+    <div class=" md:w-4/6 max-md:w-5/6 w-3/6 mx-auto flex bg-white shadow-lg rounded-lg overflow-hidden mb-4">
+            <div class="p-4 h-auto">
+                <h2 class="text-xl font-light text-orange-500"></h2>
+                <p class="text-cyan-700 "></p>
+                <p class=" text-cyan-700 "></p>
+  
+                <p>Temperatura</p>
+                <br>
+                <table class="w-full p-5 text-gray-700">
+                  <thead>
+                    <tr>
+                        <th class=" px-4 py-2 text-left text-orange-500">Estado </th> <br>
+                        <th class="px-4 py-2 text-left text-orange-500">Último registro </th> <br>
+                        <th class="px-4 py-2 text-left text-orange-500">Temperatura actual </th> <br>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <tr *ngFor = "let com of componentes | async">
+                      <td class=" px-4 py-2">{{com.descripcion}}</td> <br>
+                        <td class="bprder px-4 py-2">{{com.updatedAt}}</td> <br>
+                        <td class="bprder px-4 py-2">{{com.valor}}°</td> <br>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="flex">
+                  <div class="m-4">
+                    <a (click)="encenderTemp()" class="px-3 py-1 bg-green-400 hover:bg-green-500 text-white font-semibold rounded-md">Encender</a>
+                  </div>
+                  <div class="m-4">
+                    <a (click)="apagarTemp()" class="px-3 py-1 bg-red-400 hover:bg-rose-500 text-white font-semibold rounded-md">Apagar</a>
+                  </div>
+                </div>
+            </div>
+        <!-- </ng-container> -->
+    </div>
+  </div>
+  <div class="flex flex-wrap p-2">
+    <div class=" md:w-4/6 max-md:w-5/6 w-3/6 mx-auto flex bg-white shadow-lg rounded-lg overflow-hidden mb-4">
+            <div class="p-4 h-auto">
+                <h2 class="text-xl font-light text-orange-500"></h2>
+                <p class="text-cyan-700 "></p>
+                <p class=" text-cyan-700 "></p>
+  
+                <p>Alimentador</p>
+                <br>
+                <table class="w-full p-5 text-gray-700">
+                  <thead>
+                    <tr>
+                        <th class=" px-1 py-1 text-left text-orange-500">Estado </th> <br>
+                        <th class="px-1 py-1 text-left text-orange-500">Último registro </th> <br>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <tr *ngFor = "let com of componentes | async">
+                      <td class=" px-1 py-1">{{com.ubicacion}}°</td> <br>
+                        <td class="bprder px-1 py-2">0{{com.updatedAt}}</td> <br>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="flex">
+                  <div class="m-4">
+                    <a (click)="apagarAli()" apagarAli class="px-3 py-1 bg-green-400 hover:bg-green-500 text-white font-semibold rounded-md">Encender</a>
+                  </div>
+                  <div class="m-4">
+                    <a (click)="encenderAli()" class="px-3 py-1 bg-red-400 hover:bg-rose-500 text-white font-semibold rounded-md">Apagar</a>
+                  </div>
+                </div>
+            </div>
+        <!-- </ng-container> -->
+    </div>
+  </div>
+  

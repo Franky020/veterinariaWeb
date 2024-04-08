@@ -131,7 +131,6 @@ export class PetsComponent {
 
   ngOnInit(): void {
     this.get_pets();
-    this.dataSource.sort = this.sort;
 
   }
 
