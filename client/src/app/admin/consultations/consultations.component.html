@@ -1,7 +1,7 @@
 <h1 class="mat-h1">C O N S U L T A S</h1>
 
 <mat-card class="dashboard-card">
-    <mat-card-header>
+    <mat-card-header *ngIf="!isedit">
         <mat-card-title>
         </mat-card-title>
         <div class="container">
@@ -24,18 +24,22 @@
     <br>
     
     <mat-card-content>
-        <mat-card class="dashboard-card">
+        <mat-card class="dashboard-card" *ngIf="!isedit">
             <mat-card-content class="dashboard-card-content">
                 <div></div>
                 <div class="mat-elevation-z8">
                     <table mat-table [dataSource]="dataSource" class="main-table">
-                         <!-- Id Column -->
-                         <ng-container matColumnDef="id">
+                        <ng-container matColumnDef="id">
                             <th mat-header-cell *matHeaderCellDef> ID</th>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+                         <!-- Id Column -->
+                         <ng-container matColumnDef="petId">
+                            <th mat-header-cell *matHeaderCellDef> pet ID</th>
                             <td mat-cell *matCellDef="let element"> {{element.petId}} </td>
                         </ng-container>
                         <!-- Id Column -->
-                        <ng-container matColumnDef="petId">
+                        <ng-container matColumnDef="petName">
                             <th mat-header-cell *matHeaderCellDef> Mascota</th>
                             <td mat-cell *matCellDef="let element"> {{element.petName}} </td>
                         </ng-container>   
@@ -95,16 +99,16 @@
                         </ng-container> -->
 
                         <!-- Actions -->
-                        <!-- <ng-container matColumnDef="action">
+                        <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Acciones</th>
                             <td mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary" aria-label="Edit" >
+                                <button mat-icon-button color="primary" aria-label="Edit" (click)="showConsulta(element._id)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-button color="accent" >Ver detalles
-                                </button>
+                                <!-- <button mat-button color="accent" >Ver detalles
+                                </button> -->
                             </td>
-                        </ng-container> -->
+                        </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
@@ -118,72 +122,87 @@
 
         </mat-card>
 
-        <!-- <form [formGroup]="productsForm" *ngIf="isadd || isedit" (ngSubmit)="saveProduct();">
-            <mat-card style="width: 90%;" class="dashboard-card">
+            <!-- Formulario de consulta -->
+            <form [formGroup]="consultForm" *ngIf="isedit" (ngSubmit)="saveEditConsult()">
                 <mat-card-header>
-                    <h2 *ngIf="isadd">Agregar producto</h2>
-                    <h2 *ngIf="!isadd">Editar producto</h2>
+                    <h1 *ngIf="isedit">Editar Consulta</h1>
+
                 </mat-card-header>
+                <!-- Pet id -->
+                <input class="invisible" matInput formControlName="id" [(ngModel)]="consult.id">
 
-                <input class="invisible" matInput placeholder="Nombre de la categoria" formControlName="id"
-                    [(ngModel)]="product.id">
+                <!-- Pet id -->
+                <input class="invisible" matInput formControlName="petId" [(ngModel)]="consult.petId">
+
+                <!-- <h2>{{owner.id}}</h2> -->
                 <mat-card-content>
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Producto</mat-label>
-                        <input matInput placeholder="Nombre del producto" formControlName="product"
-                            [(ngModel)]="product.product">
-                    </mat-form-field>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3><b><span>Mascota:</span></b><span> {{consult.petName}}</span></h3>
+                            
+                                
+                                <input class="invisible" matInput 
+                                    formControlName="petName" [(ngModel)]="consult.petName">
+                           
+                        </div>
+                        <!-- <div class="col-md-4">
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Descripcion</mat-label>
-                        <input matInput placeholder="Descripcion" formControlName="description"
-                            [(ngModel)]="product.description">
-                    </mat-form-field>
+                            <h3><b><span>Veterinario:</span></b><span> {{consult.nameVet}} {{consult.lastNameVet}}</span></h3>
+                        </div> -->
+                    </div>
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Precio</mat-label>
-                        <input matInput placeholder="Precio" formControlName="price" [(ngModel)]="product.price">
-                    </mat-form-field>
+                    <div class="row">
 
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Cantidad</mat-label>
-                        <input matInput placeholder="Cantidad" formControlName="quantity"
-                            [(ngModel)]="product.quantity">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Categoría</mat-label>
-                        <mat-select matNativeControl formControlName="category" [(ngModel)]="product.category">
-                            <mat-option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="example-fill-width">
-                        <mat-label>Especie</mat-label>
-                        <mat-select matNativeControl formControlName="specie" [(ngModel)]="product.specie">
-                            <mat-option *ngFor="let specie of species" [value]="specie.value">{{specie.viewValue}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <div>
-                        <mat-label>Imagen </mat-label>
-                        <input type="file" accept="image/png, image/gif, image/jpeg" placeholder="Imagen "
-                            formControlName="image"  (change)="fotoSeleccionada1($event)">
-
-                        <img *ngIf="!isadd" [src]="product.image" alt="Imagen Producto" class="scaled-image">
-
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Diagnóstico</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Diagnostico"
+                                    formControlName="diagnosis" [(ngModel)]="consult.diagnosis"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Observaciones</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Observaciones"
+                                    formControlName="observations" [(ngModel)]="consult.observations"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Signos Vitales</mat-label>
+                                <textarea matInput type="area" rows="4" placeholder="Signos" formControlName="signs"
+                                    [(ngModel)]="consult.signs"></textarea>
+                            </mat-form-field>
+                        </div>
                     </div>
 
 
+                    <!-- <div class="row">
+                        
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <mat-form-field appearance="fill" class="example-fill-width">
+                                <mat-label>Tratamiento</mat-label>
+                                <textarea matInput type="area" rows="3" placeholder="Tratamiento"
+                                    formControlName="treatment" [(ngModel)]="consult.treatment"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- vet id -->
+                    <input class="invisible" matInput formControlName="vetId" [(ngModel)]="consult.vetId">
+
+
+
                 </mat-card-content>
-                <mat-card-actions>
+
+                <mat-card-actions class="center-buttons">
                     <a mat-raised-button (click)="backtolist()">Cancelar</a>
                     <button mat-raised-button color="primary" type="submit">Guardar</button>
                 </mat-card-actions>
-            </mat-card>
-        </form> -->
-
+            </form>
 
     </mat-card-content>
 </mat-card>

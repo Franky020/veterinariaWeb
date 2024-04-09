@@ -43,4 +43,25 @@ export class ConsultationService {
     return this.http.post<any>(this.url, data);
 
   }
+  editConsult(
+    id: string,
+    petId: string,
+    vetId: string,
+    nameVet: string,
+    diagnosis: string,
+    observations: string,
+    signs: string,
+    treatment: string
+  ){
+    const data = {
+      petId: petId,
+      vetId: vetId,
+      nameVet: nameVet,
+      diagnosis: diagnosis,
+      observations: observations,
+      signs: signs,
+      treatment: treatment
+    };
+    return this.http.put<any>(this.url+'/'+id, data);
+  }
 }

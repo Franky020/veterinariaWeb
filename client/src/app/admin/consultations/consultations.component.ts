@@ -23,14 +23,27 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './consultations.component.css'
 })
 export class ConsultationsComponent {
-  displayedColumns: string[] = ['petId','specie','vetId', 'diagnosis', 'observations', 'signs', 'treatment', 'date'];
+  displayedColumns: string[] = ['petName','specie','vetId', 'diagnosis', 'observations', 'signs', 'treatment', 'date', 'action'];
   dataSource: any;
   editData: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
   consults: any;
+  consult = {
+    id:'',
+    petId: '',
+    vetId: localStorage.getItem('idVet') || '',
+    nameVet: localStorage.getItem('nameVet') || '',
+    lastNameVet: localStorage.getItem('vetLastName'),
+    diagnosis: '',
+    observations: '',
+    signs: '',
+    treatment: '',
+    petName: ''
+  }
+  isedit = false; 
 
-  constructor(private servicioCons: ConsultationService) { }
+  constructor(private servicioCons: ConsultationService, private builder: FormBuilder) { }
 
   ngOnInit(): void {
     this.get_consultations();
@@ -66,7 +79,6 @@ export class ConsultationsComponent {
           date: date
         };
       });
-  
       this.dataSource = new MatTableDataSource(consultsDataSource);
       this.dataSource.paginator = this.paginator;
     });
@@ -79,5 +91,62 @@ export class ConsultationsComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  //consultation edit
+  consultForm = this.builder.group({
+    id: this.builder.control({ value: 0, disabled: true }),
+    petId: this.builder.control({ value: 0, disabled: true }),
+    vetId: this.builder.control({ value: 0, disabled: true }),
+    nameVet: this.builder.control('', Validators.required),
+    diagnosis: this.builder.control('', Validators.required),
+    observations: this.builder.control(''),
+    signs: this.builder.control(''),
+    treatment: this.builder.control(''),
+    petName: this.builder.control('')
+  });
+
+  showConsulta(id: string) {
+    this.servicioCons.getConsult(id).subscribe(res => {
+      console.log(res);
+      this.editData = res;
+
+      this.consultForm.setValue({
+        id: this.editData.consult._id,
+        petId: this.editData.consult.petId._id,
+        vetId: this.editData.consult.vetId._id,
+        nameVet: this.editData.consult.vetId.name,
+        diagnosis: this.editData.consult.diagnosis,
+        observations: this.editData.consult.observations,
+        signs: this.editData.consult.signs,
+        treatment: this.editData.consult.treatment,
+        petName: this.editData.consult.petId.details.name
+      });
+    });
+    this.isedit = true;
+  }
+  saveEditConsult() {
+    debugger;
+    this.servicioCons.editConsult(
+      this.consult.id,
+      this.consult.petId,
+      this.consult.vetId,
+      this.consult.nameVet,
+      this.consult.diagnosis,
+      this.consult.observations,
+      this.consult.signs,
+      this.consult.treatment
+      
+    ).subscribe(res => {
+      alert('Consulta guardada');
+      this.backtolist();
+    }, err => {
+      alert('Error al guardar la consulta');
+    });
+  }
+
+  backtolist() {
+    this.isedit = false;
+    this.get_consultations();
   }
 }
