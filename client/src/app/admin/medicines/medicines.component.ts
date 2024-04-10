@@ -87,7 +87,7 @@ export class MedicinesComponent {
   dosageForms: DosageForm[] = [
     { value: 'Tableta', viewValue: 'Tableta' },
     { value: 'Cápsula', viewValue: 'Cápsula' },
-    { value: 'Lìquido', viewValue: 'Líquido' },
+    { value: 'Líquido', viewValue: 'Líquido' },
     { value: 'Inyección', viewValue: 'Inyección' },
     { value: 'Tópico', viewValue: 'Tópico' },
     { value: 'Gotas', viewValue: 'Gotas' },

@@ -112,7 +112,6 @@ export class ServicesComponent {
   }
 
   saveService() {
-    if (this.servicesForm.valid) {
       if (this.isadd) {
         this.servicioSer.addService(
           this.service.service,
@@ -146,7 +145,7 @@ export class ServicesComponent {
             console.log(err);
           });
       }
-    }
+    
 
 
   }

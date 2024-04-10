@@ -68,7 +68,7 @@ export class ProductsComponent {
   species: Specie[] = [
     { value: 'Felinos', viewValue: 'Felinos' },
     { value: 'Caninos', viewValue: 'Caninos' },
-    { value: 'Roedores', viewValue: 'Roedores' },
+    { value: 'Rodores', viewValue: 'Roedores' },
     { value: 'Aves', viewValue: 'Aves' }
   ];
 
