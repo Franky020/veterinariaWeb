@@ -30,7 +30,7 @@ export class LoginComponent {
         console.log(res);
         this.servicioLogin.getEmployee(res.user._id).subscribe(
           res2 => {
-            // console.log(res2);
+             console.log(res2);
             localStorage.setItem('jwtoken', res2.dataEmp.jwtoken);
             localStorage.setItem('idVet', res2.dataEmp._id);
             localStorage.setItem('nameVet', res2.dataEmp.name);

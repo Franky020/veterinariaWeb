@@ -9,6 +9,7 @@ export class ConsultationService {
   private url = 'http://localhost:3000/vet/consult';
 
   private urlP = 'http://localhost:3000/vet/consult/pet';
+  
   constructor(private http:HttpClient) { }
 
   getConsults(){

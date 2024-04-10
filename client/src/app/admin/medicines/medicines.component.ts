@@ -70,41 +70,41 @@ export class MedicinesComponent {
 
   //select components
   categories: Category[] = [
-    { value: 'Antibiotic', viewValue: 'Antibiótico' },
-    { value: 'Analgesic', viewValue: 'Analgésico' },
-    { value: 'Anti-inflammatory', viewValue: 'Anti-Inflamatorio' },
-    { value: 'Antiparasitic', viewValue: 'Antiparasitario' },
-    { value: 'Antifungal', viewValue: 'Anti-hongos' },
+    { value: 'Antibiótico', viewValue: 'Antibiótico' },
+    { value: 'Analgésico', viewValue: 'Analgésico' },
+    { value: 'Antiinflamatorio', viewValue: 'Anti-Inflamatorio' },
+    { value: 'Antiparasitario', viewValue: 'Antiparasitario' },
+    { value: 'Antifúngico', viewValue: 'Anti-hongos' },
     { value: 'Antiviral', viewValue: 'Antiviral' },
-    { value: 'Other', viewValue: 'Otro' }
+    { value: 'Otro', viewValue: 'Otro' }
   ];
   species: Specie[] = [
-    { value: 'Feline', viewValue: 'Gato' },
-    { value: 'Canine', viewValue: 'Perro' },
-    { value: 'Rodent', viewValue: 'Roedor' },
-    { value: 'Bird', viewValue: 'Aves' }
+    { value: 'Felinos', viewValue: 'Gato' },
+    { value: 'Caninos', viewValue: 'Perro' },
+    { value: 'Roedores', viewValue: 'Roedor' },
+    { value: 'Aves', viewValue: 'Aves' }
   ];
   dosageForms: DosageForm[] = [
-    { value: 'Tablet', viewValue: 'Tableta' },
-    { value: 'Capsule', viewValue: 'Cápsula' },
-    { value: 'Liquid', viewValue: 'Líquido' },
-    { value: 'Injection', viewValue: 'Inyección' },
-    { value: 'Topical', viewValue: 'Tópico' },
-    { value: 'Drops', viewValue: 'Gotas' },
-    { value: 'Powder', viewValue: 'Polvo' },
+    { value: 'Tableta', viewValue: 'Tableta' },
+    { value: 'Cápsula', viewValue: 'Cápsula' },
+    { value: 'Lìquido', viewValue: 'Líquido' },
+    { value: 'Inyección', viewValue: 'Inyección' },
+    { value: 'Tópico', viewValue: 'Tópico' },
+    { value: 'Gotas', viewValue: 'Gotas' },
+    { value: 'Polvo', viewValue: 'Polvo' },
     { value: 'Suspensión', viewValue: 'Suspensión' },
-    { value: 'Ointment', viewValue: 'Pomada' },
+    { value: 'Ungüento', viewValue: 'Pomada' },
     { value: 'Gel', viewValue: 'Gel' }
   ];
   adminRoutes: AdminRoute[] = [
     { value: 'Oral', viewValue: 'Oral' },
-    { value: 'Intravenous', viewValue: 'Intravenosa' },
+    { value: 'Intravenoso', viewValue: 'Intravenosa' },
     { value: 'Intramuscular', viewValue: 'Intramuscular' },
-    { value: 'Subcutaneous', viewValue: 'Subcutánea' },
-    { value: 'Topical', viewValue: 'Tópico' },
+    { value: 'Subcutáneo', viewValue: 'Subcutánea' },
+    { value: 'Tópico', viewValue: 'Tópico' },
     { value: 'Rectal', viewValue: 'Rectal' },
-    { value: 'Ophthalmic', viewValue: 'Oftálmica' },
-    { value: 'Otic', viewValue: 'Ótica' }
+    { value: 'Oftálmico', viewValue: 'Oftálmica' },
+    { value: 'Ótico', viewValue: 'Ótica' }
   ];
 
   constructor(private servicioMed: MedicineService, private builder: FormBuilder) { }
@@ -217,6 +217,9 @@ export class MedicinesComponent {
       this.editData = res;
       this.medication.image = res.medicine.image;
 
+      const date = new Date(this.editData.medicine.details.dateExpiry);
+      const formattedDate = date.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      
       this.medicationsForm.setValue({
         id: this.editData.medicine._id,
         medication: this.editData.medicine.medication,
@@ -225,7 +228,7 @@ export class MedicinesComponent {
         dosage: this.editData.medicine.details.dosage,
         administrationRoute: this.editData.medicine.details.administrationRoute,
         precautions: this.editData.medicine.details.precautions,
-        dateExpiry: this.editData.medicine.details.dateExpiry,
+        dateExpiry: formattedDate,
         species: this.editData.medicine.species,
         category: this.editData.medicine.category,
         price: this.editData.medicine.price,

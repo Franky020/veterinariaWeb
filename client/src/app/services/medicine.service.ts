@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class MedicineService {
 
   private url = 'http://localhost:3000/vet/medication';
+  // private url= 'https://vet-api-express.onrender.com/vet/medication';
 
   constructor(private http:HttpClient) { }
 
@@ -46,7 +47,7 @@ export class MedicineService {
       fd.append('price', price);
       fd.append('quantity', quantity);
       fd.append('image', image);
-
+    debugger;
     return this.http.post<any>(this.url, fd);
   }
 

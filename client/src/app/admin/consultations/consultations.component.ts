@@ -61,7 +61,7 @@ export class ConsultationsComponent {
   get_consultations() {
     this.servicioCons.getConsults().subscribe(res => {
       const resConsults = res.consults;
-      console.log(resConsults);
+      // console.log(resConsults);
       const consultsDataSource = resConsults.map((consult: any) => {
         const { _id, petId, vetId, diagnosis, observations, signs, treatment, date } = consult;
         return {

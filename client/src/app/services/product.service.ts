@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class ProductService {
 
   private url = 'http://localhost:3000/vet/product';
+  // private url= 'https://vet-api-express.onrender.com/vet/product';
   
   constructor(private http:HttpClient) { }
 
